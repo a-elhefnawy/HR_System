@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230620190629_CreatePermissionTableAndMakeRelationWithRoleTable")]
+    partial class CreatePermissionTableAndMakeRelationWithRoleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +108,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("RoleId", "ControllerName");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("PermissionsDB");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>

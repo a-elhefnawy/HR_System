@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace HR_System.DAL.Models
 {
-    public class AppUser:IdentityUser
+    public class PermissionsDB
     {
+        public byte PermissionNumber { get; set; }
+        public string ControllerName { get; set; }
         [ForeignKey("Role")]
-        public int CategoryId { get; set; }
-        public  Role Role { get; set; }
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
     }
 }

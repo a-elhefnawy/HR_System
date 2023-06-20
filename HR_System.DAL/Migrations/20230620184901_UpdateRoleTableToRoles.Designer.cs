@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230620184901_UpdateRoleTableToRoles")]
+    partial class UpdateRoleTableToRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,22 +95,6 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ControllerName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<byte>("PermissionNumber")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("RoleId", "ControllerName");
-
-                    b.ToTable("Permissions");
-                });
-
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -119,6 +106,9 @@ namespace HR_System.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Permissions")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -269,17 +259,6 @@ namespace HR_System.DAL.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
-                {
-                    b.HasOne("HR_System.DAL.Models.Role", "Role")
-                        .WithMany("Permissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -333,8 +312,6 @@ namespace HR_System.DAL.Migrations
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
                 {
-                    b.Navigation("Permissions");
-
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

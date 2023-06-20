@@ -1,5 +1,6 @@
 
 using HR_System.DAL.Data;
+using HR_System.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HR_System.PAL

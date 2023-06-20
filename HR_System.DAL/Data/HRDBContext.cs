@@ -15,5 +15,16 @@ namespace HR_System.DAL.Data
         {
             
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<PermissionsDB>()
+                .HasKey(p => new { p.RoleId, p.ControllerName });
+
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<PermissionsDB> Permissions { get; set; }
     }
 }
