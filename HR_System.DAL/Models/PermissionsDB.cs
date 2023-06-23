@@ -11,8 +11,9 @@ namespace HR_System.DAL.Models
     {
         public byte PermissionNumber { get; set; }
         public string ControllerName { get; set; }
-        [ForeignKey("Role")]
+
+    
         public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
     }
 }

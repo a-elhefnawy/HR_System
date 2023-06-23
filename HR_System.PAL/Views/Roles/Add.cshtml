@@ -3,18 +3,10 @@
     ViewData["Title"] = "Add";
 }
 
-<form class="mt-5" >
+<form method="post" class="mt-5" >
     <div asp-validation-summary="ModelOnly"></div>
-    @*<div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>*@
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger">test2</span>
-        </div>
+ 
+     
     <div class="text-center row form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="col-9  p-2" placeholder="اسم المجموعة" />
@@ -37,20 +29,22 @@
                 {*@
                     <tr>
                         <td>الموظفين</td>
-                        <td><input type="checkbox" value="1" /></td>
-                        <td><input type="checkbox" value="4" /></td>
-                        <td><input type="checkbox" value="2" /></td>
-                        <td><input type="checkbox" value="8" /></td>
+                    <td><input class="role"  type="checkbox"  value="1"/></td>
+                    <td><input class="role" type="checkbox" value="4" /></td>
+                    <td><input type="checkbox" value="2" /></td>
+                    <td><input   type="checkbox" value="8" /></td>
                     </tr>
                 @*}*@
             </tbody>
         </table>
     </div>
+
 </form>
 
 
 @section newScript{
-    <script src="~/lib//jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 }

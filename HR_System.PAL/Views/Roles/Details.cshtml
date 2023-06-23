@@ -1,0 +1,41 @@
+﻿@model Role
+
+@{
+    var dic = new Dictionary<string, string>();
+    dic.Add("Add", "إضافة");
+    dic.Add("Update", "تعديل");
+    dic.Add("Delete", "حذف");
+    dic.Add("Display", "عرض");
+
+}
+<div class="form-group mb-5">
+    <label class="col-form-label">أسم المجموعة</label>
+    <input class="form-control" readonly asp-for="Name" />
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>أسم الصفحة</th>
+            <th>الصلاحيات</th>
+        </tr> 
+    </thead>
+    <tbody>
+            
+            @foreach (var permision in Model.Permissions)
+            {
+               <tr>
+                    <td>@permision.ControllerName</td>
+                @{
+                    var permCast = (Permissions)permision.PermissionNumber;
+                    var permStr = permCast.ToString();
+                   
+                    var permArrayInAR = permStr.Split(',').Select(p =>p.Trim()).Select(p=> dic[p]);
+
+                }
+
+                <td>@string.Join(" , ",permArrayInAR)</td>
+               </tr>
+            }
+    </tbody>
+</table>
