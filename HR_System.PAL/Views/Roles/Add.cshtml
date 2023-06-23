@@ -1,0 +1,56 @@
+﻿@model RoleViewModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<form class="mt-5" >
+    <div asp-validation-summary="ModelOnly"></div>
+    @*<div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>*@
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger">test2</span>
+        </div>
+    <div class="text-center row form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="col-9  p-2" placeholder="اسم المجموعة" />
+        <button class="btn btn-primary mx-2 p-2 col-2" asp-controller="Roles" asp-action="Add">حفظ</button>
+        <br/><span asp-validation-for="Name" class="text-danger">test</span>
+    </div>
+    <div class="form-group mt-5">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>الصفحة</td>
+                    <td>اضافة</td>
+                    <td>حذف</td>
+                    <td>تعديل</td>
+                    <td>عرض</td>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in ViewBag.pages)
+                {*@
+                    <tr>
+                        <td>الموظفين</td>
+                        <td><input type="checkbox" value="1" /></td>
+                        <td><input type="checkbox" value="4" /></td>
+                        <td><input type="checkbox" value="2" /></td>
+                        <td><input type="checkbox" value="8" /></td>
+                    </tr>
+                @*}*@
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+@section newScript{
+    <script src="~/lib//jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Role>
+@{
+    ViewData["Title"] = "Roles";
+}
+
+@if(Model.Count() > 0)
+{
+    <h1 class="btn-success p-4 mt-3">All Roles</h1>
+    <br />
+    <br />
+    <table class="table-striped table-hover table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>اسم المجموعة</th>
+                <th>تعديل</th>
+                <th>التفاصيل</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                   <tr class="row">
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td><a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+                    <td><a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+                    <td><a class="btn btn-Delete" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
+                   </tr> 
+            }
+        </tbody>
+    </table>
+
+
+}
+else{
+    <h1 class="btn-warning p-4">لم يتم اضافة اي مجموعات !!</h1>
+}

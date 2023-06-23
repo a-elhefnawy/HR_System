@@ -1,4 +1,6 @@
 
+using HR_System.BAL.Interfaces;
+using HR_System.BAL.Reposatories;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,7 @@ namespace HR_System.PAL
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
             });
 
+            builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
