@@ -36,6 +36,7 @@ namespace HR_System.BAL.Reposatories
             {
                 return  await _dbContext.Roles.Include(p =>  p.Users ).Include(p=>p.Permissions).FirstOrDefaultAsync(p=>p.Id == id) as T;
             }
+           
             return await _dbContext.Set<T>().FindAsync(id);
         }
 

@@ -3,6 +3,7 @@ using HR_System.BAL.Interfaces;
 using HR_System.BAL.Reposatories;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HR_System.PAL
@@ -23,6 +24,13 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+            builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
+            //check error and user Controller
+            //builder.Services.AddScoped<AppUsersRepository>(); for delete 
+            
+            //Identity
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
