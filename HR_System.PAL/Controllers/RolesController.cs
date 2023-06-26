@@ -30,7 +30,7 @@ namespace HR_System.PAL.Controllers
             {
                 var newRole = new Role()
                 {
-                    Name = role.Name,
+                    Name = role.Name,   
                 };
                 int result = await _genericRepository.Add(newRole);
                 if (result > 0)
@@ -38,5 +38,21 @@ namespace HR_System.PAL.Controllers
             }
             return View(role);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var role = await _genericRepository.Get(id);
+            if (role == null) return BadRequest();
+            _genericRepository.Delete(role);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var roleDetails = await _genericRepository.Get(id);
+            return View(roleDetails);
+        }
+            
     }
 }
