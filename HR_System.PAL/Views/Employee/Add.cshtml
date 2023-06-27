@@ -1,0 +1,91 @@
+﻿@model Employee
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+<form method="post" class="row">
+    <div class="col-md-6 col-sm-12">
+        <h5>البيانات الأساسية</h5>
+        <div>
+            <label>اسم الموظف</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div>
+            <label>العنوان</label>
+            <input type="text" asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div>
+            <label>رقم التليفون</label>
+            <input type="text" asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div>
+            <label>النوع</label>
+            <select asp-for="Gender">
+                <option value="">-- أختر --</option>
+                <option value="ذكر">ذكر</option>
+                <option value="أنثى">أنثى</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div>
+            <label>الجنسية</label>
+            <input type="text" asp-for="Nationality" class="form-control" />
+            <span asp-validation-for="Nationality" class="text-danger"></span>
+        </div>
+        <div>
+            <label>تاريخ الميلاد</label>
+            <input asp-for="Birthdate" class="form-control datepicker" />
+            <span asp-validation-for="Birthdate" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>الرقم القومي</label>
+            <input type="text" asp-for="NationalID" class="form-control" />
+            <span asp-validation-for="NationalID" class="text-danger"></span>
+        </div>
+
+        
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <h5>بيانات العمل</h5>
+        <div>
+            <label>تاريخ التعاقد</label>
+            <input asp-for="DateOfContract" class="form-control datepicker" />
+            <span asp-validation-for="DateOfContract" class="text-danger"></span>
+        </div>
+        <div>
+            <label>الراتب</label>
+            <input type="number" asp-for="Salary" class="form-control" />
+            <span asp-validation-for="Salary" class="text-danger"></span>
+        </div>
+        <div>
+            <label>موعد الحضور</label>
+            <input asp-for="AttendanceTime" class="form-control" type="time" step="60" />
+            <span asp-validation-for="AttendanceTime" class="text-danger"></span>
+        </div>
+        <div>
+            <label>موعد الإنصراف</label>
+            <input asp-for="DepartureTime" class="form-control" type="time" step="60" />
+            <span asp-validation-for="DepartureTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="إضافة موظف" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/MM/yyyy',
+                autoclose: true
+            });
+        });
+    </script>
+}

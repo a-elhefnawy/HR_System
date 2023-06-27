@@ -23,6 +23,8 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+            builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

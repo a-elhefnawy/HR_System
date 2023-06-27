@@ -18,6 +18,7 @@ namespace HR_System.BAL.Reposatories
         {
             _dbContext = dbContext;
         }
+
         public async Task<int> Add(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
@@ -36,6 +37,11 @@ namespace HR_System.BAL.Reposatories
             {
                 return  await _dbContext.Roles.Include(p =>  p.Users ).Include(p=>p.Permissions).FirstOrDefaultAsync(p=>p.Id == id) as T;
             }
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
+
+        public async Task<T> Get(string id)
+        {
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
