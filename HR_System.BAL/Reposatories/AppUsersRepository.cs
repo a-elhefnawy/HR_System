@@ -58,5 +58,10 @@ namespace HR_System.BAL.Reposatories
             _dbContext.Users.Remove(entity);
             return _dbContext.SaveChanges();
         }
+
+        public Task<AppUser> Get(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

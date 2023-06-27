@@ -24,6 +24,15 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+            builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+            
+            builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
+            //check error and user Controller
+            //builder.Services.AddScoped<AppUsersRepository>(); for delete 
+            
+            //Identity
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
