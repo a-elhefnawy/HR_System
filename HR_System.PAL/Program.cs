@@ -24,13 +24,10 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
-<<<<<<< HEAD
             builder.Services.AddScoped<IGenericRepository<PermissionsDB>, GenericRepository<PermissionsDB>>();
             builder.Services.AddScoped<IGenericRepository<PagesName>, GenericRepository<PagesName>>();
 
 
-||||||| fd4dfe1
-=======
             builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             
             builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
@@ -40,7 +37,6 @@ namespace HR_System.PAL
             //Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
 
->>>>>>> 317967ff34bd9f0f5ea1781d4e9e4994832cdaed
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

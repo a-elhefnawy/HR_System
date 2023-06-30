@@ -96,7 +96,6 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
                 {
                     b.Property<int>("Id")
@@ -113,9 +112,6 @@ namespace HR_System.DAL.Migrations
 
                     b.ToTable("pagesNames");
                 });
-
-||||||| fd4dfe1
-=======
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
                 {
                     b.Property<string>("NationalID")
@@ -161,7 +157,6 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("Employees", (string)null);
                 });
 
->>>>>>> 317967ff34bd9f0f5ea1781d4e9e4994832cdaed
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
                 {
                     b.Property<int>("RoleId")

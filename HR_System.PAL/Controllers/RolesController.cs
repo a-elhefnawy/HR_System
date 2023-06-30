@@ -33,12 +33,12 @@ namespace HR_System.PAL.Controllers
             
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> Add(RoleViewModel role, FormCollection form)
-        {
-            var selectedItems = form["selectedItems"];
-            return Content(selectedItems);
 
+        [HttpPost]
+        public async Task<IActionResult> Add(RoleViewModel role,[FromBody] string x)
+        {
+
+            return Content(x);
             //if (ModelState.IsValid)
             //{
             //    var newRole = new Role()
@@ -49,7 +49,7 @@ namespace HR_System.PAL.Controllers
             //    if (result > 0)
             //        return RedirectToAction(nameof(Index));
             //}
-          
+
             //return View(role);
         }
 
