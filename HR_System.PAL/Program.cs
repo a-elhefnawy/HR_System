@@ -3,6 +3,7 @@ using HR_System.BAL.Interfaces;
 using HR_System.BAL.Reposatories;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HR_System.PAL
@@ -23,10 +24,23 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+<<<<<<< HEAD
             builder.Services.AddScoped<IGenericRepository<PermissionsDB>, GenericRepository<PermissionsDB>>();
             builder.Services.AddScoped<IGenericRepository<PagesName>, GenericRepository<PagesName>>();
 
 
+||||||| fd4dfe1
+=======
+            builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+            
+            builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
+            //check error and user Controller
+            //builder.Services.AddScoped<AppUsersRepository>(); for delete 
+            
+            //Identity
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
+
+>>>>>>> 317967ff34bd9f0f5ea1781d4e9e4994832cdaed
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

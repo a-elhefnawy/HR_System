@@ -19,4 +19,8 @@
     <ProjectReference Include="..\HR_System.BAL\HR_System.BAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
+
 </Project>
