@@ -10,10 +10,12 @@ namespace HR_System.DAL.Models
     public class PermissionsDB
     {
         public byte PermissionNumber { get; set; }
-        public string ControllerName { get; set; }
-
-    
+        
+        public int PageNameId { get; set; }
         public int RoleId { get; set; }
+            
+        
+        public PagesName PageName { get; set; }
         public Role? Role { get; set; }
     }
 }

@@ -8,10 +8,15 @@ namespace HR_System.PAL.Controllers
     public class RolesController : Controller
     {
         private readonly IGenericRepository<Role> _genericRepository;
-
-        public RolesController(IGenericRepository<Role> genericRepository)
+        private readonly IGenericRepository<PermissionsDB> _perDBRepo;
+        private readonly IGenericRepository<PagesName> _pagesName;
+        public RolesController(IGenericRepository<Role> genericRepository, 
+            IGenericRepository<PermissionsDB> perDBRepo, 
+            IGenericRepository<PagesName> pagesName)
         {
             _genericRepository = genericRepository;
+            _perDBRepo = perDBRepo;
+            _pagesName = pagesName;
         }
         public async Task<IActionResult> Index()
         {
@@ -21,22 +26,31 @@ namespace HR_System.PAL.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+
+            var pagesName = await _pagesName.GetAll();
+            
+            ViewBag.pagesName = pagesName;
+            
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Add(RoleViewModel role)
+        public async Task<IActionResult> Add(RoleViewModel role, FormCollection form)
         {
-            if(ModelState.IsValid)
-            {
-                var newRole = new Role()
-                {
-                    Name = role.Name,   
-                };
-                int result = await _genericRepository.Add(newRole);
-                if (result > 0)
-                    return RedirectToAction(nameof(Index));
-            }
-            return View(role);
+            var selectedItems = form["selectedItems"];
+            return Content(selectedItems);
+
+            //if (ModelState.IsValid)
+            //{
+            //    var newRole = new Role()
+            //    {
+            //        Name = role.Name,   
+            //    };
+            //    int result = await _genericRepository.Add(newRole);
+            //    if (result > 0)
+            //        return RedirectToAction(nameof(Index));
+            //}
+          
+            //return View(role);
         }
 
         public async Task<IActionResult> Delete(int id)
