@@ -1,4 +1,4 @@
-﻿@model Role
+﻿@model IEnumerable<PermissionsDB>
 
 @{
     var dic = new Dictionary<string, string>();
@@ -7,11 +7,12 @@
     dic.Add("Delete", "حذف");
     dic.Add("Display", "عرض");
 
+    //TODO: Add all pages
+    var pagesNameDic = new Dictionary<int, string>();
+    pagesNameDic.Add(1, "الموظفين");
+    pagesNameDic.Add(2, "الحسابات");
+
 }
-<div class="form-group mb-5">
-    <label class="col-form-label">أسم المجموعة</label>
-    <input class="form-control" readonly asp-for="Name" />
-</div>
 
 <table class="table table-hover">
     <thead>
@@ -22,10 +23,10 @@
     </thead>
     <tbody>
             
-            @foreach (var permision in Model.Permissions)
+            @foreach (var permision in Model)
             {
                <tr>
-                    <td>ss</td>
+                 <td>@pagesNameDic[permision.PageNameId]</td>
                 @{
                     var permCast = (Permissions)permision.PermissionNumber;
                     var permStr = permCast.ToString();

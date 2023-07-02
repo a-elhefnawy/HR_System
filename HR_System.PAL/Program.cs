@@ -53,7 +53,6 @@ namespace HR_System.PAL
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

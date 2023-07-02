@@ -2,6 +2,7 @@
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace HR_System.BAL.Reposatories
         public async Task<int> Add(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
-            return _dbContext.SaveChanges();    
+            return await _dbContext.SaveChangesAsync();    
         }
 
         public int Delete(T entity)
@@ -50,6 +51,8 @@ namespace HR_System.BAL.Reposatories
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
+
+       
 
         public int Update(T entity)
         {

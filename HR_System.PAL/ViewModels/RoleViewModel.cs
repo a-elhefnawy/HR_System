@@ -6,5 +6,7 @@ namespace HR_System.PAL.ViewModels
         [Display(Name="أسم المجموعة")]
         [Required(ErrorMessage ="يجب إدخال اسم المجموعة")]
         public string Name { get; set; }
+        public Dictionary<string, List<int>> Permissions { get; set; }
+
     }
 }
