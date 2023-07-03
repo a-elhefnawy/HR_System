@@ -1,0 +1,31 @@
+﻿@model GeneralSittings;
+@{
+}
+
+<h1>الإعدادات العامة</h1>
+
+<a class="btn btn-primary" href="/GeneralSittings/Add">إضافة اعدادات عامة جديدة</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">م</th>
+            <th scope="col">إضافة</th>
+            <th scope="col">خصم</th>
+            <th scope="col">إجازة أسبوعية</th>
+            <th scope="col">إجازة أسبوعية</th>
+            <th scope="col">التاريخ</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">@Model.sittings_Id</th>
+            <td>@Model.overTime</td>
+            <td>@Model.underTime</td>
+            <td>@Model.week_end_Day1</td>
+            <td>@Model.week_end_Day2</td>
+            <td>@Model.date</td>
+
+        </tr>
+    </tbody>
+</table>

@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230629190749_createGeneralSittingsTable")]
+    partial class createGeneralSittingsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,11 +161,7 @@ namespace HR_System.DAL.Migrations
                     b.Property<int>("underTime")
                         .HasColumnType("int");
 
-                    b.Property<string>("week_end_Day1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("week_end_Day2")
+                    b.Property<string>("week_end")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

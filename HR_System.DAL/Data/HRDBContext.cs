@@ -40,5 +40,6 @@ namespace HR_System.DAL.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<PermissionsDB> Permissions { get; set; }
+        public DbSet<GeneralSittings> GeneralSittings { get; set;}
     }
 }

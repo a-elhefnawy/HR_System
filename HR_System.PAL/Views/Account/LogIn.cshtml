@@ -4,7 +4,7 @@
     ViewData["Title"] = "LogIn";
 }
 
-<h1 class="text-center">Log In</h1>
+<h1 class="text-center">تسجيل الدخول</h1>
 
 <hr />
 <div class="row">
@@ -12,29 +12,25 @@
         <form asp-action="LogIn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-3">
-                <label asp-for="userName" class="control-label"></label>
+                <label asp-for="userName" class="control-label">اسم المستخدم</label>
                 <input asp-for="userName" class="form-control" />
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
                 <div class="form-group m-3">
-                <label asp-for="password" class="control-label"></label>
+                <label asp-for="password" class="control-label">كلمة المرور</label>
                 <input asp-for="password" class="form-control" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
             <div class="form-group form-check m-3">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="rememberMe" /> @Html.DisplayNameFor(model => model.rememberMe)
+                    <input class="form-check-input" asp-for="rememberMe" /> تتذكرني
                 </label>
             </div>
                 <div class="form-group m-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="تسجيل الدخول" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -4,34 +4,34 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>المستخدمين</h1>
 
 <p>
-    <a class="btn btn-primary" href="/user/add">Create New User</a>
+    <a class="btn btn-primary" href="/user/add">إضافة مستخدم جديد</a>
 </p>
 
 <form method="post" class="mt-5" action="/user/search">
     <input type="text" name="name" class="form-control mb-3" />
-    <input class="btn btn-primary" type="submit" value="Search" />
+    <input class="btn btn-primary" type="submit" value="بحث" />
 </form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.fullName)
+                الاسم كامل
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userName)
+                اسم المستخدم
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.password)
+                كلمة المرور
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.email)
+                اسم البريد
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.role)
+                المجموعة
             </th>
             <th></th>
         </tr>
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.role)
             </td>
             <td>
-                <a class="btn btn-primary" href="/user/edit/@item.Id" >Edit</a>
+                <a class="btn btn-primary" href="/user/edit/@item.Id" >تعديل</a>
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                <a class="btn btn-danger" href="/user/delete/@item.Id">Delete</a>
+                <a class="btn btn-danger" href="/user/delete/@item.Id">حذف</a>
             </td>
         </tr>
 }
