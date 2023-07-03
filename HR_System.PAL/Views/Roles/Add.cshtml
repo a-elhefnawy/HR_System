@@ -9,6 +9,7 @@
         <label class="text-end mb-3" asp-for="Name"></label>
         <input asp-for="Name" class="col-9  p-2" placeholder="اسم المجموعة" />
         <button class="btn btn-primary mx-2 p-2 col-2" type="submit">حفظ</button>
+
         <br /><span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group mt-5">
@@ -33,6 +34,7 @@
                         <td><input type="checkbox" class="checkbox-item" id="@item.Id" value="8" /></td>
                     </tr>
                 }
+            
             </tbody>
         </table>
     </div>
@@ -40,6 +42,7 @@
 </form>
 
 <script>
+
     const submitForm = (e) => {
         let x = {
             '1': [],
@@ -47,24 +50,42 @@
             '3': [],
             '4': []
         }
+
         let checkBox = document.querySelectorAll(".checkbox-item");
         checkBox.forEach((e) => {
             if (e.checked) {
                 x[e.id].push(e.value);
             }
         });
-        $.ajax({
-            url: '/roles/add',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ Name: $('#Name').val() , Permissions: x }),
-            success: function (result) {
-                console.log(result);
-            },
-            error: function (xhr, status, error) {
-                console.log('Error: ' + error);
+
+        const callAjax = () => {
+            $.ajax({
+                url: '/roles/add',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ Name: $('#Name').val(), Permissions: x }),
+                success: function (result) {
+                    console.log(result)
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error: ' + error);
+                }
+            });
+           
+        }
+
+        for (let i = 1; i <= 4; i++) {
+            if (x[i].length != 0) {
+                callAjax();
+                break;
             }
-        });
+            if (i == 4) {
+                e.preventDefault();
+                alert(" من فضلك قم بتحديد صالحيات المجموعة قبل الإضافة")
+            }
+        }
+     
+
     }
 
 

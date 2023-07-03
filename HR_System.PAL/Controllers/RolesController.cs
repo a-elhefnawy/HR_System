@@ -34,14 +34,14 @@ namespace HR_System.PAL.Controllers
         {
 
             var pagesName = await _pagesName.GetAll();
-            
             ViewBag.pagesName = pagesName;
+            var rolesVM = new RoleViewModel();
             
-            return View();
+            return View(rolesVM);
         }
         
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] RoleViewModel role)
+        public async Task<ActionResult> Add( [FromBody] RoleViewModel role)
         {
             
             if (ModelState.IsValid)
@@ -53,8 +53,7 @@ namespace HR_System.PAL.Controllers
                await _genericRepository.Add(newRole);
 
             }
-            var allRoles = await _genericRepository.GetAll();
-            var lastRoleId = allRoles.Last().Id;
+            var lastRoleId = (await _genericRepository.GetAll()).Last().Id;
 
             foreach (var key in role.Permissions.Keys)
             {
@@ -72,11 +71,12 @@ namespace HR_System.PAL.Controllers
                     PermissionNumber = Convert.ToByte(sum)
                 };
                 await _perDBRepo.Add(permissonObj);
+                return RedirectToAction(nameof(Index));
             }
 
 
-
             return View(role);
+
         }
 
         public async Task<IActionResult> Delete(int id)

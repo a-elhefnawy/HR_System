@@ -7,10 +7,11 @@
     dic.Add("Delete", "حذف");
     dic.Add("Display", "عرض");
 
-    //TODO: Add all pages
     var pagesNameDic = new Dictionary<int, string>();
     pagesNameDic.Add(1, "الموظفين");
-    pagesNameDic.Add(2, "الحسابات");
+    pagesNameDic.Add(2, "الإعدادات العامه");
+    pagesNameDic.Add(3, "الحضور و الانصراف");
+    pagesNameDic.Add(4, "تقرير الرواتب");
 
 }
 
@@ -28,10 +29,20 @@
                <tr>
                  <td>@pagesNameDic[permision.PageNameId]</td>
                 @{
-                    var permCast = (Permissions)permision.PermissionNumber;
-                    var permStr = permCast.ToString();
+                    dynamic permArrayInAR = "";
+                    if (permision.PermissionNumber == 0)
+                    {
+                        permArrayInAR = "لا توجد له اي صلاحيات";
+                    }
+                    else
+                    {
+                        
+                           var permCast = (Permissions) permision.PermissionNumber;
+                  
+                          var permStr = permCast.ToString();
                    
-                    var permArrayInAR = permStr.Split(',').Select(p =>p.Trim()).Select(p=> dic[p]);
+                        permArrayInAR = permStr.Split(',').Select(p =>p.Trim()).Select(p=> dic[p]);
+                    }
 
                 }
 
