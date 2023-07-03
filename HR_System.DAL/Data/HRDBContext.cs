@@ -26,7 +26,7 @@ namespace HR_System.DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<PermissionsDB>()
-                .HasKey(p => new { p.RoleId, p.ControllerName });
+                .HasKey(p => new { p.RoleId, p.PageNameId });
 
             base.OnModelCreating(builder);
         }
@@ -40,6 +40,7 @@ namespace HR_System.DAL.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<PermissionsDB> Permissions { get; set; }
+        public DbSet<PagesName> pagesNames { get; set; }
         public DbSet<GeneralSittings> GeneralSittings { get; set;}
     }
 }

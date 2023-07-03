@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230625214208_AddTablePages")]
+    partial class AddTablePages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,10 +80,6 @@ namespace HR_System.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("fullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -111,80 +110,6 @@ namespace HR_System.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("pagesNames");
-                });
-            modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
-                {
-                    b.Property<string>("NationalID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("AttendanceTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("DATE");
-
-                    b.Property<DateTime>("DateOfContract")
-                        .HasColumnType("DATE");
-
-                    b.Property<DateTime>("DepartureTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
-
-                    b.HasKey("NationalID");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("HR_System.DAL.Models.GeneralSittings", b =>
-                {
-                    b.Property<int>("sittings_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("sittings_Id"));
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("overTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("underTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("week_end_Day1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("week_end_Day2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("sittings_Id");
-
-                    b.ToTable("GeneralSittings");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>

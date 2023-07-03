@@ -24,6 +24,10 @@ namespace HR_System.PAL
             });
 
             builder.Services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+            builder.Services.AddScoped<IGenericRepository<PermissionsDB>, GenericRepository<PermissionsDB>>();
+            builder.Services.AddScoped<IGenericRepository<PagesName>, GenericRepository<PagesName>>();
+
+
             builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             
             builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
@@ -50,7 +54,6 @@ namespace HR_System.PAL
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
