@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HR_System.BAL.Interfaces
 {
-    public interface IGenericRepository<T>
+    public interface IGenericRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> Get(int id);

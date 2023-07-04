@@ -1,0 +1,80 @@
+﻿@model HR_System.PAL.ViewModels.AddAttendenceDataVMcs
+
+<h4>Add Employees Attendence</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label"></label>
+                <select asp-for="DepartmentId" asp-items="@ViewBag.Deptartments" onchange="GetEmployees()">
+                    <option value="0">--Select Department--</option>
+
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" name="EmployeeId" id="EmployeeId">
+                </select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+
+          
+
+            <div class="form-group">
+                <label asp-for="AttendenceTime" class="control-label"></label>
+                <input asp-for="AttendenceTime" class="form-control" type="time" />
+                <span asp-validation-for="AttendenceTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeavingTime" class="control-label"></label>
+                <input asp-for="LeavingTime" class="form-control" type="time" />
+                <span asp-validation-for="LeavingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DayDate" class="control-label"></label>
+                <input asp-for="DayDate" class="form-control" type="date" />
+                <span asp-validation-for="DayDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+<script>
+    function GetEmployees() {
+        var deptId = document.getElementById("DepartmentId").value;
+        console.log(deptId);
+        $.ajax({
+            url: "/Attendence/GetEmployeesByDeptId?id=" + deptId,
+            success: function (result) {
+                console.log(result);
+                document.getElementById("EmployeeId").innerHTML = "";
+                for (let i of result) {
+                    document.getElementById("EmployeeId").innerHTML +=
+                        "<option value='" + i.nationalID + "'>" + i.name + "</option>"
+                }
+            }
+        });
+
+    }
+</script>

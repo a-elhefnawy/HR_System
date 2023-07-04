@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HR_System.BAL\HR_System.BAL.csproj" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Home\" />
+    <ProjectReference Include="..\HR_System.BAL\HR_System.BAL.csproj" />
   </ItemGroup>
 
 </Project>

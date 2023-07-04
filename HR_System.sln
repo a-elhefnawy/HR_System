@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HR_System.PAL", "HR_System.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HR_System.BAL", "HR_System.BAL\HR_System.BAL.csproj", "{413BED15-8C8F-4FBE-980A-58D683319EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HR_System.DAL", "HR_System.DAL\HR_System.DAL.csproj", "{A7905A7A-49F8-4D93-A73A-F0D87A464A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HR_System.DAL", "HR_System.DAL\HR_System.DAL.csproj", "{A7905A7A-49F8-4D93-A73A-F0D87A464A56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

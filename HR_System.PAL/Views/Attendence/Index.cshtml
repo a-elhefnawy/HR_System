@@ -1,0 +1,59 @@
+﻿@model List<EmployeeAttendenceDataVM>
+@{
+    ViewData["Title"] = "Employees Attendence";
+}
+
+<h1>Employees Attendence</h1>
+
+<a class="btn btn-success" asp-action="Add">إضافة</a>
+<table class="table table-bordered mt-2">
+    <thead>
+        <tr>
+            <td>القسم</td>
+            <td>اسم الموظف</td>
+            <td>موعد الحضور</td>
+            <td>موعد الإنصراف</td>
+            <td>تاريخ اليوم</td>
+            <td>العمليات</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var attend in Model)
+            {
+                <tr id="id-@attend.Id">
+                    <td>@attend.DepartmentName</td>
+                    <td>@attend.EmployeeName</td>
+                    <td>@attend.AttendenceTime</td>
+                    <td>@attend.LeavingTime</td>
+                    <td>@attend.DayDate</td>
+                    <td>
+                        <a asp-action="Edit" class="bi bi-pencil-square text-warning"></a>
+                        <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function DeleteAttendance(id) {
+            $.ajax({
+                url: `/Attendence/delete/${id}`,
+                method: 'GET',
+                success: function (response) {
+                    let row = document.querySelector('#id-' + id)
+                    let body = document.querySelector('tbody')
+                    body.removeChild(row);
+                    console.log('Request succeeded:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Request failed:', xhr.responseText);
+                }
+            });
+        }
+    </script>
+}

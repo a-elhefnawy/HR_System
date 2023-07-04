@@ -56,5 +56,15 @@ namespace HR_System.DAL.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [DataType(DataType.Time)]
         public DateTime DepartureTime { get; set; }
+
+
+        [ForeignKey("AttendenceId")]
+        public Attendence? Attendence { get; set; }
+        public int? AttendenceId { get; set; }
+      
+        public Department? Department { get; set; }
+
+        [ForeignKey("Department")]
+        public int? DepartmentId { get; set; }
     }
 }

@@ -1,8 +1,10 @@
-
+﻿
 using HR_System.BAL.Interfaces;
 using HR_System.BAL.Reposatories;
+using HR_System.BAL.Repositories;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
+using HR_System.PAL.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +29,13 @@ namespace HR_System.PAL
             builder.Services.AddScoped<IGenericRepository<PermissionsDB>, GenericRepository<PermissionsDB>>();
             builder.Services.AddScoped<IGenericRepository<PagesName>, GenericRepository<PagesName>>();
 
-
+            // عشان سمير ميزعلش
             builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
-            
+            builder.Services.AddScoped<IAttendenceRepository, AttendenceRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+
+
             builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
             builder.Services.AddScoped<IGeneralSittingsRepository,GeneralSittingsRepository>();
 
@@ -37,6 +43,7 @@ namespace HR_System.PAL
             
             //Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
+
 
             var app = builder.Build();
 
