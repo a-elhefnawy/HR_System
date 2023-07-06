@@ -39,45 +39,46 @@ namespace HR_System.PAL.Controllers
             
             return View(rolesVM);
         }
-        
+
         [HttpPost]
-        public async Task<ActionResult> Add( [FromBody] RoleViewModel role)
+        public async Task<IActionResult> Add(string Name)
         {
-            
-            if (ModelState.IsValid)
+            var formData = HttpContext.Request.Form;
+
+
+            var newRole = new Role()
             {
-                var newRole = new Role()
+                Name = Name,
+            };
+            await _genericRepository.Add(newRole);
+
+            int lastRoleId = (await _genericRepository.GetAll()).Last().Id;
+
+            foreach (var keyValue in formData)
+            {
+                if (int.TryParse(keyValue.Key, out int tst))
                 {
-                    Name = role.Name,
-                };
-               await _genericRepository.Add(newRole);
-
-            }
-            var lastRoleId = (await _genericRepository.GetAll()).Last().Id;
-
-            foreach (var key in role.Permissions.Keys)
-            {
-                int sum = 0;
-                if (role.Permissions[key].Count > 0) { 
-                    foreach(var val in role.Permissions[key])
+                    byte sum = 0;
+                    foreach (var val in keyValue.Value)
                     {
-                        sum += Convert.ToInt32(val);
+                        sum += Convert.ToByte(val);
                     }
+                    var permissonObj = new PermissionsDB
+                    {
+                        RoleId = lastRoleId,
+                        PageNameId = Convert.ToInt32(keyValue.Key),
+                        PermissionNumber = sum
+                    };
+                    await _perDBRepo.Add(permissonObj);
+
                 }
-                var permissonObj = new PermissionsDB
-                {
-                    RoleId = lastRoleId,
-                    PageNameId = Convert.ToInt32(key),
-                    PermissionNumber = Convert.ToByte(sum)
-                };
-                await _perDBRepo.Add(permissonObj);
-                return RedirectToAction(nameof(Index));
             }
 
-
-            return View(role);
-
+            return RedirectToAction(nameof(Index));
         }
+
+
+
 
         public async Task<IActionResult> Delete(int id)
         {

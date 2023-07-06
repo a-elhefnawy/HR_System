@@ -4,7 +4,7 @@
 
 }
 
-<form method="post" class="mt-5" onsubmit="submitForm(event)" >
+<form method="post" class="mt-5" onsubmit="submitForm(event)">
     <div class="text-center row form-group">
         <label class="text-end mb-3" asp-for="Name"></label>
         <input asp-for="Name" class="col-9  p-2" placeholder="اسم المجموعة" />
@@ -12,6 +12,7 @@
 
         <br /><span asp-validation-for="Name" class="text-danger"></span>
     </div>
+
     <div class="form-group mt-5">
         <table class="table table-hover">
             <thead>
@@ -23,18 +24,19 @@
                     <td>عرض</td>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in ViewBag.pagesName)
                 {
                     <tr id="pagesName">
                         <td>@item.Name</td>
-                        <td><input type="checkbox" class="checkbox-item" id="@item.Id" value="1" /></td>
-                        <td><input type="checkbox" class="checkbox-item" id="@item.Id" value="2" /></td>
-                        <td><input type="checkbox" class="checkbox-item" id="@item.Id" value="4" /></td>
-                        <td><input type="checkbox" class="checkbox-item" id="@item.Id" value="8" /></td>
+                        <td> <input name="@item.Id" type="checkbox" class="checkbox-item" value="1" /> </td>
+                        <td> <input name="@item.Id" type="checkbox" class="checkbox-item" value="2" /> </td>
+                        <td> <input name="@item.Id" type="checkbox" class="checkbox-item" value="4" /> </td>
+                        <td> <input name="@item.Id" type="checkbox" class="checkbox-item" value="8" /> </td>
                     </tr>
                 }
-            
+
             </tbody>
         </table>
     </div>
@@ -44,49 +46,30 @@
 <script>
 
     const submitForm = (e) => {
-        let x = {
-            '1': [],
-            '2': [],
-            '3': [],
-            '4': []
-        }
+        e.preventDefault();
+        let flag = false;
 
         let checkBox = document.querySelectorAll(".checkbox-item");
+        let name = document.getElementById("Name").value;
+        console.log(name);
+        if (!name) { return; }
+
         checkBox.forEach((e) => {
             if (e.checked) {
-                x[e.id].push(e.value);
+                flag = true;
+                return;
             }
         });
 
-        const callAjax = () => {
-            $.ajax({
-                url: '/roles/add',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ Name: $('#Name').val(), Permissions: x }),
-                success: function (result) {
-                    console.log(result)
-                },
-                error: function (xhr, status, error) {
-                    console.log('Error: ' + error);
-                }
-            });
-           
+        if (!flag) {
+            alert("من فضلك قم بتحديد صلاحيات المجموعة قبل الإضافة");
+            return;
         }
+      
 
-        for (let i = 1; i <= 4; i++) {
-            if (x[i].length != 0) {
-                callAjax();
-                break;
-            }
-            if (i == 4) {
-                e.preventDefault();
-                alert(" من فضلك قم بتحديد صالحيات المجموعة قبل الإضافة")
-            }
-        }
-     
-
-    }
+        
+        e.target.submit();
+    };
 
 
 </script>
@@ -97,3 +80,8 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 }
+
+
+
+
+
