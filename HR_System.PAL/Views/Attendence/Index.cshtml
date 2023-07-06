@@ -24,9 +24,9 @@
                 <tr id="id-@attend.Id">
                     <td>@attend.DepartmentName</td>
                     <td>@attend.EmployeeName</td>
-                    <td>@attend.AttendenceTime</td>
-                    <td>@attend.LeavingTime</td>
-                    <td>@attend.DayDate</td>
+                    <td>@attend.AttendenceTime.ToString("h:mm tt")</td>
+                    <td>@attend.LeavingTime.ToString("h:mm tt")</td>
+                    <td>@attend.DayDate.ToString("dd/MM/yyyy")</td>
                     <td>
                         <a asp-action="Edit" class="bi bi-pencil-square text-warning"></a>
                         <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
@@ -41,19 +41,32 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         function DeleteAttendance(id) {
-            $.ajax({
-                url: `/Attendence/delete/${id}`,
-                method: 'GET',
-                success: function (response) {
-                    let row = document.querySelector('#id-' + id)
-                    let body = document.querySelector('tbody')
-                    body.removeChild(row);
-                    console.log('Request succeeded:', response);
-                },
-                error: function (xhr, status, error) {
-                    console.log('Request failed:', xhr.responseText);
+            Swal.fire({
+                title: 'هل أنت متأكد من الحذف؟',
+                text: "لن تستطيع استعادته!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/Attendence/delete/${id}`,
+                        method: 'GET',
+                        success: function (response) {
+                            let row = document.querySelector('#id-' + id)
+                            let body = document.querySelector('tbody')
+                            body.removeChild(row);
+                            console.log('Request succeeded:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Request failed:', xhr.responseText);
+                        }
+                    });
                 }
-            });
+            })
         }
     </script>
 }
