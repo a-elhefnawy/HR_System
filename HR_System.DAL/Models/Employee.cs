@@ -47,7 +47,8 @@ namespace HR_System.DAL.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "من فضلك أدخل راتب صحيح")]
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        public int Salary { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Salary { get; set; }
 
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [DataType(DataType.Time)]
@@ -57,10 +58,7 @@ namespace HR_System.DAL.Models
         [DataType(DataType.Time)]
         public DateTime DepartureTime { get; set; }
 
-
-        [ForeignKey("AttendenceId")]
-        public Attendence? Attendence { get; set; }
-        public int? AttendenceId { get; set; }
+        public List<Attendence>? Attendences { get; set; }
       
         public Department? Department { get; set; }
 

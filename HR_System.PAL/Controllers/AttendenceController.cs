@@ -1,6 +1,7 @@
 ﻿using HR_System.BAL.Interfaces;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
+using HR_System.DAL.Models.Calculations;
 using HR_System.PAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,6 +23,17 @@ namespace HR_System.PAL.Controllers
 
         public async Task<IActionResult> Index()
         {
+            Salary salary = new Salary(context);
+            // Calculations 
+            int attendance = await salary.CalcAttendanceDays("30012421401856", 2023, 7);
+            int absence = salary.CalcAbsenceDays(attendance, 0);
+            int overtime = salary.CalcOvertimePerHours(2);
+            int late = salary.CalcDeductionPerHours(2);
+            decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
+            decimal salaryDeduction = salary.CalcSalaryDeduction(late, absence);
+            decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
+            // end of Calculations 
+
             var attendence = await attendenceRepo.GetAllAttendnce();
             List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
             foreach (var item in attendence)
