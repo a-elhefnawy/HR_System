@@ -25,16 +25,17 @@ namespace HR_System.PAL.Controllers
         {
             Salary salary = new Salary(context);
             // Calculations 
-            int attendance = await salary.CalcAttendanceDays("30012421401856", 2023, 7);
+            int attendance = await salary.CalcAttendanceDays("30001241401856", 2023, 7);
             int absence = salary.CalcAbsenceDays(attendance, 0);
             int overtime = salary.CalcOvertimePerHours(2);
             int late = salary.CalcDeductionPerHours(2);
             decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
-            decimal salaryDeduction = salary.CalcSalaryDeduction(late, absence);
+            decimal salaryDeduction = salary.CalcSalaryDeduction(late, absence,2);
             decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
             // end of Calculations 
 
             var attendence = await attendenceRepo.GetAllAttendnce();
+
             List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
             foreach (var item in attendence)
             {
