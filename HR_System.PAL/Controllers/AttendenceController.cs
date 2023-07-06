@@ -19,7 +19,7 @@ namespace HR_System.PAL.Controllers
             this.deptRepo = deptRepo;
             context = new HRDBContext();
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var attendence = await attendenceRepo.GetAllAttendnce();
