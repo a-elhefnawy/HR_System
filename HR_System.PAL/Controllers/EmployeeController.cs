@@ -2,21 +2,25 @@
 using HR_System.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HR_System.PAL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IGenericRepository<Employee> EmployeeRepo;
-        public EmployeeController(IGenericRepository<Employee> _empRepo)
+        private readonly IEmployeeRepository EmployeeRepo;
+        private readonly IDepartmentRepository departmentRepo;
+
+        public EmployeeController(IEmployeeRepository _empRepo, IDepartmentRepository departmentRepo)
         {
-            EmployeeRepo = _empRepo;            
+            EmployeeRepo = _empRepo;
+            this.departmentRepo = departmentRepo;
         }
 
         //[Authorize]
         public async Task<IActionResult> Index()
         {
-            var emps = await EmployeeRepo.GetAll();
+            var emps = await EmployeeRepo.GetAllEmployees();
             return View(emps);
         }
 
@@ -30,6 +34,10 @@ namespace HR_System.PAL.Controllers
         //[Authorize]
         public async Task<IActionResult> Add()
         {
+            var departments = await departmentRepo.GetAll();
+
+            ViewBag.Deptartments = new SelectList(departments, "Id", "Name");
+
             return View();
         }
 
@@ -37,6 +45,9 @@ namespace HR_System.PAL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Employee employee)
         {
+            var departments = await departmentRepo.GetAll();
+
+            ViewBag.Deptartments = new SelectList(departments, "Id", "Name");
             if (ModelState.IsValid)
             {
                 employee.Birthdate = employee.Birthdate.Date;
@@ -51,19 +62,32 @@ namespace HR_System.PAL.Controllers
         //[Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            var emp = await EmployeeRepo.Get(id);
-            return View(emp);
+            var excistingEmployee = await EmployeeRepo.Get(id);
+            if (excistingEmployee is null) return View("NotFound");
+
+            var departments = await departmentRepo.GetAll();
+
+            ViewBag.Deptartments = new SelectList(departments, "Id", "Name");
+
+            return View(excistingEmployee);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Employee employee)
+        public async Task<IActionResult> Edit(string id,Employee employee)
         {
+            if (id != employee.NationalID) return View("NotFound");
+
+            var departments = await departmentRepo.GetAll();
+
+            ViewBag.Deptartments = new SelectList(departments, "Id", "Name");
+
             if (ModelState.IsValid)
             {
-                int result = EmployeeRepo.Update(employee);
-                if(result > 0)
-                    return RedirectToAction("Index");
+
+                await EmployeeRepo.UpdateEmployee(employee);
+                return RedirectToAction("Index");
+
             }
             return View(employee);
         }

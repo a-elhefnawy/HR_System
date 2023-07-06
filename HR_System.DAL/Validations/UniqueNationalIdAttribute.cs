@@ -17,7 +17,7 @@ namespace HR_System.DAL.Validations
         {
             string nationalId = (string)value;
 
-            Employee? employee = db.Employees.FirstOrDefault(e => e.NationalID == nationalId);
+            Employee? employee = db.Employees.FirstOrDefault(e => e.NationalID == nationalId );
 
             if (employee is not null)
             {
