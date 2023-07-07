@@ -9,8 +9,7 @@
     SelectList deptItems = new SelectList(ViewBag.Departments ?? new List<Department>(), "Id", "Name");
     SelectList empsItems = new SelectList(ViewBag.Employees ?? new List<Employee>(), "Id", "Name");
 
-    //var employees = ViewBag.Employees as IEnumerable<Employee>;
-    //var selectList = new SelectList(employees, "Id", "Name");
+   
 
 
 }
@@ -26,8 +25,6 @@
             <div class="form-group mb-2">
                 <label asp-for="DepartmentId" class="control-label">القسم</label>
                 <select asp-for="DepartmentId" asp-items="deptItems" class="form-control">
-
-                    <option value="0">--اختر القسم--</option>
                 </select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
@@ -74,7 +71,7 @@
 
 
 
-<script>
+@*<script>
     function GetEmployees() {
         var deptId = document.getElementById("DepartmentId").value;
         console.log(deptId);
@@ -91,7 +88,7 @@
         });
 
     }
-</script>
+</script>*@
 
 <style>
     .my-form {

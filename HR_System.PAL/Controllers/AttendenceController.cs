@@ -103,10 +103,12 @@ namespace HR_System.PAL.Controllers
            
 
             var departments = await deptRepo.GetAllDepartments();
-            ViewBag.Departments = departments;
+            ViewBag.Departments = departments.
+                Where(x => x.Id == employeeAttendace.Employee.DepartmentId);
 
             var employeesFromDb = await employeeRepo.GetAllEmployees();
-            ViewBag.Employees = employeesFromDb.Where(x => x.DepartmentId == employeeAttendace.Employee.DepartmentId);
+            ViewBag.Employees = employeesFromDb.
+                Where(x => x.DepartmentId == employeeAttendace.Employee.DepartmentId && x.Id == employeeAttendace.Employee.Id);
 
             ////ViewBag.Employees = employeesFromDb.FirstOrDefault();
             //ViewBag.Employees = new List<Employee> { employeesFromDb.FirstOrDefault() };
@@ -133,11 +135,10 @@ namespace HR_System.PAL.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateEmployeeAttendence newAttendence)
         {
-            var departments = await deptRepo.GetAll();
+            var departments = await deptRepo.GetAllDepartments();
+            ViewBag.Departments = departments;
 
-
-            ViewBag.Deptartments = departments;
-
+            
 
             if (ModelState.IsValid)
             {
