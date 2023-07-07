@@ -44,6 +44,7 @@ namespace HR_System.BAL.Reposatories
 
         public async Task<T> Get(string id)
         {
+        
             return await _dbContext.Set<T>().FindAsync(id);
         }
 

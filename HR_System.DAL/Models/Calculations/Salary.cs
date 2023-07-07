@@ -42,7 +42,7 @@ namespace HR_System.DAL.Models.Calculations
 
         public int CalcAbsenceDays(int attendanceDays, int vacationsDays)
         {
-            return workDaysInMonth - attendanceDays - vacationsDays;
+            return workDaysInMonth - attendanceDays - vacationsDays;  
         }
 
         public int CalcOvertimePerHours(int hourOvertimeValue)
