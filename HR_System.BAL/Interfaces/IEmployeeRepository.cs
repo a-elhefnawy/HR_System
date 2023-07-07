@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace HR_System.BAL.Interfaces
 {
-    public interface IGeneralSittingsRepository
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        public Task<int> AddNewSittings(GeneralSittings newSittings);
-        public Task<List<GeneralSittings>> GetGeneralSettings();
+        public  Task<IEnumerable<Employee>> GetAllEmployees();
+        Task UpdateEmployee(Employee employee);
     }
 }

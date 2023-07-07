@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230706224640_Update-Employee-Table")]
+    partial class UpdateEmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,32 +124,6 @@ namespace HR_System.DAL.Migrations
                     b.HasIndex("EmoloyeeId");
 
                     b.ToTable("Attendences");
-                });
-
-            modelBuilder.Entity("HR_System.DAL.Models.Claim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CliamType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Claims");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Department", b =>
@@ -458,15 +435,6 @@ namespace HR_System.DAL.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("HR_System.DAL.Models.Claim", b =>
-                {
-                    b.HasOne("HR_System.DAL.Models.Role", "Role")
-                        .WithMany("Claims")
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
                 {
                     b.HasOne("HR_System.DAL.Models.Department", "Department")
@@ -563,8 +531,6 @@ namespace HR_System.DAL.Migrations
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
                 {
-                    b.Navigation("Claims");
-
                     b.Navigation("Permissions");
 
                     b.Navigation("Users");

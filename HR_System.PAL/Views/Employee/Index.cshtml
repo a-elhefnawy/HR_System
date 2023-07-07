@@ -1,53 +1,65 @@
 ﻿@model IEnumerable<Employee>
 
 @{
-    ViewData["Title"] = "Employee Page";
+    ViewData["Title"] = "الموظفين";
 }
 
-<a class="btn btn-success" asp-action="Add">إضافة موظف</a>
-<table class="table table-bordered mt-2">
-    <thead>
-        <tr>
-            <td>الرقم القومي</td>
-            <td>اسم الموظف</td>
-            <td>العنوان</td>
-            <td>رقم التليفون</td>
-            <td>النوع</td>
-            <td>الجنسية</td>
-            <td>تاريخ الميلاد</td>
-            <td>تاريخ التعاقد</td>
-            <td>الراتب</td>
-            <td>موعد الحضور</td>
-            <td>موعد الإنصراف</td>
-            <td>العمليات</td>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var emp in Model)
-            {
-                <tr id="id-@emp.NationalID">
-                    <td>@emp.NationalID</td>
-                    <td>@emp.Name</td>
-                    <td>@emp.Address</td>
-                    <td>@emp.PhoneNumber</td>
-                    <td>@emp.Gender</td>
-                    <td>@emp.Nationality</td>
-                    <td >@emp.Birthdate.ToString("dd/MM/yyyy")</td>
-                    <td>@emp.DateOfContract.ToString("dd/MM/yyyy")</td>
-                    <td>@emp.Salary</td>
-                    <td>@emp.AttendanceTime.ToString("h:mm tt")</td>
-                    <td>@emp.DepartureTime.ToString("h:mm tt")</td>
-                    <td>
-                        <a asp-action="Detailes" asp-route-id="@emp.NationalID" class="bi bi-binoculars-fill text-info"></a>
-                        <a asp-action="Edit" class="bi bi-pencil-square text-warning"></a>
-                        <i style="cursor:pointer" onclick="DeleteEmployee(@emp.NationalID)" class="bi bi-trash3-fill text-danger"></i>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12">
+            <h1 class="text-center mb-2">بيانات الموظفين</h1>
+            <a class="btn btn-success mb-2" asp-action="Add">إضافة موظف</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bold; text-align: center;">الرقم القومي</th>
+                            <th style="font-weight: bold; text-align: center;">اسم الموظف</th>
+                            <th style="font-weight: bold; text-align: center;">العنوان</th>
+                            <th style="font-weight: bold; text-align: center;">رقم التليفون</th>
+                            <th style="font-weight: bold; text-align: center;">النوع</th>
+                            <th style="font-weight: bold; text-align: center;">الجنسية</th>
+                            <th style="font-weight: bold; text-align: center;">تاريخ الميلاد</th>
+                            <th style="font-weight: bold; text-align: center;">تاريخ التعاقد</th>
+                            <th style="font-weight: bold; text-align: center;">القسم</th>
+                            <th style="font-weight: bold; text-align: center;">الراتب</th>
+                            <th style="font-weight: bold; text-align: center;">موعد الحضور</th>
+                            <th style="font-weight: bold; text-align: center;">موعد الإنصراف</th>
+                            <th style="font-weight: bold; text-align: center;">العمليات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var emp in Model)
+                        {
+                            <tr id="id-@emp.NationalID">
+                                <td style="text-align: center;">@emp.NationalID</td>
+                                <td style="text-align: center;">@emp.Name</td>
+                                <td style="text-align: center;">@emp.Address</td>
+                                <td style="text-align: center;">@emp.PhoneNumber</td>
+                                <td style="text-align: center;">@emp.Gender</td>
+                                <td style="text-align: center;">@emp.Nationality</td>
+                                <td style="text-align: center;">@emp.Birthdate.ToString("dd/MM/yyyy")</td>
+                                <td style="text-align: center;">@emp.DateOfContract.ToString("dd/MM/yyyy")</td>
+                                <td style="text-align: center;">@emp.Department.Name</td>
+                                <td style="text-align: center;">@emp.Salary</td>
+                                <td style="text-align: center;">@emp.AttendanceTime.ToString("h:mm tt")</td>
+                                <td style="text-align: center;">@emp.DepartureTime.ToString("h:mm tt")</td>
+                                <td style="text-align: center;">
+                                    <a asp-action="Detailes" asp-route-id="@emp.Id" class="bi bi-binoculars-fill text-info"></a>
+                                    <a asp-action="Edit" asp-route-id="@emp.Id" class="bi bi-pencil-square text-warning"></a>
+                                    <i style="cursor:pointer" onclick="DeleteEmployee(@emp.NationalID)" class="bi bi-trash3-fill text-danger"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
@@ -60,7 +72,7 @@
                     Id: id
                 },
                 success: function (response) {
-                    let row = document.querySelector('#id-'+id)
+                    let row = document.querySelector('#id-' + id)
                     let body = document.querySelector('tbody')
                     body.removeChild(row);
                     console.log('Request succeeded:', response);

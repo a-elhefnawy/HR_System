@@ -1,41 +1,49 @@
 ﻿@model List<EmployeeAttendenceDataVM>
 @{
-    ViewData["Title"] = "Employees Attendence";
+    ViewData["Title"] = "بيانات حضور الموظفين";
 }
 
-<h1>Employees Attendence</h1>
 
-<a class="btn btn-success" asp-action="Add">إضافة</a>
-<table class="table table-bordered mt-2">
-    <thead>
-        <tr>
-            <td>القسم</td>
-            <td>اسم الموظف</td>
-            <td>موعد الحضور</td>
-            <td>موعد الإنصراف</td>
-            <td>تاريخ اليوم</td>
-            <td>العمليات</td>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var attend in Model)
-            {
-                <tr id="id-@attend.Id">
-                    <td>@attend.DepartmentName</td>
-                    <td>@attend.EmployeeName</td>
-                    <td>@attend.AttendenceTime.ToString("h:mm tt")</td>
-                    <td>@attend.LeavingTime.ToString("h:mm tt")</td>
-                    <td>@attend.DayDate.ToString("dd/MM/yyyy")</td>
-                    <td>
-                        <a asp-action="Edit" class="bi bi-pencil-square text-warning"></a>
-                        <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h1 class="text-center mb-4">بيانات حضور الموظفين</h1>
+            <a class="btn btn-success mb-3" asp-action="Add">إضافة</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">القسم</th>
+                            <th class="text-center">اسم الموظف</th>
+                            <th class="text-center">موعد الحضور</th>
+                            <th class="text-center">موعد الإنصراف</th>
+                            <th class="text-center">تاريخ اليوم</th>
+                            <th class="text-center">العمليات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var attend in Model)
+                        {
+                            <tr id="id-@attend.Id">
+                                <td class="text-center">@attend.DepartmentName</td>
+                                <td class="text-center">@attend.EmployeeName</td>
+                                <td class="text-center">@attend.AttendenceTime.ToString("h:mm tt")</td>
+                                <td class="text-center">@attend.LeavingTime.ToString("h:mm tt")</td>
+                                <td class="text-center">@attend.DayDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@attend.Id" class="bi bi-pencil-square text-warning"></a>
+                                    <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

@@ -41,6 +41,7 @@ namespace HR_System.PAL
             builder.Services.AddScoped<IAttendenceRepository, AttendenceRepository>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IClaimRepository ,ClaimRepository>();    
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
             builder.Services.AddScoped<IGeneralSittingsRepository,GeneralSittingsRepository>();

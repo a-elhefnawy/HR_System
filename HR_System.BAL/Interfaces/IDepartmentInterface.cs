@@ -11,6 +11,7 @@ namespace HR_System.BAL.Interfaces
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
         //Task<IEnumerable<Employee>> GetEmployeeByDeptId(int deptId);
+        Task<IEnumerable<Department>> GetAllDepartments();
 
     }
 }

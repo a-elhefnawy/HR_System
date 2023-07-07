@@ -1,28 +1,37 @@
-﻿@model HR_System.PAL.ViewModels.AddAttendenceDataVMcs
+﻿@model HR_System.DAL.ViewModelsForUpdate.UpdateEmployeeAttendence
 
 @{
-    ViewData["Title"] = "تسجيل حضور الموظفين";
+    ViewData["Title"] = "تعديل حضور الموظفين";
+
+    //selectlist deptitems = new selectlist(viewbag.deptartments, "id", "name");
+    //selectlist empsitems = new selectlist(viewbag.employees, "id", "name");
+
+    SelectList deptItems = new SelectList(ViewBag.Departments ?? new List<Department>(), "Id", "Name");
+    SelectList empsItems = new SelectList(ViewBag.Employees ?? new List<Employee>(), "Id", "Name");
+
+   
+
+
 }
 
-<h4 class="text-center">تسجيل الحضور للموظفين</h4>
+<h4 class="text-center">تعديل حضور الموظفين</h4>
 <hr />
 <div class="d-flex justify-content-center">
-    
+
     <div class="col-md-4">
-        <form asp-action="Add" class="my-form">
+        <form asp-action="Edit" class="my-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group mb-2">
                 <label asp-for="DepartmentId" class="control-label">القسم</label>
-                <select asp-for="DepartmentId" asp-items="@ViewBag.Deptartments" onchange="GetEmployees()" class="form-control">
-                    <option value="0">--اختر القسم--</option>
+                <select asp-for="DepartmentId" asp-items="deptItems" class="form-control">
                 </select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-2">
                 <label asp-for="EmployeeId" class="control-label">اسم الموظف</label>
-                <select asp-for="EmployeeId" name="EmployeeId" id="EmployeeId" class="form-control">
+                <select asp-for="EmployeeId" asp-items="empsItems" name="EmployeeId" id="EmployeeId" class="form-control">
                 </select>
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
@@ -46,7 +55,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="تسجيل الحضور" class="btn btn-outline-success" />
+                <input type="submit" value="تعديل الحضور" class="btn btn-outline-success" />
                 <a asp-action="Index" class="btn btn-outline-info">قائمة حضور الموظفين</a>
             </div>
         </form>
@@ -62,7 +71,7 @@
 
 
 
-<script>
+@*<script>
     function GetEmployees() {
         var deptId = document.getElementById("DepartmentId").value;
         console.log(deptId);
@@ -79,7 +88,7 @@
         });
 
     }
-</script>
+</script>*@
 
 <style>
     .my-form {

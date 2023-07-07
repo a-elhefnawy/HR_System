@@ -24,11 +24,11 @@ namespace HR_System.DAL.Models.Calculations
             this.context = context;
         }
 
-        public async Task<int> CalcAttendanceDays(string EmployeeId ,int year, int month)
+        public async Task<int> CalcAttendanceDays(int EmployeeId ,int year, int month)
         {
             employeeAttendance = await context.Attendences.Include(e => e.Employee)
                                               .Where(attend => 
-                                                     attend.EmoloyeeId == EmployeeId &&
+                                                     attend.Id == EmployeeId &&
                                                      attend.Day.Year == year &&
                                                      attend.Day.Month == month)
                                               .AsNoTracking()
@@ -76,9 +76,9 @@ namespace HR_System.DAL.Models.Calculations
             return overTimePerHours * employeeWage;
         }
 
-        public decimal CalcSalaryDeduction(int deductionPerHours, int absenceDays)
+        public decimal CalcSalaryDeduction(int deductionPerHours, int absenceDays, int hourDeductionValue)
         {
-            return (deductionPerHours + (absenceDays * WorkHoursPerDay) ) * employeeWage;
+            return (deductionPerHours + (absenceDays * WorkHoursPerDay) ) * employeeWage * hourDeductionValue;
         }
 
         public decimal CalcSalary(decimal salaryOvertime, decimal salaryDeduction)
@@ -90,3 +90,8 @@ namespace HR_System.DAL.Models.Calculations
 
     }
 }
+
+
+//  over 475
+//  late 24066
+//  total  

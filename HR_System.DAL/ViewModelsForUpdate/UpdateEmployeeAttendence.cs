@@ -1,8 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace HR_System.PAL.ViewModels
+namespace HR_System.DAL.ViewModelsForUpdate
 {
-    public class AddAttendenceDataVMcs
+    public class UpdateEmployeeAttendence
     {
         public int Id { get; set; }
 
@@ -20,7 +25,6 @@ namespace HR_System.PAL.ViewModels
 
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         public int? DepartmentId { get; set; }
-
 
     }
 }

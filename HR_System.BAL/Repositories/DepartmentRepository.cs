@@ -17,6 +17,11 @@ namespace HR_System.BAL.Repositories
         {
         }
 
+        public async Task<IEnumerable<Department>> GetAllDepartments()
+        {
+            return await _dbContext.Departments.Include(x => x.Employees).ToListAsync();
+        }
+
         //public async Task<IEnumerable<Employee>> GetEmployeeByDeptId(int deptId)
         //{
         //    return await _dbContext.Employees.Where(x => x.DepartmentId == deptId).ToListAsync();

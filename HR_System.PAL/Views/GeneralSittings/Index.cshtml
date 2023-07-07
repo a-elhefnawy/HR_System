@@ -1,5 +1,7 @@
-﻿@model GeneralSittings;
+﻿@model List<GeneralSittings>;
 @{
+    ViewData["Title"] = "الإعدادات العامة";
+    
 }
 
 <h1>الإعدادات العامة</h1>
@@ -8,24 +10,29 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">م</th>
-            <th scope="col">إضافة</th>
-            <th scope="col">خصم</th>
-            <th scope="col">إجازة أسبوعية</th>
-            <th scope="col">إجازة أسبوعية</th>
-            <th scope="col">التاريخ</th>
+            <th style="text-align: center;" scope="col">م</th>
+            <th style="text-align: center;" scope="col">إضافة</th>
+            <th style="text-align: center;" scope="col">خصم</th>
+            <th style="text-align: center;" scope="col">إجازة أسبوعية</th>
+            <th style="text-align: center;" scope="col">إجازة أسبوعية</th>
+            <th style="text-align: center;" scope="col">التاريخ</th>
 
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">@Model.sittings_Id</th>
-            <td>@Model.overTime</td>
-            <td>@Model.underTime</td>
-            <td>@Model.week_end_Day1</td>
-            <td>@Model.week_end_Day2</td>
-            <td>@Model.date</td>
+        @foreach (var setting in Model)
+        {
+            <tr>
+                <td style="text-align: center;">@setting.sittings_Id</td>
+                <td style="text-align: center;">@setting.overTime</td>
+                <td style="text-align: center;">@setting.underTime</td>
+                <td style="text-align: center;">@setting.week_end_Day1</td>
+                <td style="text-align: center;">@setting.week_end_Day2</td>
+                <td style="text-align: center;">@setting.date.ToString("dd/MM/yyyy")</td>
 
-        </tr>
+            </tr>
+        }
     </tbody>
+
+   
 </table>
