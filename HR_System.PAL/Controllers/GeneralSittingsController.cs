@@ -15,8 +15,8 @@ namespace HR_System.PAL.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var latestSittings=await gsRepo.GetLatestSittings();
-            return View(latestSittings);
+            var generalSittings=await gsRepo.GetGeneralSettings();
+            return View(generalSittings);
         }
         public IActionResult Add()
         {

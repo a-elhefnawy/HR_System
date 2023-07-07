@@ -10,6 +10,6 @@ namespace HR_System.BAL.Interfaces
     public interface IGeneralSittingsRepository
     {
         public Task<int> AddNewSittings(GeneralSittings newSittings);
-        public Task<GeneralSittings> GetLatestSittings();
+        public Task<List<GeneralSittings>> GetGeneralSettings();
     }
 }

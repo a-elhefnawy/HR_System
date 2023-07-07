@@ -17,9 +17,12 @@ namespace HR_System.DAL.Validations
         {
             string nationalId = (string)value;
 
-            Employee? employee = db.Employees.FirstOrDefault(e => e.NationalID == nationalId );
+            Employee EmployeeFromRequest = validationContext.ObjectInstance as Employee;
 
-            if (employee is not null)
+
+            Employee? employeeFromDB = db.Employees.FirstOrDefault(e => e.NationalID == nationalId  && e.Id != EmployeeFromRequest.Id);
+
+            if (employeeFromDB is not null)
             {
                 return new ValidationResult("الرقم القومي مُسجل بالفعل");
             }

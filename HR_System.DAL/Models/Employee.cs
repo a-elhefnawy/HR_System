@@ -11,7 +11,8 @@ namespace HR_System.DAL.Models
 {
     public class Employee
     {
-        [Key]
+        public int Id { get; set; }
+
         [RegularExpression(@"^\d{14}$", ErrorMessage = "يجب أن يكون الرقم القومي 14 رقم")]
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [UniqueNationalId]

@@ -27,6 +27,8 @@ namespace HR_System.BAL.Repositories
 
             if (EmployeeFromDB != null)
             {
+                EmployeeFromDB.NationalID = employee.NationalID;
+                EmployeeFromDB.Id = employee.Id;
 
                 EmployeeFromDB.Name = employee.Name;
                 EmployeeFromDB.Address = employee.Address;
@@ -35,7 +37,6 @@ namespace HR_System.BAL.Repositories
                 EmployeeFromDB.PhoneNumber = employee.PhoneNumber;
                 EmployeeFromDB.Gender = employee.Gender;
                 EmployeeFromDB.Nationality = employee.Nationality;
-                EmployeeFromDB.NationalID = employee.NationalID;
                 EmployeeFromDB.DateOfContract = employee.DateOfContract;
                 EmployeeFromDB.Salary = employee.Salary;
                 EmployeeFromDB.DepartureTime = employee.DepartureTime;

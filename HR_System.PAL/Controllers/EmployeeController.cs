@@ -25,7 +25,7 @@ namespace HR_System.PAL.Controllers
         }
 
         //[Authorize]
-        public async Task<IActionResult> Detailes(string id)
+        public async Task<IActionResult> Detailes(int id)
         {
             var emp = await EmployeeRepo.Get(id);
             return View(emp);
@@ -60,7 +60,7 @@ namespace HR_System.PAL.Controllers
         }
 
         //[Authorize]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int id)
         {
             var excistingEmployee = await EmployeeRepo.Get(id);
             if (excistingEmployee is null) return View("NotFound");
@@ -74,9 +74,9 @@ namespace HR_System.PAL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id,Employee employee)
+        public async Task<IActionResult> Edit(int id,Employee employee)
         {
-            if (id != employee.NationalID) return View("NotFound");
+            if (id != employee.Id) return View("NotFound");
 
             var departments = await departmentRepo.GetAll();
 
@@ -93,7 +93,7 @@ namespace HR_System.PAL.Controllers
         }
 
         //[Authorize]
-        public async Task<IActionResult> Delete(string Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             var emp = await EmployeeRepo.Get(Id);
             if (emp == null) return BadRequest();

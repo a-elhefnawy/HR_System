@@ -24,6 +24,6 @@ namespace HR_System.DAL.Models
 
         [ForeignKey("EmoloyeeId")]
         public Employee? Employee { get; set; }
-        public string? EmoloyeeId { get; set; }
+        public int? EmoloyeeId { get; set; }
     }
 }
