@@ -34,7 +34,6 @@ namespace HR_System.PAL
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             //builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
-            builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
             builder.Services.AddScoped<IGeneralSittingsRepository,GeneralSittingsRepository>();
             builder.Services.AddScoped<ISalariesReository, SalariesRepository>();
             //check error and user Controller
