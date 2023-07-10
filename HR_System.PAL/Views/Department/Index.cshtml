@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "الأقسام";
+}
+
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12">
+            <h1 class="text-center mb-2">بيانات الأقســام</h1>
+            <a class="btn btn-success mb-2" asp-action="Add">إضافة قســم</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">م</th>
+                            <th class="text-center">اسم القسم</th>
+                            <th class="text-center">العمليات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @foreach (var dept in Model)
+                        {
+                            <tr id="id-@dept.Id">
+                                <td class="text-center">@(i++)</td>
+                                <td class="text-center">@dept.Name</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@dept.Id" class="bi bi-pencil-square text-warning"></a>
+                                    <i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function DeleteDepartment(id) {
+            Swal.fire({
+                title: 'هل أنت متأكد من الحذف؟',
+                text: "لن تستطيع استعادته!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/Department/delete/${id}`,
+                        method: 'GET',
+                        success: function (response) {
+                            let row = document.querySelector('#id-' + id)
+                            let body = document.querySelector('tbody')
+                            body.removeChild(row);
+                            Swal.fire({
+                                title:'تم الحذف',
+                                text:`تم حذف قسم ${response.name}`,
+                                icon:'success',
+                                confirmButtonText: 'حسناً'
+                            })
+                            console.log('Request succeeded:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.status, status,error)
+                            if(xhr.status == 400){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'عذراً لم يتم الحذف!!!',
+                                    text: 'هذا القسم يحتوي على موظفين',
+                                    confirmButtonText: 'حسناً'
+                                })
+                            }
+                            console.log('Request failed:', xhr.responseText);
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}

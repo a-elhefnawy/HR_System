@@ -26,18 +26,10 @@ namespace HR_System.PAL.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //Salary salary = new Salary(context);
-            //// Calculations 
-            //int attendance = await salary.CalcAttendanceDays("30001241401856", 2023, 7);
-            //int absence = salary.CalcAbsenceDays(attendance, 0);
-            //int overtime = salary.CalcOvertimePerHours(2);
-            //int late = salary.CalcDeductionPerHours(2);
-            //decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
-            //decimal salaryDeduction = salary.CalcSalaryDeduction(late, absence,2);
-            //decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
-            //// end of Calculations 
-
-            var attendence = await attendenceRepo.GetAllAttendnce();
+            var  date = DateTime.Now;
+            var startDate = new DateTime(2023,5,1);
+            var endDate = new DateTime(2023,7,10);
+            var attendence = await attendenceRepo.GetAllAttendnce(startDate, endDate);
 
             List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
             foreach (var item in attendence)
@@ -46,13 +38,11 @@ namespace HR_System.PAL.Controllers
                 {
                     AttendenceTime = item.AttendenceTime,
                     DayDate = item.Day,
-                    DepartmentName = item.Employee.Department is null ? "" : item.Employee.Department.Name,
+                    DepartmentName = item.Employee.Department.Name,
                     LeavingTime = item.LeavingTime,
                     EmployeeName = item.Employee.Name,
                     EmployeeId = item.Id,
                     Id = item.Id
-
-
                 };
                 employeesAttendence.Add(attendenceVM);
             }
@@ -164,6 +154,27 @@ namespace HR_System.PAL.Controllers
             var employees = context.Employees.Where(x => x.DepartmentId == id).Select(x => new { x.Id, x.Name }).ToList();
 
             return Json(employees);
+        }
+
+        public async Task<IActionResult> SearchByDate([FromQuery]DateTime startDate, [FromQuery]DateTime endDate)
+        {
+            var attendence = await attendenceRepo.GetAllAttendnce(startDate, endDate);
+            List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
+            foreach (var item in attendence)
+            {
+                EmployeeAttendenceDataVM attendenceVM = new EmployeeAttendenceDataVM()
+                {
+                    AttendenceTime = item.AttendenceTime,
+                    DayDate = item.Day,
+                    DepartmentName = item.Employee.Department.Name,
+                    LeavingTime = item.LeavingTime,
+                    EmployeeName = item.Employee.Name,
+                    EmployeeId = item.Id,
+                    Id = item.Id
+                };
+                employeesAttendence.Add(attendenceVM);
+            }
+            return Json(employeesAttendence);
         }
     }
 }

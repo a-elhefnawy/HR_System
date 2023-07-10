@@ -4,6 +4,7 @@ using HR_System.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    partial class HRDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230709142754_Employees_Salaries")]
+    partial class Employees_Salaries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,7 @@ namespace HR_System.DAL.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -120,7 +123,33 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("EmoloyeeId");
 
-                    b.ToTable("Attendences", (string)null);
+                    b.ToTable("Attendences");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Claim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CliamType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Claims");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Department", b =>
@@ -137,7 +166,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
@@ -194,7 +223,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.EmployeesSalaries", b =>
@@ -279,7 +308,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("sittings_Id");
 
-                    b.ToTable("GeneralSittings", (string)null);
+                    b.ToTable("GeneralSittings");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
@@ -296,7 +325,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PagesName", (string)null);
+                    b.ToTable("pagesNames");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
@@ -314,7 +343,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("PageNameId");
 
-                    b.ToTable("PermissionsDB", (string)null);
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
@@ -331,7 +360,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -469,9 +498,13 @@ namespace HR_System.DAL.Migrations
 
             modelBuilder.Entity("HR_System.DAL.Models.AppUser", b =>
                 {
-                    b.HasOne("HR_System.DAL.Models.Role", null)
+                    b.HasOne("HR_System.DAL.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Attendence", b =>
@@ -481,6 +514,15 @@ namespace HR_System.DAL.Migrations
                         .HasForeignKey("EmoloyeeId");
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Claim", b =>
+                {
+                    b.HasOne("HR_System.DAL.Models.Role", "Role")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
@@ -592,6 +634,8 @@ namespace HR_System.DAL.Migrations
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
                 {
+                    b.Navigation("Claims");
+
                     b.Navigation("Permissions");
 
                     b.Navigation("Users");

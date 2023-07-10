@@ -22,9 +22,10 @@ namespace HR_System.BAL.Repositories
             return await _dbContext.Departments.Include(x => x.Employees).ToListAsync();
         }
 
-        //public async Task<IEnumerable<Employee>> GetEmployeeByDeptId(int deptId)
-        //{
-        //    return await _dbContext.Employees.Where(x => x.DepartmentId == deptId).ToListAsync();
-        //}
+        public async Task<IEnumerable<Employee>> GetEmployeeByDeptId(int deptId)
+        {
+            return await _dbContext.Employees.Where(x => x.DepartmentId == deptId).ToListAsync();
+        }
+
     }
 }

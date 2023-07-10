@@ -11,10 +11,11 @@ namespace HR_System.DAL.Models.Calculations
     public class Salary
     {
         private readonly HRDBContext context;
-        private const int workDaysInMonth = 22;
-        private const int WorkHoursPerDay = 8;
-        private const int monthDays = 30;
-        private const int halfHour = 30;
+        private const int WORK_DAYS_IN_MONTH = 22;
+        private const int WORK_HOURS_PER_DAY = 8;
+        private const int MONTH_DAYS = 30;
+        private const int HALF_HOUR = 30;
+        private const int DIGITS_AFTER_POINT = 2;
         private Employee? employee;
         private decimal employeeWage;
         private List<Attendence>? employeeAttendance;
@@ -23,26 +24,26 @@ namespace HR_System.DAL.Models.Calculations
         {
             this.context = context;
         }
-
-        public async Task<int> CalcAttendanceDays(int EmployeeId ,int year, int month)
+        
+        public async Task<int> CalcAttendanceDays(int? EmployeeId ,int year, int month)
         {
             employeeAttendance = await context.Attendences.Include(e => e.Employee)
                                               .Where(attend => 
-                                                     attend.Id == EmployeeId &&
+                                                     attend.EmoloyeeId == EmployeeId &&
                                                      attend.Day.Year == year &&
                                                      attend.Day.Month == month)
                                               .AsNoTracking()
                                               .ToListAsync();
 
             employee = employeeAttendance.FirstOrDefault()?.Employee;
-            employeeWage = (employee?.Salary / monthDays) / WorkHoursPerDay ?? 0m;
+            employeeWage = (employee?.Salary / MONTH_DAYS) / WORK_HOURS_PER_DAY ?? 0m;
             
             return employeeAttendance.Count();
         }
 
         public int CalcAbsenceDays(int attendanceDays, int vacationsDays)
         {
-            return workDaysInMonth - attendanceDays - vacationsDays;  
+            return WORK_DAYS_IN_MONTH - attendanceDays - vacationsDays;  
         }
 
         public int CalcOvertimePerHours(int hourOvertimeValue)
@@ -53,7 +54,7 @@ namespace HR_System.DAL.Models.Calculations
                 int calculatedHours = employeeAttendance.LeavingTime.Hour - 
                                       employeeAttendance?.Employee?.DepartureTime.Hour?? 0;
                 overtime += calculatedHours >= 0 ?
-                                 (calculatedHours + (employeeAttendance?.LeavingTime.Minute > halfHour? 1 : 0)) : 0;
+                                 (calculatedHours + (employeeAttendance?.LeavingTime.Minute > HALF_HOUR? 1 : 0)) : 0;
             });
             return overtime * hourOvertimeValue;
         }
@@ -66,32 +67,28 @@ namespace HR_System.DAL.Models.Calculations
                 int calculatedHours = employeeAttendance.AttendenceTime.Hour - 
                                       employeeAttendance?.Employee?.AttendanceTime.Hour?? 0;
                 lateHours += calculatedHours >= 0 ?
-                                 (calculatedHours + (employeeAttendance?.AttendenceTime.Minute > halfHour ? 1 : 0)) : 0;
+                                 (calculatedHours + (employeeAttendance?.AttendenceTime.Minute > HALF_HOUR ? 1 : 0)) : 0;
             });
             return lateHours * hourDeductionValue;
         }
 
         public decimal CalcSalaryOverTime(int overTimePerHours)
         {
-            return overTimePerHours * employeeWage;
+            return Math.Round(overTimePerHours * employeeWage, DIGITS_AFTER_POINT);
         }
 
-        public decimal CalcSalaryDeduction(int deductionPerHours, int absenceDays, int hourDeductionValue)
+        public decimal CalcSalaryDeduction(int deductionPerHours, int absenceDays, int hourDeductionValue, decimal overtimeSalary)
         {
-            return (deductionPerHours + (absenceDays * WorkHoursPerDay) ) * employeeWage * hourDeductionValue;
+            decimal deduction = Math.Round((deductionPerHours + (absenceDays * WORK_HOURS_PER_DAY)) * employeeWage * hourDeductionValue, DIGITS_AFTER_POINT);
+            return deduction >= employee?.Salary? Math.Round(employee.Salary,DIGITS_AFTER_POINT) + overtimeSalary : deduction ;
         }
 
         public decimal CalcSalary(decimal salaryOvertime, decimal salaryDeduction)
         {
             decimal employeeSalary = employee?.Salary?? 0m;
             decimal salary = employeeSalary + salaryOvertime - salaryDeduction;
-            return Math.Max(salary, 0m);
+            return Math.Max(Math.Round(salary, DIGITS_AFTER_POINT), 0m);
         } 
 
     }
 }
-
-
-//  over 475
-//  late 24066
-//  total  

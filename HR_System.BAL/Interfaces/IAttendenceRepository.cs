@@ -10,13 +10,9 @@ namespace HR_System.BAL.Interfaces
 {
     public interface IAttendenceRepository : IGenericRepository<Attendence>
     {
-        Task<IEnumerable<Attendence>> GetAllAttendnce();
+        Task<List<Attendence>> GetAllAttendnce(int year, int month);
+        Task<List<Attendence>> GetAllAttendnce(DateTime startDate, DateTime endDate);
         Task<Attendence> GetEmployeeAttendenceById(int id);
-
-
         Task UpdateAttendence(UpdateEmployeeAttendence attendenctModel);
-
-
-
     }
 }
