@@ -1,6 +1,7 @@
 ﻿using HR_System.BAL.Interfaces;
 using HR_System.DAL.Models;
 using HR_System.PAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR_System.PAL.Controllers

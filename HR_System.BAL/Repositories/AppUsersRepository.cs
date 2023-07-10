@@ -11,57 +11,10 @@ using System.Xml.Linq;
 
 namespace HR_System.BAL.Reposatories
 {
-    public class AppUsersRepository : IAppUserRepository
+    public class AppUsersRepository : GenericRepository<AppUser>
     {
-        protected readonly HRDBContext _dbContext;
-
-        public AppUsersRepository(HRDBContext dbContext)
+        public AppUsersRepository(HRDBContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
-        }
-        public async Task<AppUser> GetByName(string name)
-        {
-            return await _dbContext.Users.Include(p=>p.Role).SingleOrDefaultAsync(p=>p.UserName==name);
-        }
-
-        public async Task<AppUser> GetById(string id) 
-        {
-            return await _dbContext.Users.Include(p=>p.Role).SingleOrDefaultAsync(p=>p.Id==id);
-        }
-
-        public async Task<IEnumerable<AppUser>> GetAll()
-        {
-            return await _dbContext.Users.Include(p => p.Role).ToListAsync();
-        }
-
-        public async Task<AppUser> Get(int id)
-        {
-            return await _dbContext.Users.FindAsync(id);
-        }
-
-        public async Task<int> Add(AppUser entity)
-        {
-            await _dbContext.Users.AddAsync(entity);
-            return _dbContext.SaveChanges();
-
-        }
-
-        public int Update(AppUser entity)
-        {
-            _dbContext.Users.Update(entity);
-
-            return _dbContext.SaveChanges();
-        }
-
-        public int Delete(AppUser entity)
-        {
-            _dbContext.Users.Remove(entity);
-            return _dbContext.SaveChanges();
-        }
-
-        public Task<AppUser> Get(string id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

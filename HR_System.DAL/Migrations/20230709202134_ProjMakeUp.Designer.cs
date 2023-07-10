@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    [Migration("20230629202235_updateGeneralSittingsTable")]
-    partial class updateGeneralSittingsTable
+    [Migration("20230709202134_ProjMakeUp")]
+    partial class ProjMakeUp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,7 @@ namespace HR_System.DAL.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -99,10 +99,57 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("HR_System.DAL.Models.Attendence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AttendenceTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EmoloyeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LeavingTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmoloyeeId");
+
+                    b.ToTable("Attendences");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
                 {
-                    b.Property<string>("NationalID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -117,6 +164,9 @@ namespace HR_System.DAL.Migrations
                     b.Property<DateTime>("DateOfContract")
                         .HasColumnType("DATE");
 
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
@@ -128,6 +178,10 @@ namespace HR_System.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NationalID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nationality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -136,10 +190,12 @@ namespace HR_System.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("NationalID");
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Employees");
                 });
@@ -174,20 +230,39 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("GeneralSittings");
                 });
 
+            modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PagesName");
+                });
+
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ControllerName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PageNameId")
+                        .HasColumnType("int");
 
                     b.Property<byte>("PermissionNumber")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("RoleId", "ControllerName");
+                    b.HasKey("RoleId", "PageNameId");
 
-                    b.ToTable("Permissions");
+                    b.HasIndex("PageNameId");
+
+                    b.ToTable("PermissionsDB");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
@@ -204,7 +279,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -342,22 +417,44 @@ namespace HR_System.DAL.Migrations
 
             modelBuilder.Entity("HR_System.DAL.Models.AppUser", b =>
                 {
-                    b.HasOne("HR_System.DAL.Models.Role", "Role")
+                    b.HasOne("HR_System.DAL.Models.Role", null)
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
+                });
 
-                    b.Navigation("Role");
+            modelBuilder.Entity("HR_System.DAL.Models.Attendence", b =>
+                {
+                    b.HasOne("HR_System.DAL.Models.Employee", "Employee")
+                        .WithMany("Attendences")
+                        .HasForeignKey("EmoloyeeId");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
+                {
+                    b.HasOne("HR_System.DAL.Models.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
                 {
+                    b.HasOne("HR_System.DAL.Models.PagesName", "PageName")
+                        .WithMany("PermissionsDB")
+                        .HasForeignKey("PageNameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HR_System.DAL.Models.Role", "Role")
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PageName");
 
                     b.Navigation("Role");
                 });
@@ -411,6 +508,21 @@ namespace HR_System.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Department", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
+                {
+                    b.Navigation("Attendences");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
+                {
+                    b.Navigation("PermissionsDB");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>

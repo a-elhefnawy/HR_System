@@ -1,4 +1,5 @@
 ﻿using HR_System.BAL.Interfaces;
+using b= HR_System.Constants;
 using HR_System.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace HR_System.PAL.Controllers
             this.departmentRepo = departmentRepo;
         }
 
-        //[Authorize]
+        [Authorize(b.Permissions.Employee.View)]
         public async Task<IActionResult> Index()
         {
             var emps = await EmployeeRepo.GetAllEmployees();
@@ -30,8 +31,6 @@ namespace HR_System.PAL.Controllers
             var emp = await EmployeeRepo.Get(id);
             return View(emp);
         }
-
-        //[Authorize]
         public async Task<IActionResult> Add()
         {
             var departments = await departmentRepo.GetAll();

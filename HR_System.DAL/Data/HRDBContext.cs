@@ -37,15 +37,14 @@ namespace HR_System.DAL.Data
                 .UseSqlServer("Server=.;Database=HRDB;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
-        public DbSet<Role> Roles { get; set; }
+        //public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<PermissionsDB> Permissions { get; set; }
-        public DbSet<PagesName> pagesNames { get; set; }
+        //public DbSet<PermissionsDB> Permissions { get; set; }
+        //public DbSet<PagesName> pagesNames { get; set; }
         public DbSet<GeneralSittings> GeneralSittings { get; set;}
         public DbSet<Department> Departments { get; set; }
         public DbSet<Attendence> Attendences { get; set; }
 
-        public DbSet<Claim> Claims { get; set; }
 
 
     }

@@ -1,4 +1,5 @@
-﻿using HR_System.DAL.Models;
+﻿using HR_System.BAL.Interfaces;
+using HR_System.DAL.Models;
 using HR_System.PAL.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,17 +25,25 @@ namespace HR_System.PAL.Controllers
         {
             if(ModelState.IsValid)
             {
-                AppUser user = await userManager.FindByNameAsync(userVM.userName);
+                var user = await userManager.FindByNameAsync(userVM.userName);
 
                 if(user != null) 
                 {
-                    await signInManager.PasswordSignInAsync(user, userVM.password, userVM.rememberMe, false);
-                    return RedirectToAction("Index", "Home"); // need to be updated //
+                    var flag = await userManager.CheckPasswordAsync(user, userVM.password);
+                    if(flag)
+                    {
+                        await signInManager.PasswordSignInAsync(user, userVM.password, userVM.rememberMe, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "كلمة السر خاطئة");
+                    }
 
                 }
                 else
                 {
-                    ModelState.AddModelError("", "اسم المستخدم أو كلمة المرور خاطئة");
+                    ModelState.AddModelError("", "اسم المستخدم خاطئ");
                 }
 
             }

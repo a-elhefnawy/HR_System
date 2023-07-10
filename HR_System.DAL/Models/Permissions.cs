@@ -1,13 +1,13 @@
 ﻿
-namespace HR_System.DAL.Models
-{
+//namespace HR_System.DAL.Models
+//{
    
-   [Flags]
-   public enum Permissions
-   {
-        Add = 1,           
-        Update = 2,
-        Delete = 4,
-        Display = 8,
-   }
-}
+//   [Flags]
+//   public enum Permissions
+//   {
+//        Add = 1,           
+//        Update = 2,
+//        Delete = 4,
+//        Display = 8,
+//   }
+//}

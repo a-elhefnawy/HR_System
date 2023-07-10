@@ -1,0 +1,50 @@
+﻿@using HR_System.ViewModel;
+@model PermissionFormVM
+@{
+    ViewData["Title"] = "ManagePermissions";
+}
+
+<h1 class="text-center">إدارة الصلاحيات</h1>
+
+<form method="post" asp-action="ManagePermissions">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>@Model.RoleName</h2>
+        </div>
+        <div class="card-body">
+            <input type="hidden" asp-for="RoleId" />
+            <table class="table table-striped">
+                <thead>
+@*                     <th>Select</th>
+*@                    <th>الصفحة</th>
+                    <th>العملية</th>
+                   
+                </thead>
+                <tbody>
+                    @for (int i=0; i<Model.RoleClaims.Count; i++)
+            {
+                <tr>
+                    <td>
+                         <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.RoleClaims[i].DisplayValue" />
+                            <input  asp-for="@Model.RoleClaims[i].IsSelected" class="form-check-input" />
+                            @*<label asp-for="@Model.RoleClaims[i].IsSelected" class="form-check-label">
+                                @Model.RoleClaims[i].DisplayValue
+                             </label>*@
+                        </div>
+                    </td>
+                        <td>@Model.RoleClaims[i].DisplayValue.Split(".")[1]</td>
+                        <td>@Model.RoleClaims[i].DisplayValue.Split(".")[2]</td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+            
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success">حفظ</button>
+            <a asp-action="Index" class="btn btn-warning">رجوع</a>
+        </div>
+    </div>
+</form>

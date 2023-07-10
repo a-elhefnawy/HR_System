@@ -34,10 +34,10 @@ namespace HR_System.BAL.Reposatories
 
         public async Task<T> Get(int id)
         {
-            if(typeof(T).Name is "Role")
-            {
-                return  await _dbContext.Roles.Include(p =>  p.Users ).Include(p=>p.Permissions).FirstOrDefaultAsync(p=>p.Id == id) as T;
-            }
+            //if(typeof(T).Name is "Role")
+            //{
+            //    return  await _dbContext.Roles.Include(p =>  p.Users ).Include(p=>p.Permissions).FirstOrDefaultAsync(p=>p.Id == id) as T;
+            //}
            
             return await _dbContext.Set<T>().FindAsync(id);
         }

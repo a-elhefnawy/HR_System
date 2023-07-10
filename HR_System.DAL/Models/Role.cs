@@ -15,6 +15,5 @@ namespace HR_System.DAL.Models
         public ICollection<AppUser> Users { get; set; } = new HashSet<AppUser>();
         public ICollection<PermissionsDB> Permissions { get; set; } = new List<PermissionsDB>();
 
-        public ICollection<Claim> Claims { get; set; }= new List<Claim>();
     }
 }

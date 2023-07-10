@@ -1,19 +1,15 @@
-﻿@model IEnumerable<HR_System.PAL.ViewModels.AppUserVM>
+﻿@model IEnumerable<UserVM>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>المستخدمين</h1>
+<h1 class="text-center">المستخدمين</h1>
 
 <p>
-    <a class="btn btn-primary" href="/user/add">إضافة مستخدم جديد</a>
+    <a class="btn btn-success" href="/user/add">إضافة مستخدم جديد</a>
 </p>
 
-<form method="post" class="mt-5" action="/user/search">
-    <input type="text" name="name" class="form-control mb-3" />
-    <input class="btn btn-primary" type="submit" value="بحث" />
-</form>
 
 <table class="table">
     <thead>
@@ -23,9 +19,6 @@
             </th>
             <th>
                 اسم المستخدم
-            </th>
-            <th>
-                كلمة المرور
             </th>
             <th>
                 اسم البريد
@@ -39,26 +32,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.fullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.role)
-            </td>
-            <td>
-                <a class="btn btn-primary" href="/user/edit/@item.Id" >تعديل</a>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                <a class="btn btn-danger" href="/user/delete/@item.Id">حذف</a>
-            </td>
+                <td>@item.fullName</td>
+                <td>@item.userName</td>
+                <td>@item.email</td>
+                <td>@string.Join(" , " ,item.Role.ToList())</td>
+                <td>
+                <a class="btn btn-success" asp-action="ManageRoles" asp-controller="User" asp-route-userId="@item.Id" >تعديل المجموعة</a>
+                <a class="btn btn-danger" href="/User/Delete/@item.Id">حذف</a>
+                </td>
         </tr>
 }
     </tbody>

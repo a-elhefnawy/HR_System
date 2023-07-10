@@ -10,8 +10,6 @@ namespace HR_System.DAL.Models
 {
     public class AppUser : IdentityUser
     {
-        public int RoleId { get; set; }
-        public  Role? Role { get; set; }
 
         public string fullName { get; set; }
     }
