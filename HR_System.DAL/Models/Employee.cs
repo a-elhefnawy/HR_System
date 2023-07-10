@@ -65,5 +65,7 @@ namespace HR_System.DAL.Models
 
         [ForeignKey("Department")]
         public int? DepartmentId { get; set; }
+
+        public List<EmployeesSalaries>? Salaries { get; set; }
     }
 }

@@ -5,7 +5,6 @@
 }
 
 
-<div class="container">
     <div class="row mt-2">
         <div class="col-12">
             <h1 class="text-center mb-2">بيانات الموظفين</h1>
@@ -14,38 +13,38 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th style="font-weight: bold; text-align: center;">الرقم القومي</th>
-                            <th style="font-weight: bold; text-align: center;">اسم الموظف</th>
-                            <th style="font-weight: bold; text-align: center;">العنوان</th>
-                            <th style="font-weight: bold; text-align: center;">رقم التليفون</th>
-                            <th style="font-weight: bold; text-align: center;">النوع</th>
-                            <th style="font-weight: bold; text-align: center;">الجنسية</th>
-                            <th style="font-weight: bold; text-align: center;">تاريخ الميلاد</th>
-                            <th style="font-weight: bold; text-align: center;">تاريخ التعاقد</th>
-                            <th style="font-weight: bold; text-align: center;">القسم</th>
-                            <th style="font-weight: bold; text-align: center;">الراتب</th>
-                            <th style="font-weight: bold; text-align: center;">موعد الحضور</th>
-                            <th style="font-weight: bold; text-align: center;">موعد الإنصراف</th>
-                            <th style="font-weight: bold; text-align: center;">العمليات</th>
+                            <th class="text-center fs-6">الرقم القومي</th>
+                            <th class="text-center fs-6">اسم الموظف</th>
+                            <th class="text-center fs-6">العنوان</th>
+                            <th class="text-center fs-6">رقم التليفون</th>
+                            <th class="text-center fs-6">النوع</th>
+                            <th class="text-center fs-6">الجنسية</th>
+                            <th class="text-center fs-6">تاريخ الميلاد</th>
+                            <th class="text-center fs-6">تاريخ التعاقد</th>
+                            <th class="text-center fs-6">القسم</th>
+                            <th class="text-center fs-6">الراتب</th>
+                            <th class="text-center fs-6">موعد الحضور</th>
+                            <th class="text-center fs-6">موعد الإنصراف</th>
+                            <th class="text-center fs-6">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var emp in Model)
                         {
                             <tr id="id-@emp.NationalID">
-                                <td style="text-align: center;">@emp.NationalID</td>
-                                <td style="text-align: center;">@emp.Name</td>
-                                <td style="text-align: center;">@emp.Address</td>
-                                <td style="text-align: center;">@emp.PhoneNumber</td>
-                                <td style="text-align: center;">@emp.Gender</td>
-                                <td style="text-align: center;">@emp.Nationality</td>
-                                <td style="text-align: center;">@emp.Birthdate.ToString("dd/MM/yyyy")</td>
-                                <td style="text-align: center;">@emp.DateOfContract.ToString("dd/MM/yyyy")</td>
-                                <td style="text-align: center;">@emp.Department.Name</td>
-                                <td style="text-align: center;">@emp.Salary</td>
-                                <td style="text-align: center;">@emp.AttendanceTime.ToString("h:mm tt")</td>
-                                <td style="text-align: center;">@emp.DepartureTime.ToString("h:mm tt")</td>
-                                <td style="text-align: center;">
+                                <td class="text-center">@emp.NationalID</td>
+                                <td class="text-center">@emp.Name</td>
+                                <td class="text-center">@emp.Address</td>
+                                <td class="text-center">@emp.PhoneNumber</td>
+                                <td class="text-center">@emp.Gender</td>
+                                <td class="text-center">@emp.Nationality</td>
+                                <td class="text-center">@emp.Birthdate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@emp.DateOfContract.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@emp.Department.Name</td>
+                                <td class="text-center">@emp.Salary</td>
+                                <td class="text-center">@emp.AttendanceTime.ToString("h:mm tt")</td>
+                                <td class="text-center">@emp.DepartureTime.ToString("h:mm tt")</td>
+                                <td class="text-center">
                                     <a asp-action="Detailes" asp-route-id="@emp.Id" class="bi bi-binoculars-fill text-info"></a>
                                     <a asp-action="Edit" asp-route-id="@emp.Id" class="bi bi-pencil-square text-warning"></a>
                                     <i style="cursor:pointer" onclick="DeleteEmployee(@emp.NationalID)" class="bi bi-trash3-fill text-danger"></i>
@@ -59,8 +58,6 @@
             </div>
         </div>
     </div>
-</div>
-
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>

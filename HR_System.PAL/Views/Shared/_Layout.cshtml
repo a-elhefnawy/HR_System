@@ -13,6 +13,14 @@
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <!-- Sweet Alert css-->
     <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Amiri', serif;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -36,6 +44,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="attendence" asp-action="index">حضور الموظفين</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="department" asp-action="index">الأقســام</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="employeesSalaries" asp-action="index">رواتب الموظفين</a>
                         </li>
                     </ul>
                 </div>

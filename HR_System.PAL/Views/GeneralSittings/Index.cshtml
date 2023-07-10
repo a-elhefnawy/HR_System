@@ -1,7 +1,7 @@
-﻿@model List<GeneralSittings>;
+﻿@model GeneralSittings;
 @{
     ViewData["Title"] = "الإعدادات العامة";
-    
+
 }
 
 <h1>الإعدادات العامة</h1>
@@ -20,19 +20,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var setting in Model)
-        {
-            <tr>
-                <td style="text-align: center;">@setting.sittings_Id</td>
-                <td style="text-align: center;">@setting.overTime</td>
-                <td style="text-align: center;">@setting.underTime</td>
-                <td style="text-align: center;">@setting.week_end_Day1</td>
-                <td style="text-align: center;">@setting.week_end_Day2</td>
-                <td style="text-align: center;">@setting.date.ToString("dd/MM/yyyy")</td>
 
-            </tr>
-        }
+        <tr>
+            <td style="text-align: center;">@Model.sittings_Id</td>
+            <td style="text-align: center;">@Model.overTime</td>
+            <td style="text-align: center;">@Model.underTime</td>
+            <td style="text-align: center;">@Model.week_end_Day1</td>
+            <td style="text-align: center;">@Model.week_end_Day2</td>
+            <td style="text-align: center;">@Model.date.ToString("dd/MM/yyyy")</td>
+        </tr>
+
     </tbody>
 
-   
+
 </table>

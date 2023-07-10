@@ -44,6 +44,7 @@ namespace HR_System.DAL.Data
         public DbSet<GeneralSittings> GeneralSittings { get; set;}
         public DbSet<Department> Departments { get; set; }
         public DbSet<Attendence> Attendences { get; set; }
+        public DbSet<EmployeesSalaries> EmployeesSalaries { get; set; }
 
         public DbSet<Claim> Claims { get; set; }
 

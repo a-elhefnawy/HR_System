@@ -10,7 +10,6 @@ namespace HR_System.DAL.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public List<PermissionsDB> PermissionsDB { get; set; } = new();
     }
 }

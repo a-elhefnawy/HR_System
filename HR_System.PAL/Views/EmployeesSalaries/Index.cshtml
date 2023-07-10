@@ -1,0 +1,189 @@
+﻿@model List<EmployeesSalaries>
+@{
+    ViewData["Title"] = "رواتب الموظفين";
+}
+
+<div class="row mt-2">
+    <div class="col-12">
+        <h1 class="text-center mb-2">رواتب الموظفين</h1>
+        <input type="text" id="search" class="form-control" oninput="searchByEmployeeName()" placeholder="بحث باسم الموظف" />
+        <span class="text-danger error-msg"></span>
+        <div class="d-flex align-items-center gap-3 my-3" >
+            <span>شهر</span>
+            <select class="form-select" id="month" value="@DateTime.Now.Month">
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">أبريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+            </select>
+            <span>سنة</span>
+            <select id="year" class="form-select">
+                @for(int i= DateTime.Now.Year; i>=2000; i--)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+            <button class="btn btn-success" onclick="searchByDate()">بحث</button>
+        </div>
+        <div class="table-responsive table-content">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center fs-6">اسم الموظف</th>
+                        <th class="text-center fs-6">القســم</th>
+                        <th class="text-center fs-6">الراتب الأساسـي</th>
+                        <th class="text-center fs-6">عدد أيام الحضور</th>
+                        <th class="text-center fs-6">عدد أيام الغياب</th>
+                        <th class="text-center fs-6">الإضافي بالساعات</th>
+                        <th class="text-center fs-6">الخصم بالساعات</th>
+                        <th class="text-center fs-6">إجمالي الأضافي</th>
+                        <th class="text-center fs-6">إجمالي الخصم</th>
+                        <th class="text-center fs-6">الصافي</th>
+                        <th class="text-center fs-6">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        <tr id="id-@emp.EmployeeId" >
+                            <td class="text-center">@emp.EmployeeName</td>
+                            <td class="text-center">@emp.DepartmentName</td>
+                            <td class="text-center">@emp.MainSalary</td>
+                            <td class="text-center">@emp.AttendanceDays</td>
+                            <td class="text-center">@emp.AbsenceDays</td>
+                            <td class="text-center">@emp.OvertimePerHours</td>
+                            <td class="text-center">@emp.DeductionPerHours</td>
+                            <td class="text-center">@emp.SalaryOverTime</td>
+                            <td class="text-center">@emp.SalaryDeduction</td>
+                            <td class="text-center">@emp.SalaryOfMonth</td>
+                            <td class="text-center">
+                                <a style="cursor:pointer" onclick="printPageArea('id-@emp.EmployeeId')" class="bi bi-printer-fill text-info"></a>
+                                <a asp-action="Edit" asp-route-id="@emp.EmployeeId" class="bi bi-pencil-square text-warning"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function DeleteEmployee(id) {
+            $.ajax({
+                url: '/employee/delete/',
+                method: 'GET',
+                data: {
+                    Id: id
+                },
+                success: function (response) {
+                    let row = document.querySelector('#id-' + id)
+                    let body = document.querySelector('tbody')
+                    body.removeChild(row);
+                    console.log('Request succeeded:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Request failed:', xhr.responseText);
+                }
+            });
+        }
+
+        function searchByEmployeeName(){
+            var input = document.querySelector('#search').value.trim();
+            var tbody = document.querySelector('tbody')
+            var employees = @Html.Raw(Json.Serialize(Model));
+            var error = document.querySelector('.error-msg');
+            tbody.innerHTML = ''
+            employees.forEach((emp, index) => {
+                if(emp["employeeName"].includes(input)){
+                    tbody.innerHTML += `<tr id="id-${emp["employeeId"]}">
+                                            <td class="text-center">${emp["employeeName"]}</td>
+                                            <td class="text-center">${emp["departmentName"]}</td>
+                                            <td class="text-center">${emp["mainSalary"]}</td>
+                                            <td class="text-center">${emp["attendanceDays"]}</td>
+                                            <td class="text-center">${emp["absenceDays"]}</td>
+                                            <td class="text-center">${emp["overtimePerHours"]}</td>
+                                            <td class="text-center">${emp["deductionPerHours"]}</td>
+                                            <td class="text-center">${emp["salaryOverTime"]}</td>
+                                            <td class="text-center">${emp["salaryDeduction"]}</td>
+                                            <td class="text-center">${emp["salaryOfMonth"]}</td>
+                                            <td class="text-center">
+                                                <a class="bi bi-printer-fill text-info"></a>
+                                                <a asp-action="Edit" asp-route-id="${emp["employeeId"]}" class="bi bi-pencil-square text-warning"></a>
+                                            </td>
+                                        </tr>`
+                    error.innerHTML = ''
+                }else{
+                    error.innerHTML = 'من فضلك أدخل اسم موظف صالح'
+                }
+            })
+        }
+
+        function searchByDate(){
+            var tbody = document.querySelector('tbody')
+            var month = document.querySelector('#month').value
+            var year = document.querySelector('#year').value
+            console.log(month, year)
+            $.ajax({
+                url: `/EmployeesSalaries/EmployeesSalaries?year=${year}&month=${month}`,
+                method: 'GET',
+                success: function (response) {
+                    if(response.length !== 0){
+                        tbody.innerHTML = ''
+                        response.forEach((emp) => {
+                            tbody.innerHTML += `<tr id="id-${emp["employeeId"]}">
+                                                    <td class="text-center">${emp["employeeName"]}</td>
+                                                    <td class="text-center">${emp["departmentName"]}</td>
+                                                    <td class="text-center">${emp["mainSalary"]}</td>
+                                                    <td class="text-center">${emp["attendanceDays"]}</td>
+                                                    <td class="text-center">${emp["absenceDays"]}</td>
+                                                    <td class="text-center">${emp["overtimePerHours"]}</td>
+                                                    <td class="text-center">${emp["deductionPerHours"]}</td>
+                                                    <td class="text-center">${emp["salaryOverTime"]}</td>
+                                                    <td class="text-center">${emp["salaryDeduction"]}</td>
+                                                    <td class="text-center">${emp["salaryOfMonth"]}</td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-printer-fill text-info"></a>
+                                                        <a asp-action="Edit" asp-route-id="${emp["employeeId"]}" class="bi bi-pencil-square text-warning"></a>
+                                                    </td>
+                                                </tr>`
+                        })
+                    }else{
+                        tbody.innerHTML = ''
+                        
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Request failed:', xhr.responseText);
+                }
+            });
+        }
+
+        function printPageArea(areaId){
+            var table = document.querySelector('.table-content')
+            var printContent = document.getElementById(areaId).innerHTML
+            var originalBody = document.querySelector('tbody').innerHTML
+            document.querySelector('tbody').innerHTML = `<tr>${printContent}</tr>`
+            var originalContent = document.body.innerHTML
+            console.log(table)
+            document.body.innerHTML = table.innerHTML
+            console.log(document.body)
+            window.print()
+            document.body.innerHTML = originalContent
+            document.querySelector('tbody').innerHTML = originalBody
+            console.log(printContent)
+        }
+
+    </script>
+}

@@ -24,12 +24,9 @@ namespace HR_System.BAL.Reposatories
              return db.SaveChanges();
         }
 
-      
-
-        public async Task<List<GeneralSittings>> GetGeneralSettings()
+        public async Task<GeneralSittings> GetGeneralSettings()
         {
-            return await db.GeneralSittings.OrderByDescending(p => p.date).ToListAsync();
-
+            return await db.GeneralSittings.OrderByDescending(g => g.date).FirstOrDefaultAsync();
         }
     }
 }

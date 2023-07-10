@@ -1,0 +1,22 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "تعديل قسم";
+}
+
+
+<form method="post" class="row">
+    <div class="col-12">
+        <div>
+            <label>اسم القسم</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="تعديل قسم" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

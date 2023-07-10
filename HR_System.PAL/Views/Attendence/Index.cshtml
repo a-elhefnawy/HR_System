@@ -3,34 +3,60 @@
     ViewData["Title"] = "بيانات حضور الموظفين";
 }
 
-
+@{
+    Dictionary<string, string> dayName = new Dictionary<string, string>();
+    dayName["Saturday"] = "السبت";
+    dayName["Sunday"] = "الأحد";
+    dayName["Monday"] = "الإثنين";
+    dayName["Tuesday"] = "الثلاثاء";
+    dayName["Wednesday"] = "الأربعاء";
+    dayName["Thursday"] = "الخميس";
+    dayName["Friday"] = "الجمعة";
+}
 
 <div class="container">
     <div class="row mt-4">
         <div class="col-12">
             <h1 class="text-center mb-4">بيانات حضور الموظفين</h1>
             <a class="btn btn-success mb-3" asp-action="Add">إضافة</a>
+            <input type="text" id="search" class="form-control" oninput="searchByEmployeeNameOrDepartmentName()" placeholder="بحث باسم الموظف" />
+            <span class="text-danger error-msg"></span>
+            <div class="d-flex align-items-center gap-3 my-3">
+                <span>من</span>
+                <input id="from" type="date" class="from form-control datepicker" />
+                <span class="text-danger"></span>
+                <span>إلى</span>
+                <input id="to" type="date" class="form-control datepicker" />
+                <span class="to text-danger"></span>
+
+                <button class="btn btn-success" onclick="searchByDate()">بحث</button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
+                            <th class="text-center">م</th>
                             <th class="text-center">القسم</th>
                             <th class="text-center">اسم الموظف</th>
                             <th class="text-center">موعد الحضور</th>
                             <th class="text-center">موعد الإنصراف</th>
-                            <th class="text-center">تاريخ اليوم</th>
+                            <th class="text-center">التاريخ</th>
                             <th class="text-center">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            int i = 1;
+                        }
                         @foreach (var attend in Model)
                         {
                             <tr id="id-@attend.Id">
+                                <td class="text-center">@(i++)</td>
                                 <td class="text-center">@attend.DepartmentName</td>
                                 <td class="text-center">@attend.EmployeeName</td>
-                                <td class="text-center">@attend.AttendenceTime.ToString("h:mm tt")</td>
-                                <td class="text-center">@attend.LeavingTime.ToString("h:mm tt")</td>
-                                <td class="text-center">@attend.DayDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@attend.AttendenceTime.ToString("HH:mm")</td>
+                                <td class="text-center">@attend.LeavingTime.ToString("HH:mm")</td>
+                                <td class="text-center">@dayName[attend.DayDate.DayOfWeek.ToString()] : @attend.DayDate.ToString("dd/MM/yyyy") </td>
                                 <td class="text-center">
                                     <a asp-action="Edit" asp-route-id="@attend.Id" class="bi bi-pencil-square text-warning"></a>
                                     <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
@@ -47,7 +73,117 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    
     <script>
+        function searchByEmployeeNameOrDepartmentName() {
+            var input = document.querySelector('#search').value.trim();
+            var tbody = document.querySelector('tbody')
+            var employees = @Html.Raw(Json.Serialize(Model));
+            var error = document.querySelector('.error-msg');
+            tbody.innerHTML = ''
+            let i=1
+            error.innerHTML = ''
+            employees.forEach((emp, index) => {
+                console.log(input, emp["departmentName"])
+                if (emp["employeeName"].includes(input) || emp["departmentName"].includes(input)) {
+                    
+                    let date = Date.parse(emp["attendenceTime"])
+                    const attendance = new Date(date);
+                    
+                    date = Date.parse(emp["leavingTime"])
+                    const leaving = new Date(date);
+                    
+                    date = Date.parse(emp["dayDate"])
+                    date = new Date(date);
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear().toString();
+
+                    const dayDate = `${day}/${month}/${year}`;
+
+                    const daysOfWeek = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+
+                    tbody.innerHTML += `<tr id="id-${emp["employeeId"]}">
+                                            <td class="text-center">${i++}</td>
+                                            <td class="text-center">${emp["departmentName"]}</td>
+                                            <td class="text-center">${emp["employeeName"]}</td>
+                                            <td class="text-center">
+                                                ${attendance.getHours() > 9 ? attendance.getHours() : '0' + attendance.getHours()}:${attendance.getMinutes() > 9 ? attendance.getMinutes() : '0' + attendance.getMinutes()}
+                                            </td>
+                                            <td class="text-center">
+                                                ${leaving.getHours() > 9 ? leaving.getHours() : '0' + leaving.getHours()}:${leaving.getMinutes() > 9 ? leaving.getMinutes() : '0' + leaving.getMinutes()}
+                                            </td>
+                                                    <td class="text-center">${daysOfWeek[date.getDay()]} : ${dayDate}</td>
+                                            <td class="text-center">
+                                                <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning"></a>
+                                                <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger"></i>
+                                            </td>
+                                        </tr>`
+                    error.innerHTML = ''
+                } else {
+                    error.innerHTML = 'من فضلك أدخل اسم موظف صالح'
+                }
+            })
+        }
+
+        function searchByDate() {
+            var from = document.querySelector('#from').value
+            var to = document.querySelector('#to').value
+            
+
+            $.ajax({
+                url: `/Attendence/SearchByDate?startDate=${from}&endDate=${to}`,
+                method: 'GET',
+                success: function (response) {
+                    //console.log(response)
+                    setEmployeesAttendance(response)
+                },
+                error: function (xhr, status, error) {
+                    console.log('Request failed:', xhr.responseText);
+                }
+            });
+        }
+
+        function setEmployeesAttendance(employees) {
+            var tbody = document.querySelector('tbody')
+            tbody.innerHTML = ''
+            let i=1
+            employees.forEach((emp, index) => {
+                let date = Date.parse(emp["attendenceTime"])
+                const attendance = new Date(date);
+
+                date = Date.parse(emp["leavingTime"])
+                const leaving = new Date(date);
+
+                date = Date.parse(emp["dayDate"])
+                date = new Date(date);
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear().toString();
+
+                const dayDate = `${day}/${month}/${year}`;
+
+                const daysOfWeek = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+
+                tbody.innerHTML += `<tr id="id-${emp["employeeId"]}">
+                                        <td class="text-center">${i++}</td>
+                                        <td class="text-center">${emp["departmentName"]}</td>
+                                        <td class="text-center">${emp["employeeName"]}</td>
+                                        <td class="text-center">
+                                            ${attendance.getHours() > 9 ? attendance.getHours() : '0' + attendance.getHours()}:${attendance.getMinutes() > 9 ? attendance.getMinutes() : '0' + attendance.getMinutes()}
+                                        </td>
+                                        <td class="text-center">
+                                            ${leaving.getHours() > 9 ? leaving.getHours() : '0' + leaving.getHours()}:${leaving.getMinutes() > 9 ? leaving.getMinutes() : '0' + leaving.getMinutes()}
+                                        </td>
+                                                <td class="text-center">${daysOfWeek[date.getDay()]} : ${dayDate}</td>
+                                        <td class="text-center">
+                                            <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning"></a>
+                                            <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger"></i>
+                                        </td>
+                                    </tr>`
+            })
+        }
+
         function DeleteAttendance(id) {
             Swal.fire({
                 title: 'هل أنت متأكد من الحذف؟',
