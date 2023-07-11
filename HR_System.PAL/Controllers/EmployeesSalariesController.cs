@@ -68,7 +68,7 @@ namespace HR_System.PAL.Controllers
                 int overtime = salary.CalcOvertimePerHours(generalSettings.overTime);
                 int deduction = salary.CalcDeductionPerHours(generalSettings.underTime);
                 decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
-                decimal salaryDeduction = salary.CalcSalaryDeduction(deduction, absence, generalSettings.underTime, salaryOvertime);
+                decimal salaryDeduction = salary.CalcSalaryDeduction(deduction);
                 decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
 
                 // End of calculations

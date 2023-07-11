@@ -27,32 +27,9 @@ namespace HR_System.PAL.Controllers
             context = new HRDBContext();
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var  date = DateTime.Now;
-        //    var startDate = new DateTime(2023,5,1);
-        //    var endDate = new DateTime(2023,7,10);
-        //    var attendence = await attendenceRepo.GetAllAttendnce(startDate, endDate);
 
-        //    List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
-        //    foreach (var item in attendence)
-        //    {
-        //        EmployeeAttendenceDataVM attendenceVM = new EmployeeAttendenceDataVM()
-        //        {
-        //            AttendenceTime = item.AttendenceTime,
-        //            DayDate = item.Day,
-        //            DepartmentName = item.Employee.Department.Name,
-        //            LeavingTime = item.LeavingTime,
-        //            EmployeeName = item.Employee.Name,
-        //            EmployeeId = item.Id,
-        //            Id = item.Id
-        //        };
-        //        employeesAttendence.Add(attendenceVM);
-        //    }
-        //    return View(employeesAttendence);
-        //}
         [Authorize(Permissions.Attendance.View)]
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
             var date = DateTime.Now;
             var startDate = new DateTime(2023, 5, 1);
@@ -74,21 +51,10 @@ namespace HR_System.PAL.Controllers
                 };
                 employeesAttendence.Add(attendenceVM);
             }
-
-            int pageNumber = page ?? 1; // If no page number is specified, default to page 1
-            int pageSize = 10; // Number of items per page
-
-            var pagedAttendence = employeesAttendence.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-
-            var totalItems = employeesAttendence.Count;
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-            var paginatedList = new AttendencePagination<EmployeeAttendenceDataVM>
-                (pagedAttendence, totalItems, pageNumber, pageSize, totalPages);
-
-            return View(paginatedList);
+            return View(employeesAttendence);
         }
 
+       
 
         [Authorize(Permissions.Attendance.Create)]
         public async Task<IActionResult> Add()

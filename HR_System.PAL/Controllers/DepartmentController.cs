@@ -15,12 +15,14 @@ namespace HR_System.PAL.Controllers
         {
             this.departmentRepository = departmentRepository;
         }
+
         [Authorize(Permissions.Department.View)]
         public async Task<IActionResult> Index()
         {
             var allDepartments = await departmentRepository.GetAll();
             return View(allDepartments);
         }
+
         [Authorize(Permissions.Department.Create)]
 
         public IActionResult Add()

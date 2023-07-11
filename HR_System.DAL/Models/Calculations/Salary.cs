@@ -77,15 +77,16 @@ namespace HR_System.DAL.Models.Calculations
             return Math.Round(overTimePerHours * employeeWage, DIGITS_AFTER_POINT);
         }
 
-        public decimal CalcSalaryDeduction(int deductionPerHours, int absenceDays, int hourDeductionValue, decimal overtimeSalary)
+        public decimal CalcSalaryDeduction(int deductionPerHours)
         {
-            decimal deduction = Math.Round((deductionPerHours + (absenceDays * WORK_HOURS_PER_DAY)) * employeeWage * hourDeductionValue, DIGITS_AFTER_POINT);
-            return deduction >= employee?.Salary? Math.Round(employee.Salary,DIGITS_AFTER_POINT) + overtimeSalary : deduction ;
+            decimal deduction = Math.Round((deductionPerHours  * employeeWage ));
+            return deduction >= employee?.Salary? Math.Round(employee.Salary,DIGITS_AFTER_POINT)  : deduction ;
         }
 
         public decimal CalcSalary(decimal salaryOvertime, decimal salaryDeduction)
         {
-            decimal employeeSalary = employee?.Salary?? 0m;
+            //decimal employeeSalary = employee?.Salary?? 0m;
+            decimal employeeSalary = employeeWage * WORK_HOURS_PER_DAY * employeeAttendance.Count();
             decimal salary = employeeSalary + salaryOvertime - salaryDeduction;
             return Math.Max(Math.Round(salary, DIGITS_AFTER_POINT), 0m);
         } 

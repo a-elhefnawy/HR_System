@@ -27,7 +27,6 @@ namespace HR_System.PAL
             });
 
 
-            // عشان سمير ميزعلش
             builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             builder.Services.AddScoped<IAttendenceRepository, AttendenceRepository>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();

@@ -1,5 +1,4 @@
-﻿@using HR_System.PAL.Pagination;
-@model AttendencePagination<EmployeeAttendenceDataVM>
+﻿@model List<EmployeeAttendenceDataVM>
 
 @{
     ViewData["Title"] = "بيانات حضور الموظفين";
@@ -50,7 +49,7 @@
                         @{
                             int i = 1;
                         }
-                        @foreach (var attend in Model.Items)
+                        @foreach (var attend in Model)
                         {
                             <tr id="id-@attend.Id">
                                 <td class="text-center">@(i++)</td>
@@ -71,27 +70,7 @@
 
                
 
-                <div class="pagination">
-                    @if (Model.HasPreviousPage)
-                    {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })">Previous</a>
-                    }
-                    @for (int x = 1; x <= Model.TotalPages; x++)
-                    {
-                        if (x == Model.PageNumber)
-                        {
-                            <a href="@Url.Action("Index", new { page = x })" class="active">@x</a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Index", new { page = x })">@x</a>
-                        }
-                    }
-                    @if (Model.HasNextPage)
-                    {
-                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })">Next</a>
-                    }
-                </div>
+                
 
 
             </div>
