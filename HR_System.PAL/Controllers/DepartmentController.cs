@@ -1,6 +1,8 @@
 ﻿using HR_System.BAL.Interfaces;
 using HR_System.BAL.Repositories;
+using HR_System.Constants;
 using HR_System.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -13,12 +15,13 @@ namespace HR_System.PAL.Controllers
         {
             this.departmentRepository = departmentRepository;
         }
-
+        [Authorize(Permissions.Department.View)]
         public async Task<IActionResult> Index()
         {
             var allDepartments = await departmentRepository.GetAll();
             return View(allDepartments);
         }
+        [Authorize(Permissions.Department.Create)]
 
         public IActionResult Add()
         {
@@ -37,6 +40,7 @@ namespace HR_System.PAL.Controllers
             return View(department);
         }
 
+        [Authorize(Permissions.Department.Edit)]
         public async Task<IActionResult> Edit(int id)
         {
             var department = await departmentRepository.Get(id);
@@ -56,6 +60,7 @@ namespace HR_System.PAL.Controllers
             return View(department);
         }
 
+        [Authorize(Permissions.Department.Delete)]
         public async Task<IActionResult> Delete(int id)
         {
             var department = await departmentRepository.Get(id);

@@ -79,6 +79,15 @@
             public const string Delete = "Permissions.Users.Delete";
         }
 
+        public static class Department
+        {
+            public const string View = "Permission.Department.View";
+            public const string Create = "Permision.Department.Create";
+            public const string Edit = "Permision.Department.Edit";
+            public const string Delete = "Permision.Department.Delete";
+
+        }
+
     }
     
 

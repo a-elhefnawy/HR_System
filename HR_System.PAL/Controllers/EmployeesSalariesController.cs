@@ -1,8 +1,10 @@
 ﻿using HR_System.BAL.Interfaces;
+using HR_System.Constants;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
 using HR_System.DAL.Models.Calculations;
 using HR_System.PAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
@@ -28,7 +30,7 @@ namespace HR_System.PAL.Controllers
             this.salariesReository = salariesReository;
             this.holidaysRepo = holidaysRepo;
         }
-
+        [Authorize(Permissions.SalaryReport.View)]
         public async Task<IActionResult> Index()
         {
            

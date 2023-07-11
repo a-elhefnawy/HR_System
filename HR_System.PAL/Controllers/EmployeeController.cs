@@ -31,6 +31,7 @@ namespace HR_System.PAL.Controllers
             var emp = await EmployeeRepo.Get(id);
             return View(emp);
         }
+        [Authorize(b.Permissions.Employee.Create)]
         public async Task<IActionResult> Add()
         {
             var departments = await departmentRepo.GetAll();
@@ -58,7 +59,7 @@ namespace HR_System.PAL.Controllers
             return View(employee);
         }
 
-        //[Authorize]
+        [Authorize(b.Permissions.Employee.Edit)]
         public async Task<IActionResult> Edit(int id)
         {
             var excistingEmployee = await EmployeeRepo.Get(id);
@@ -91,7 +92,7 @@ namespace HR_System.PAL.Controllers
             return View(employee);
         }
 
-        //[Authorize]
+        [Authorize(b.Permissions.Employee.Delete)]
         public async Task<IActionResult> Delete(int Id)
         {
             var emp = await EmployeeRepo.Get(Id);

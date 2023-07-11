@@ -1,8 +1,10 @@
 ﻿using HR_System.BAL.Interfaces;
 using HR_System.BAL.Reposatories;
+using HR_System.Constants;
 using HR_System.DAL.Models;
 using HR_System.PAL.ViewModels;
 using HR_System.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,7 +24,7 @@ namespace HR_System.PAL.Controllers
 
         }
 
-        
+        [Authorize(Permissions.Users.View)]
         public async Task<IActionResult> Index()
         {
             var users=  appuserRepo.Users.ToList();
@@ -42,7 +44,7 @@ namespace HR_System.PAL.Controllers
             }
             return View(userList);
         }
-
+        [Authorize(Permissions.Users.Create)]
         public async Task<IActionResult> Add() 
         {
             var roles = await roleManager.Roles.ToListAsync();
@@ -93,7 +95,7 @@ namespace HR_System.PAL.Controllers
             return RedirectToAction("Index");
 
         }
-
+        [Authorize(Permissions.Users.Edit)]
         public async Task<IActionResult> ManageRoles(string userId)
         {
             var user = await appuserRepo.FindByIdAsync(userId);
@@ -138,7 +140,7 @@ namespace HR_System.PAL.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Permissions.Users.Delete)]
         public async Task<IActionResult> Delete(string Id)
         {
             var user=await appuserRepo.FindByIdAsync(Id);
