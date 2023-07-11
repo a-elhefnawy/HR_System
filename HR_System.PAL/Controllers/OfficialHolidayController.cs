@@ -1,5 +1,7 @@
 ﻿using HR_System.BAL.Interfaces;
+using HR_System.Constants;
 using HR_System.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR_System.PAL.Controllers
@@ -13,6 +15,7 @@ namespace HR_System.PAL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Permissions.Holidays.View)]
         public async Task<IActionResult> Index()
         {
             var officialHolidays = await holidayRepo.GetAll();
@@ -20,6 +23,7 @@ namespace HR_System.PAL.Controllers
         }
 
         [HttpPost]
+        [Authorize(Permissions.Holidays.Create)]
         public async Task<IActionResult> Index(OfficialHoliday officialHoliday)
         {
             if (ModelState.IsValid)
@@ -43,6 +47,7 @@ namespace HR_System.PAL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Permissions.Holidays.Edit)]
         public async Task<IActionResult> Edit(int id)
         {
             var officialHoliday = await holidayRepo.Get(id);
@@ -63,7 +68,7 @@ namespace HR_System.PAL.Controllers
             }
             return View(officialHoliday);
         }
-
+        [Authorize(Permissions.Holidays.Delete)]
         public async Task<IActionResult> Delete(int Id)
         {
             var officialHoliday = await holidayRepo.Get(Id);

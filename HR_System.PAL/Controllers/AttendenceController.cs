@@ -1,10 +1,12 @@
 ﻿using HR_System.BAL.Interfaces;
+using HR_System.Constants;
 using HR_System.DAL.Data;
 using HR_System.DAL.Models;
 using HR_System.DAL.Models.Calculations;
 using HR_System.DAL.ViewModelsForUpdate;
 using HR_System.PAL.Pagination;
 using HR_System.PAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -49,7 +51,7 @@ namespace HR_System.PAL.Controllers
         //    }
         //    return View(employeesAttendence);
         //}
-
+        [Authorize(Permissions.Attendance.View)]
         public async Task<IActionResult> Index(int? page)
         {
             var date = DateTime.Now;
@@ -87,7 +89,7 @@ namespace HR_System.PAL.Controllers
         }
 
 
-
+        [Authorize(Permissions.Attendance.Create)]
         public async Task<IActionResult> Add()
         {
             var departments = await deptRepo.GetAll();
@@ -119,6 +121,8 @@ namespace HR_System.PAL.Controllers
 
             return View(newAttendence);
         }
+
+        [Authorize(Permissions.Attendance.Edit)]
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -178,7 +182,7 @@ namespace HR_System.PAL.Controllers
 
             return View(newAttendence);
         }
-
+        [Authorize(Permissions.Attendance.Delete)]
         public async Task<IActionResult> Delete(int id)
         {
             var attendance = await attendenceRepo.Get(id);

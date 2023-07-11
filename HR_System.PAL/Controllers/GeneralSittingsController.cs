@@ -1,4 +1,5 @@
 ﻿using HR_System.BAL.Interfaces;
+using HR_System.Constants;
 using HR_System.DAL.Models;
 using HR_System.PAL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,15 @@ namespace HR_System.PAL.Controllers
         {
             gsRepo = _gsRepo;
         }
+
+        [Authorize(Permissions.GeneralSettings.View)]
         public async Task<IActionResult> Index()
         {
             var generalSittings=await gsRepo.GetGeneralSettings();
             return View(generalSittings);
         }
+
+        [Authorize(Permissions.GeneralSettings.Create)]
         public IActionResult Add()
         {
             return View();

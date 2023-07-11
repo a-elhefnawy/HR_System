@@ -47,6 +47,9 @@
                                 <li>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="GeneralSittings" asp-action="index">الإعدادات العامة</a>
                                 </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="OfficialHoliday" asp-action="index">الاجازات الرسمية</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -73,7 +76,7 @@
                         @if (User.Identity.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <i class="bi bi-person-circle nav-link text-dark"> Welcome @User.Identity.Name.Substring(0, User.Identity.Name.IndexOf("@"))</i>
+                                <i class="bi bi-person-circle nav-link text-dark"> Welcome @User.Identity.Name</i>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج</a>
