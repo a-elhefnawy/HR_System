@@ -40,7 +40,6 @@
                         <th class="text-center fs-6">اسم الموظف</th>
                         <th class="text-center fs-6">القســم</th>
                         <th class="text-center fs-6">الراتب الأساسـي</th>
-                        <th class="text-center fs-6">الشهر</th>
                         <th class="text-center fs-6">عدد أيام الحضور</th>
                         <th class="text-center fs-6">عدد أيام الغياب</th>
                         <th class="text-center fs-6">الإضافي بالساعات</th>
@@ -58,7 +57,6 @@
                             <td class="text-center">@emp.EmployeeName</td>
                             <td class="text-center">@emp.DepartmentName</td>
                             <td class="text-center">@Convert.ToInt32(emp.MainSalary)</td>
-                            <td class="text-center">@emp.Month</td>
                             <td class="text-center">@emp.AttendanceDays</td>
                             <td class="text-center">@emp.AbsenceDays</td>
                             <td class="text-center">@emp.OvertimePerHours</td>
@@ -68,7 +66,6 @@
                             <td class="text-center">@Convert.ToInt32(emp.SalaryOfMonth)</td>
                             <td class="text-center">
                                 <a style="cursor:pointer" onclick="printPageArea('id-@emp.EmployeeId')" class="bi bi-printer-fill text-info"></a>
-                                <a asp-action="Edit" asp-route-id="@emp.EmployeeId" class="bi bi-pencil-square text-warning"></a>
                             </td>
                         </tr>
                     }
@@ -113,7 +110,6 @@
                                                     <td class="text-center">${emp["employeeName"]}</td>
                                                     <td class="text-center">${emp["departmentName"]}</td>
                                                     <td class="text-center">${emp["mainSalary"]}</td>
-                                                            <td class="text-center">${emp["month"]}</td>
                                                     <td class="text-center">${emp["attendanceDays"]}</td>
                                                     <td class="text-center">${emp["absenceDays"]}</td>
                                                     <td class="text-center">${emp["overtimePerHours"]}</td>
@@ -149,7 +145,6 @@
                                                             <td class="text-center">${emp["employeeName"]}</td>
                                                             <td class="text-center">${emp["departmentName"]}</td>
                                                             <td class="text-center">${emp["mainSalary"]}</td>
-                                                                               <td class="text-center">${emp["month"]}</td>
                                                             <td class="text-center">${emp["attendanceDays"]}</td>
                                                             <td class="text-center">${emp["absenceDays"]}</td>
                                                             <td class="text-center">${emp["overtimePerHours"]}</td>

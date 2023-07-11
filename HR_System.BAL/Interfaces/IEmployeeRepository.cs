@@ -11,5 +11,7 @@ namespace HR_System.BAL.Interfaces
     {
         public  Task<IEnumerable<Employee>> GetAllEmployees();
         Task UpdateEmployee(Employee employee);
+
+        Task SoftDelete(Employee employee);
     }
 }

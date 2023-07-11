@@ -31,7 +31,7 @@
                 <tbody>
                     @foreach (var emp in Model)
                     {
-                        <tr id="id-@emp.NationalID">
+                        <tr id="id-@emp.Id">
                             <td class="text-center">@emp.NationalID</td>
                             <td class="text-center">@emp.Name</td>
                             <td class="text-center">@emp.Address</td>
@@ -47,9 +47,9 @@
                             <td class="text-center">
                                 <a asp-action="Detailes" asp-route-id="@emp.Id" class="bi bi-binoculars-fill text-info"></a>
                                 <a asp-action="Edit" asp-route-id="@emp.Id" class="bi bi-pencil-square text-warning"></a>
-                                <i style="cursor:pointer" onclick="DeleteEmployee(@emp.Id)" class="bi bi-trash3-fill text-danger"></i>
+                                <i style="cursor:pointer" onclick="DeleteEmployee('@emp.Id')" class="bi bi-trash3-fill text-danger"></i>
                             </td>
-                        </tr>
+                        </tr> 
                     }
                 </tbody>
             </table>
@@ -81,4 +81,5 @@
             });
         }
     </script>
+
 }

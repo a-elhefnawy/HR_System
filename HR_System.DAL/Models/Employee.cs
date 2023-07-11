@@ -67,6 +67,8 @@ namespace HR_System.DAL.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         public int? DepartmentId { get; set; }
 
+
+        public bool IsDelete { get; set; } = false;
         public List<EmployeesSalaries>? Salaries { get; set; }
     }
 }

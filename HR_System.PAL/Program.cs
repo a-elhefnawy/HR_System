@@ -36,8 +36,9 @@ namespace HR_System.PAL
             builder.Services.AddScoped<IGeneralSittingsRepository,GeneralSittingsRepository>();
             builder.Services.AddScoped<IGenericRepository<OfficialHoliday>, GenericRepository<OfficialHoliday>>();
             builder.Services.AddScoped<ISalariesReository, SalariesRepository>();
+            builder.Services.AddScoped<IOfficialHolidaysRepository, OfficialHolidaysRepository>();
             //check error and user Controller
-            
+
             //Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<HRDBContext>();
 

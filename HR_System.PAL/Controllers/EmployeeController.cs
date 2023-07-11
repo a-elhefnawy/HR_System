@@ -96,7 +96,7 @@ namespace HR_System.PAL.Controllers
         {
             var emp = await EmployeeRepo.Get(Id);
             if (emp == null) return BadRequest();
-            EmployeeRepo.Delete(emp);    
+          await  EmployeeRepo.SoftDelete(emp);    
             return RedirectToAction(nameof(Index));
         }
 

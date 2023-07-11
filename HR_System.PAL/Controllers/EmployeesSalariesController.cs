@@ -15,133 +15,90 @@ namespace HR_System.PAL.Controllers
         private readonly IAttendenceRepository attendenceRepository;
         private readonly IGeneralSittingsRepository generalSittingsRepository;
         private readonly ISalariesReository salariesReository;
-        public EmployeesSalariesController(HRDBContext context, 
-            IAttendenceRepository attendenceRepository, 
+        private readonly IOfficialHolidaysRepository holidaysRepo;
+        public EmployeesSalariesController(HRDBContext context,
+            IAttendenceRepository attendenceRepository,
             IGeneralSittingsRepository generalSittingsRepository,
-            ISalariesReository salariesReository)
+            ISalariesReository salariesReository,
+            IOfficialHolidaysRepository holidaysRepo)
         {
             this.context = context;
             this.attendenceRepository = attendenceRepository;
             this.generalSittingsRepository = generalSittingsRepository;
             this.salariesReository = salariesReository;
+            this.holidaysRepo = holidaysRepo;
         }
 
         public async Task<IActionResult> Index()
         {
+           
+            var employeesSalaries = await CalculateEmployeeSalary(DateTime.Now.Year, DateTime.Now.Month);
+
+            return View(employeesSalaries);
+        }
+
+
+        public async Task<IActionResult> EmployeesSalaries(int year, int month)
+        {
+            //var employeeSalary = await salariesReository.GetEmployeesSalariesInYearAndMonth(year, month);
+
+            var employeeSalary = await CalculateEmployeeSalary(year, month);
+
+            return Json(employeeSalary);
+        }
+
+        private async Task<List<EmployeesSalaries>> CalculateEmployeeSalary(int year, int month)
+        {
             Salary salary = new Salary(context);
-            var date = DateTime.Now;
-            var employeesAttendance = await attendenceRepository.GetAllAttendnce(date.Year, date.Month);
+            var employeesAttendance = await attendenceRepository.GetAllAttendnce(year, month);
             employeesAttendance = employeesAttendance.DistinctBy(e => e.EmoloyeeId).ToList();
             var employeesSalaries = new List<EmployeesSalaries>();
             var generalSettings = await generalSittingsRepository.GetGeneralSettings();
             foreach (var item in employeesAttendance)
             {
-                var employeeSalary = await salariesReository.GetEmployeeSalaryInYearAndMonthById((int)item.EmoloyeeId, date.Year, date.Month);
+                //var employeeSalary = await salariesReository.GetEmployeeSalaryInYearAndMonthById((int)item.EmoloyeeId, date.Year, date.Month);
 
-                if (employeeSalary is null)
+
+                // Calculations
+                int officialHolidays = holidaysRepo.GetOfficialHolidays(year,month);
+                int attendance = await salary.CalcAttendanceDays(item.EmoloyeeId, year, month);
+                int absence = salary.CalcAbsenceDays(attendance, officialHolidays);
+                int overtime = salary.CalcOvertimePerHours(generalSettings.overTime);
+                int deduction = salary.CalcDeductionPerHours(generalSettings.underTime);
+                decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
+                decimal salaryDeduction = salary.CalcSalaryDeduction(deduction, absence, generalSettings.underTime, salaryOvertime);
+                decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
+
+                // End of calculations
+
+                var empSalary = new EmployeesSalaries()
                 {
-                    // Calculations
-                    int attendance = await salary.CalcAttendanceDays(item.EmoloyeeId, date.Year, date.Month);
-                    int absence = salary.CalcAbsenceDays(attendance, 0);
-                    int overtime = salary.CalcOvertimePerHours(generalSettings.overTime);
-                    int deduction = salary.CalcDeductionPerHours(generalSettings.underTime);
-                    decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
-                    decimal salaryDeduction = salary.CalcSalaryDeduction(deduction, absence, generalSettings.underTime, salaryOvertime);
-                    decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
-                    // End of calculations
+                    EmployeeId = item.EmoloyeeId,
+                    EmployeeName = item.Employee?.Name,
+                    MainSalary = item.Employee?.Salary,
+                    DepartmentName = item.Employee?.Department?.Name,
+                    AttendanceDays = attendance,
+                    AbsenceDays = absence,
+                    OvertimePerHours = overtime,
+                    DeductionPerHours = deduction,
+                    SalaryOverTime = salaryOvertime,
+                    SalaryDeduction = salaryDeduction,
+                    SalaryOfMonth = actualSalary,
+                    Month = month,
+                    Year = year,
+                };
 
-                    var empSalary = new EmployeesSalaries()
-                    {
-                        EmployeeId = item.EmoloyeeId,
-                        EmployeeName = item.Employee?.Name,
-                        MainSalary = item.Employee?.Salary,
-                        DepartmentName = item.Employee?.Department?.Name,
-                        AttendanceDays = attendance,
-                        AbsenceDays = absence,
-                        OvertimePerHours = overtime,
-                        DeductionPerHours = deduction,
-                        SalaryOverTime = salaryOvertime,
-                        SalaryDeduction = salaryDeduction,
-                        SalaryOfMonth = actualSalary,
-                        Month = date.Month,
-                        Year = date.Year,
-                    };
-
-                    await salariesReository.Add(empSalary);
-                    employeesSalaries.Add(empSalary);
-                }
-                else
-                {
-                    employeesSalaries.Add(employeeSalary);
-                }
+                //await salariesReository.Add(empSalary);
+                employeesSalaries.Add(empSalary);
+                //}
+                ////else
+                ////{
+                ////    employeesSalaries.Add(employeeSalary);
+                ////}
             }
-            return View(employeesSalaries);
-        }
-
-
-        //public async Task<IActionResult> Index()
-        //{
-        //    Salary salary = new Salary(context);
-        //    var dateDay = await context.Attendences.Include(x=>x.Employee).Select(x => x.Day).ToListAsync();
-        //    var employeesSalaries = new List<EmployeesSalaries>();
-
-
-        //    foreach (var date in dateDay)
-        //    {
-        //        var employeesAttendance = await attendenceRepository.GetAllAttendnce(date.Year, date.Month);
-        //        employeesAttendance = employeesAttendance.DistinctBy(e => e.EmoloyeeId).Distinct().ToList();
-
-        //        var generalSettings = await generalSittingsRepository.GetGeneralSettings();
-        //        foreach (var item in employeesAttendance)
-        //        {
-        //            var employeeSalary =
-        //                await salariesReository.GetEmployeeSalaryInYearAndMonthById((int)item.EmoloyeeId, date.Year, date.Month);
-
-        //            if (employeeSalary is null)
-        //            {
-        //                // Calculations
-        //                int attendance = await salary.CalcAttendanceDays(item.EmoloyeeId, date.Year, date.Month);
-        //                int absence = salary.CalcAbsenceDays(attendance, 0);
-        //                int overtime = salary.CalcOvertimePerHours(generalSettings.overTime);
-        //                int deduction = salary.CalcDeductionPerHours(generalSettings.underTime);
-        //                decimal salaryOvertime = salary.CalcSalaryOverTime(overtime);
-        //                decimal salaryDeduction = salary.CalcSalaryDeduction(deduction, absence, generalSettings.underTime, salaryOvertime);
-        //                decimal actualSalary = salary.CalcSalary(salaryOvertime, salaryDeduction);
-        //                // End of calculations
-
-        //                var empSalary = new EmployeesSalaries()
-        //                {
-        //                    EmployeeId = item.EmoloyeeId,
-        //                    EmployeeName = item.Employee?.Name,
-        //                    MainSalary = item.Employee?.Salary,
-        //                    DepartmentName = item.Employee?.Department?.Name,
-        //                    AttendanceDays = attendance,
-        //                    AbsenceDays = absence,
-        //                    OvertimePerHours = overtime,
-        //                    DeductionPerHours = deduction,
-        //                    SalaryOverTime = salaryOvertime,
-        //                    SalaryDeduction = salaryDeduction,
-        //                    SalaryOfMonth = actualSalary,
-        //                    Month = date.Month,
-        //                    Year = date.Year,
-        //                };
-
-        //                await salariesReository.Add(empSalary);
-        //                employeesSalaries.Add(empSalary);
-        //            }
-        //            else
-        //            {
-        //                employeesSalaries.Add(employeeSalary);
-        //            }
-        //        }
-        //    }
-        //    return View(employeesSalaries);
-        //}
-
-        public async Task<IActionResult> EmployeesSalaries(int year, int month)
-        {
-            var employeeSalary = await salariesReository.GetEmployeesSalariesInYearAndMonth(year, month);
-            return Json(employeeSalary);
+            return employeesSalaries;
         }
     }
+
+
 }

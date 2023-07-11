@@ -1,4 +1,5 @@
 ﻿using HR_System.DAL.Models;
+using HR_System.DAL.ViewModelsForUpdate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace HR_System.BAL.Interfaces
     {
         Task<IEnumerable<Employee>> GetEmployeeByDeptId(int deptId);
         Task<IEnumerable<Department>> GetAllDepartments();
+        public Task<IEnumerable<EmployeeByIdVM>> GetEmployeesByDeptId(int id);
 
     }
 }

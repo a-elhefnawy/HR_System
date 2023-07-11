@@ -18,7 +18,15 @@ namespace HR_System.BAL.Repositories
         }
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
-            return await _dbContext.Employees.Include(x => x.Department).AsNoTracking().ToListAsync();
+            return await _dbContext.Employees.Where(x=>x.IsDelete == false).Include(x => x.Department).AsNoTracking().ToListAsync();
+        }
+
+        public async Task SoftDelete(Employee employee)
+        {
+            employee.IsDelete = true;
+           await UpdateEmployee(employee);
+
+            
         }
 
         public async Task UpdateEmployee(Employee employee)

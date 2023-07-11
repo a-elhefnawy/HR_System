@@ -81,7 +81,8 @@ namespace HR_System.PAL.Controllers
             var totalItems = employeesAttendence.Count;
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var paginatedList = new AttendencePagination<EmployeeAttendenceDataVM>(pagedAttendence, totalItems, pageNumber, pageSize, totalPages);
+            var paginatedList = new AttendencePagination<EmployeeAttendenceDataVM>
+                (pagedAttendence, totalItems, pageNumber, pageSize, totalPages);
 
             return View(paginatedList);
         }
@@ -187,9 +188,9 @@ namespace HR_System.PAL.Controllers
             return Ok(attendance);
         }
 
-        public IActionResult GetEmployeesByDeptId(int id)
+        public async Task<IActionResult> GetEmployeesByDeptId(int id)
         {
-            var employees = context.Employees.Where(x => x.DepartmentId == id).Select(x => new { x.Id, x.Name }).ToList();
+            var employees = await deptRepo.GetEmployeesByDeptId(id);
 
             return Json(employees);
         }
