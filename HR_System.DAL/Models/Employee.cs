@@ -64,6 +64,7 @@ namespace HR_System.DAL.Models
         public Department? Department { get; set; }
 
         [ForeignKey("Department")]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         public int? DepartmentId { get; set; }
 
         public List<EmployeesSalaries>? Salaries { get; set; }

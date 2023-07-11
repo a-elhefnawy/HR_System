@@ -28,6 +28,14 @@ namespace HR_System.BAL.Repositories
                                                .ToListAsync();
         }
 
+        //public async Task<List<Attendence>> GetAllAttendnce()
+        //{
+        //    return await _dbContext.Attendences.Include(x => x.Employee)
+        //                                       .ThenInclude(x => x.Department)
+
+        //                                       .ToListAsync();
+        //}
+
         public async Task<List<Attendence>> GetAllAttendnce(DateTime startDate, DateTime endDate)
         {
             return await _dbContext.Attendences
@@ -36,6 +44,8 @@ namespace HR_System.BAL.Repositories
                                                 .Where(attendance => attendance.Day >= startDate && attendance.Day <= endDate)
                                                 .ToListAsync();
         }
+
+     
 
         public async Task<Attendence> GetEmployeeAttendenceById(int id)
         {

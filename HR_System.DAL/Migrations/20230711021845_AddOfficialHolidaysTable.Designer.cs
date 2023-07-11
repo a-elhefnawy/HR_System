@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR_System.DAL.Migrations
 {
     [DbContext(typeof(HRDBContext))]
-    [Migration("20230709202134_ProjMakeUp")]
-    partial class ProjMakeUp
+    [Migration("20230711021845_AddOfficialHolidaysTable")]
+    partial class AddOfficialHolidaysTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -200,6 +200,61 @@ namespace HR_System.DAL.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("HR_System.DAL.Models.EmployeesSalaries", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AbsenceDays")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttendanceDays")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeductionPerHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("MainSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OvertimePerHours")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SalaryDeduction")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("SalaryOfMonth")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("SalaryOverTime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeesSalaries");
+                });
+
             modelBuilder.Entity("HR_System.DAL.Models.GeneralSittings", b =>
                 {
                     b.Property<int>("sittings_Id")
@@ -228,6 +283,26 @@ namespace HR_System.DAL.Migrations
                     b.HasKey("sittings_Id");
 
                     b.ToTable("GeneralSittings");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.OfficialHoliday", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OfficialHolidays");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
@@ -440,6 +515,17 @@ namespace HR_System.DAL.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("HR_System.DAL.Models.EmployeesSalaries", b =>
+                {
+                    b.HasOne("HR_System.DAL.Models.Employee", "Employee")
+                        .WithMany("Salaries")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
                 {
                     b.HasOne("HR_System.DAL.Models.PagesName", "PageName")
@@ -518,6 +604,8 @@ namespace HR_System.DAL.Migrations
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
                 {
                     b.Navigation("Attendences");
+
+                    b.Navigation("Salaries");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>

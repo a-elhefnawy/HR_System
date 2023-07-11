@@ -1,4 +1,6 @@
-﻿@model List<EmployeeAttendenceDataVM>
+﻿@using HR_System.PAL.Pagination;
+@model AttendencePagination<EmployeeAttendenceDataVM>
+
 @{
     ViewData["Title"] = "بيانات حضور الموظفين";
 }
@@ -15,7 +17,7 @@
 }
 
 <div class="container">
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-12">
             <h1 class="text-center mb-4">بيانات حضور الموظفين</h1>
             <a class="btn btn-success mb-3" asp-action="Add">إضافة</a>
@@ -48,7 +50,7 @@
                         @{
                             int i = 1;
                         }
-                        @foreach (var attend in Model)
+                        @foreach (var attend in Model.Items)
                         {
                             <tr id="id-@attend.Id">
                                 <td class="text-center">@(i++)</td>
@@ -65,6 +67,33 @@
                         }
                     </tbody>
                 </table>
+
+
+               
+
+                <div class="pagination">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber - 1 })">Previous</a>
+                    }
+                    @for (int x = 1; x <= Model.TotalPages; x++)
+                    {
+                        if (x == Model.PageNumber)
+                        {
+                            <a href="@Url.Action("Index", new { page = x })" class="active">@x</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", new { page = x })">@x</a>
+                        }
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <a href="@Url.Action("Index", new { page = Model.PageNumber + 1 })">Next</a>
+                    }
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -214,3 +243,29 @@
         }
     </script>
 }
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+        .pagination a {
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+            .pagination a:hover {
+                background-color: #f5f5f5;
+            }
+
+        .pagination .active {
+            background-color: #007bff;
+            color: #fff;
+        }
+</style>

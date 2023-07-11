@@ -1,0 +1,93 @@
+﻿@model IEnumerable<OfficialHoliday>
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "OfficialHoliday Page";
+}
+
+<style>
+    /* Custom CSS */
+
+    body {
+        text-align: center;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+    }
+
+    #addForm {
+        margin: 0 auto;
+        max-width: 400px;
+    }
+
+   
+</style>
+
+<a class="btn btn-success" onclick="showAddForm()">إضافة أجازة</a>
+
+<div id="addForm" style="display: none">
+    <h3>إضافة أجازة جديدة</h3>
+    <form method="post" action="/OfficialHoliday">
+        <div class="form-group">
+            <label for="nameInput">الإسم:</label>
+            <input type="text" id="nameInput" name="Name" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="dateInput">التاريخ:</label>
+            <input type="date" id="dateInput" name="Date" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">إضافة</button>
+    </form>
+</div>
+
+<table class="table table-bordered mt-2">
+    <thead>
+        <tr>
+            <th>الأسم</th>
+            <th>التاريخ</th>
+            <th>العمليات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var holiday in Model)
+        {
+            <tr id="id-@holiday.Id">
+                <td>@holiday.Name</td>
+                <td>@holiday.Date.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("ar"))</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
+                    <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        function showAddForm() {
+            var addForm = document.getElementById("addForm");
+            addForm.style.display = "block";
+        }
+
+        function Deleteholiday(id) {
+            $.ajax({
+                url: '/OfficialHoliday/delete/',
+                method: 'GET',
+                data: {
+                    Id: id
+                },
+                success: function (response) {
+                    let row = document.querySelector('#id-' + id);
+                    let body = document.querySelector('tbody');
+                    body.removeChild(row);
+                    console.log('Request succeeded:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Request failed:', xhr.responseText);
+                }
+            });
+        }
+    </script>
+}

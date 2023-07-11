@@ -33,8 +33,8 @@ namespace HR_System.PAL
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-            //builder.Services.AddScoped<IAppUserRepository,AppUsersRepository>();
             builder.Services.AddScoped<IGeneralSittingsRepository,GeneralSittingsRepository>();
+            builder.Services.AddScoped<IGenericRepository<OfficialHoliday>, GenericRepository<OfficialHoliday>>();
             builder.Services.AddScoped<ISalariesReository, SalariesRepository>();
             //check error and user Controller
             

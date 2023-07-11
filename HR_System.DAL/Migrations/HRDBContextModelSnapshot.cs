@@ -120,7 +120,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("EmoloyeeId");
 
-                    b.ToTable("Attendences", (string)null);
+                    b.ToTable("Attendences");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Department", b =>
@@ -137,7 +137,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Employee", b =>
@@ -194,7 +194,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.EmployeesSalaries", b =>
@@ -279,7 +279,27 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("sittings_Id");
 
-                    b.ToTable("GeneralSittings", (string)null);
+                    b.ToTable("GeneralSittings");
+                });
+
+            modelBuilder.Entity("HR_System.DAL.Models.OfficialHoliday", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OfficialHolidays");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PagesName", b =>
@@ -296,7 +316,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PagesName", (string)null);
+                    b.ToTable("PagesName");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.PermissionsDB", b =>
@@ -314,7 +334,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasIndex("PageNameId");
 
-                    b.ToTable("PermissionsDB", (string)null);
+                    b.ToTable("PermissionsDB");
                 });
 
             modelBuilder.Entity("HR_System.DAL.Models.Role", b =>
@@ -331,7 +351,7 @@ namespace HR_System.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
