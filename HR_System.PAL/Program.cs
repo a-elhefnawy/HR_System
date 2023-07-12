@@ -50,12 +50,13 @@ namespace HR_System.PAL
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.LoginPath = "/Account/LogIn";
-                options.AccessDeniedPath = "/Home/Error";
+                options.AccessDeniedPath = "/Account/AccessDenied";
             });
 
 
 
             var app = builder.Build();
+
 
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
@@ -88,6 +89,7 @@ namespace HR_System.PAL
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
 
             app.UseRouting();
 

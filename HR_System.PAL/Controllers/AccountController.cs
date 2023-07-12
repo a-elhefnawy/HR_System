@@ -51,10 +51,16 @@ namespace HR_System.PAL.Controllers
 
         }
 
+
         public async Task<IActionResult> LogOut()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("LogIn");
+        }
+
+        public async Task<IActionResult> AccessDenied(string? ReturnUrl)
+        {
+            return View();
         }
     }
 }
