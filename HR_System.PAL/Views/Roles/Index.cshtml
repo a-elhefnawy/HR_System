@@ -6,33 +6,67 @@
     var x = 0;
 }
 
-<h1 class="text-center">إدارة المجموعات</h1>
+<style>
+    .no-data {
+        max-width: 400px
+    }
+</style>
 
-<partial name="_RoleForm" model="new RoleFormVM()"/>
+<div class="templatemo-content-container">
+    <div class="templatemo-content-widget white-bg">
+        <h2 class="margin-bottom-10">إدارة المجموعــات</h2>
+        <p>المجموعـات من <a href="#groups" target="_parent">هنا</a></p>
+        <div class="panel panel-default no-border mb-5">
+            <div class="panel-heading border-radius-10" style="background-color: var(--main-color)">
+                <h2>إضافــة مجموعة</h2>
+            </div>
+            <div class="panel-body ">
+                <partial name="_RoleForm" model="new RoleFormVM()" />
+            </div>
+        </div>
+        <div class="panel panel-default no-border">
+            <div id="groups" class="panel-heading border-radius-10" style="background-color: var(--main-color)">
+                <h2>المجموعات</h2>
+            </div>
+            <div class="panel-body">
+                @if (Model.Count() != 0)
+                {
+                    <table class="table table-striped table-bordered table-hover mt-4">
+                        <thead>
+                            <tr>
+                                <th class="text-center">م</th>
+                                <th class="text-center">اسم المجموعة</th>
+                                <th class="text-center">العمليات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var role in Model)
+                            {
+                                <tr>
+                                    <th class="text-center">@( ++x )</th>
+                                    <th class="text-center">@role.Name</th>
+                                    <th class="text-center">
+                                        <a class="btn btn-success" asp-action="ManagePermissions" asp-route-roleID="@role.Id">إدارة الصلاحيات</a>
+                                    </th>
+                                </tr>
 
-<table class="table table-striped mt-4">
-    <thead>
-        <tr class="bg-warning">
-            <th>م</th>
-            <th>اسم المجموعة</th>
-            <th>العمليات</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
-            <tr>
-                <th>@(++x)</th>
-                <th>@role.Name</th>
-                <th>
-                    <a class="btn btn-success" asp-action="ManagePermissions" asp-route-roleID="@role.Id">إدارة الصلاحيات</a>
-                </th>
-            </tr>
-            
-        }
-    </tbody>
-</table>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <img class="no-data" src="~/images/No data.gif" alt="لا توجد مجموعات" title="لا توجد مجموعات">
+                    </div>
+                }
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

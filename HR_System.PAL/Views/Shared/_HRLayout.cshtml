@@ -1,0 +1,114 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إدارة الموارد البشرية</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HR_System.PAL.styles.css" asp-append-version="true" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Sweet Alert css-->
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            /*font-family: 'Amiri', serif;*/
+            font-family: 'Readex Pro', sans-serif;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+    <link href="~/css/styletemp.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Left column -->
+    <div class="templatemo-flex-row">
+        <div class="templatemo-sidebar">
+            <header class="templatemo-site-header">
+                <div class="square"></div>
+                <h1>Visual Admin</h1>
+            </header>
+
+            <div class="mobile-menu-icon">
+                <i class="fa fa-bars"></i>
+            </div>
+            <nav class="templatemo-left-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
+                    <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
+                    <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
+                    <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
+                    <li><a asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
+                    <li><a asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
+                    <li><a asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
+                    <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main content -->
+        <div class="templatemo-content col-2 light-gray-bg">
+            <div class="templatemo-top-nav-container">
+                <div class="row">
+                    <nav class="templatemo-top-nav col-lg-12 col-md-12">
+                        <ul class="navbar-nav">
+                            @if (User.Identity.IsAuthenticated == true)
+                            {
+                                <li class="nav-item d-flex justify-content-between">
+                                    <span>مرحباً @User.Identity.Name</span>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="login">تسجيل الدخول</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            @RenderBody()
+
+        </div> <!-- Second row ends -->
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2023 - HR System Built For (ITI / Pioneer Solutions)
+        </div>
+    </footer>
+    <script type="text/javascript" src="~/css/templatemo-script.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Sweet Alerts js -->
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("newScript", required: false)
+</body>
+
+</html>

@@ -4,43 +4,57 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="text-center">المستخدمين</h1>
+<style>
+    .no-data {
+        max-width: 400px
+    }
+</style>
 
-<p>
-    <a class="btn btn-success" href="/user/add">إضافة مستخدم جديد</a>
-</p>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                الاسم كامل
-            </th>
-            <th>
-                اسم المستخدم
-            </th>
-            <th>
-                اسم البريد
-            </th>
-            <th>
-                المجموعة
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-                <td>@item.fullName</td>
-                <td>@item.userName</td>
-                <td>@item.email</td>
-                <td>@string.Join(" , " ,item.Role.ToList())</td>
-                <td>
-                <a class="btn btn-success" asp-action="ManageRoles" asp-controller="User" asp-route-userId="@item.Id" >تعديل المجموعة</a>
-                <a class="btn btn-danger" href="/User/Delete/@item.Id">حذف</a>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="d-flex justify-content-start m-3 mb-4">
+    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة مستخدم جديد</a>
+</div>
+
+<div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+
+    <div class="panel-heading templatemo-position-relative" style="background-color: var(--main-color)">
+        <h2 class="text-uppercase text-center">المستخدمين</h2>
+    </div>
+    @if (Model.Count() != 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">الاســم</th>
+                        <th class="text-center">اســم المستخدم</th>
+                        <th class="text-center">البريد</th>
+                        <th class="text-center">المجموعة</th>
+                        <th class="text-center">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@item.fullName</td>
+                            <td class="text-center">@item.userName</td>
+                            <td class="text-center">@item.email</td>
+                            <td class="text-center">@string.Join(" , " ,item.Role.ToList())</td>
+                            <td class="text-center">
+                                <a class="bi bi-trash3-fill text-danger fs-5" href="/User/Delete/@item.Id"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <img class="no-data" src="~/images/No data.gif" alt="لا توجد أجازات" title="لا توجد أجازات">
+        </div>
+    }
+</div>

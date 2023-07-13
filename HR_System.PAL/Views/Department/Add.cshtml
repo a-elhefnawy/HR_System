@@ -3,19 +3,89 @@
     ViewData["Title"] = "إضافة قسم";
 }
 
+<style>
+    .parent {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<form method="post" class="row">
-    <div class="col-12">
-        <div>
-            <label>اسم القسم</label>
-            <input type="text" asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+    /* Center the form horizontally */
+    from, .panel, .panel-heading {
+        min-width: 300px;
+        width: 600px;
+        max-width: 500px;
+    }
+
+    form {
+        background-color: #fff;
+        height: 300px
+    }
+
+        /* Set a white background and rounded borders */
+        form.row {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Add some margin and padding to the form elements */
+        form .form-group {
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* Style the input fields */
+        form input[type="text"],
+        form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Style the submit button */
+        form input[type="submit"] {
+            /*background-color: #28a745;*/
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Add some margin to the submit button */
+        form .form-group:last-child {
+            margin-bottom: 0;
+        }
+</style>
+
+<div class="parent">
+    <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+        <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
+            <h2 class="text-uppercase">إضافـة قسم</h2>
         </div>
+        <form asp-action="Add" class="row p-3 rounded-2 mt-3">
+            <div class="">
+                <div class="form-group mt-2">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-2 fs-6 ms-2">الإســـــم</label>
+                        <input type="text" asp-for="Name" class="form-control" placeholder="اسـم القسم" />
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-2 d-flex justify-content-center">
+                <input type="submit" value="إضافـة" class="btn btn-success align-self-start w-50" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="submit" value="إضافة قسم" class="btn btn-success" />
-    </div>
-</form>
+</div>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

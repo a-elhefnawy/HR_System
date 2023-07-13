@@ -84,10 +84,8 @@ namespace HR_System.PAL.Controllers
 
             if (ModelState.IsValid)
             {
-
                 await EmployeeRepo.UpdateEmployee(employee);
                 return RedirectToAction("Index");
-
             }
             return View(employee);
         }

@@ -37,7 +37,7 @@ namespace HR_System.PAL.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "كلمة السر خاطئة");
+                        ModelState.AddModelError("", "كلمة المرور خاطئة");
                     }
 
                 }
@@ -51,10 +51,16 @@ namespace HR_System.PAL.Controllers
 
         }
 
+
         public async Task<IActionResult> LogOut()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("LogIn");
+        }
+
+        public async Task<IActionResult> AccessDenied(string? ReturnUrl)
+        {
+            return View();
         }
     }
 }

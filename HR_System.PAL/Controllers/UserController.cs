@@ -21,7 +21,6 @@ namespace HR_System.PAL.Controllers
         {
             this.roleManager = roleManager;
             appuserRepo = _appuserRepo;
-
         }
 
         [Authorize(Permissions.Users.View)]
@@ -95,51 +94,9 @@ namespace HR_System.PAL.Controllers
             return RedirectToAction("Index");
 
         }
-        [Authorize(Permissions.Users.Edit)]
-        public async Task<IActionResult> ManageRoles(string userId)
-        {
-            var user = await appuserRepo.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            var roles = await roleManager.Roles.ToListAsync();
-            var viewModel = new UserRoleVM
-            {
-                UserId = user.Id,
-                UserName = user.UserName,
-                Roles = roles.Select(role => new CheckboxVM
-                {
-                    DisplayID = role.Id,
-                    DisplayValue = role.Name,
-                    IsSelected = appuserRepo.IsInRoleAsync(user, role.Name).Result
-                }).ToList()
-            };
-            return View(viewModel);
-        }
+        
 
-        [HttpPost]
-        public async Task<IActionResult> ManageRoles(UserRoleVM model)
-        {
-            var user = await appuserRepo.FindByIdAsync(model.UserId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            var userRoles = await appuserRepo.GetRolesAsync(user);
-            foreach (var role in model.Roles)
-            {
-                if (userRoles.Any(x => x == role.DisplayValue) && !role.IsSelected)
-                {
-                    await appuserRepo.RemoveFromRoleAsync(user, role.DisplayValue);
-                }
-                if (!userRoles.Any(x => x == role.DisplayValue) && role.IsSelected)
-                {
-                    await appuserRepo.AddToRoleAsync(user, role.DisplayValue);
-                }
-            }
-            return RedirectToAction(nameof(Index));
-        }
+        
         [Authorize(Permissions.Users.Delete)]
         public async Task<IActionResult> Delete(string Id)
         {

@@ -2,9 +2,7 @@
 
 @{
     ViewData["Title"] = "بيانات حضور الموظفين";
-}
-
-@{
+    int i = 1;
     Dictionary<string, string> dayName = new Dictionary<string, string>();
     dayName["Saturday"] = "السبت";
     dayName["Sunday"] = "الأحد";
@@ -14,68 +12,82 @@
     dayName["Thursday"] = "الخميس";
     dayName["Friday"] = "الجمعة";
 }
+<style>
+    td{
+       line-height: 100%
 
-<div class="container">
-    <div class="row mt-2">
-        <div class="col-12">
-            <h1 class="text-center mb-4">بيانات حضور الموظفين</h1>
-            <a class="btn btn-success mb-3" asp-action="Add">إضافة</a>
-            <input type="text" id="search" class="form-control" oninput="searchByEmployeeNameOrDepartmentName()" placeholder="بحث باسم الموظف أو القسم" />
-            <span class="text-danger error-msg"></span>
-            <div class="d-flex align-items-center gap-3 my-3">
-                <span>من</span>
-                <input id="from" type="date" class="from form-control datepicker" />
-                <span class="text-danger"></span>
-                <span>إلى</span>
-                <input id="to" type="date" class="form-control datepicker" />
-                <span class="to text-danger"></span>
+    }
+</style>
 
-                <button class="btn btn-success" onclick="searchByDate()">بحث</button>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-center">م</th>
-                            <th class="text-center">القسم</th>
-                            <th class="text-center">اسم الموظف</th>
-                            <th class="text-center">موعد الحضور</th>
-                            <th class="text-center">موعد الإنصراف</th>
-                            <th class="text-center">التاريخ</th>
-                            <th class="text-center">العمليات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            int i = 1;
-                        }
-                        @foreach (var attend in Model)
-                        {
-                            <tr id="id-@attend.Id">
-                                <td class="text-center">@(i++)</td>
-                                <td class="text-center">@attend.DepartmentName</td>
-                                <td class="text-center">@attend.EmployeeName</td>
-                                <td class="text-center">@attend.AttendenceTime.ToString("HH:mm")</td>
-                                <td class="text-center">@attend.LeavingTime.ToString("HH:mm")</td>
-                                <td class="text-center">@dayName[attend.DayDate.DayOfWeek.ToString()] : @attend.DayDate.ToString("dd/MM/yyyy") </td>
-                                <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@attend.Id" class="bi bi-pencil-square text-warning"></a>
-                                    <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger"></i>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<div class="templatemo-content-container mb-0">
+    <div class="templatemo-content-widget white-bg">
+        <input type="text" id="search" class="form-control" oninput="searchByEmployeeNameOrDepartmentName()" placeholder="بحث باسم الموظف أو القسم" />
+        <span class="text-danger error-msg"></span>
+        <div class="d-flex align-items-center gap-3 my-3">
+            <span>من</span>
+            <input id="from" type="date" class="from form-control datepicker" />
+            <span class="text-danger"></span>
+            <span>إلى</span>
+            <input id="to" type="date" class="form-control datepicker" />
+            <span class="to text-danger"></span>
 
-
-               
-
-                
-
-
-            </div>
+            <button class="btn btn-success" onclick="searchByDate()">بحث</button>
         </div>
+
     </div>
+</div>
+
+<div class="d-flex justify-content-start me-3 mb-4">
+    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> إضافة حضور وانصراف</a>
+</div>
+
+<div id="holidays-table" class="table-content panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+
+    <div class="panel-heading templatemo-position-relative " style="background-color:#0d6efd">
+        <h2 class="text-uppercase text-center">تقرير حضور وانصراف الموظفين</h2>
+    </div>
+    @if (Model.Count() != 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">م</th>
+                        <th class="text-center">القسم</th>
+                        <th class="text-center">اسم الموظف</th>
+                        <th class="text-center">موعد الحضور</th>
+                        <th class="text-center">موعد الإنصراف</th>
+                        <th class="text-center">التاريخ</th>
+                        <th class="text-center">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach (var attend in Model)
+                    {
+                        <tr id="id-@attend.Id">
+                            <td class="text-center">@(i++)</td>
+                            <td class="text-center">@attend.DepartmentName</td>
+                            <td class="text-center">@attend.EmployeeName</td>
+                            <td class="text-center">@attend.AttendenceTime.ToString("HH:mm")</td>
+                            <td class="text-center">@attend.LeavingTime.ToString("HH:mm")</td>
+                            <td class="text-center">@dayName[attend.DayDate.DayOfWeek.ToString()] : @attend.DayDate.ToString("dd/MM/yyyy") </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@attend.Id" class="bi bi-pencil-square text-warning fs-5"></a>
+                                <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <img class="no-data" src="~/images/table no data.gif" alt="لا توجد أجازات" title="لا توجد أجازات">
+        </div>
+    }
 </div>
 
 
@@ -123,8 +135,8 @@
                                             </td>
                                                     <td class="text-center">${daysOfWeek[date.getDay()]} : ${dayDate}</td>
                                             <td class="text-center">
-                                                <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning"></a>
-                                                <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger"></i>
+                                                        <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning fs-5"></a>
+                                                        <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger fs-5"></i>
                                             </td>
                                         </tr>`
                     error.innerHTML = ''
@@ -183,10 +195,10 @@
                                         <td class="text-center">
                                             ${leaving.getHours() > 9 ? leaving.getHours() : '0' + leaving.getHours()}:${leaving.getMinutes() > 9 ? leaving.getMinutes() : '0' + leaving.getMinutes()}
                                         </td>
-                                                <td class="text-center">${daysOfWeek[date.getDay()]} : ${dayDate}</td>
+                                        <td class="text-center">${daysOfWeek[date.getDay()]} : ${dayDate}</td>
                                         <td class="text-center">
-                                            <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning"></a>
-                                            <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger"></i>
+                                                    <a href="/Attendence/Edit/${emp.id}" class="bi bi-pencil-square text-warning fs-5"></a>
+                                                    <i style="cursor:pointer" onclick="DeleteAttendance('${emp.id}')" class="bi bi-trash3-fill text-danger fs-5"></i>
                                         </td>
                                     </tr>`
             })

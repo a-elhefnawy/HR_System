@@ -6,63 +6,56 @@
 }
 
 <style>
-    /* Custom CSS */
-
-    body {
-        text-align: center;
+    .no-data {
+        max-width: 400px
     }
-
-    .btn {
-        margin-bottom: 10px;
-    }
-
-    #addForm {
-        margin: 0 auto;
-        max-width: 400px;
-    }
-
-   
 </style>
 
-<a class="btn btn-success" onclick="showAddForm()">إضافة أجازة</a>
 
-<div id="addForm" style="display: none">
-    <h3>إضافة أجازة جديدة</h3>
-    <form method="post" action="/OfficialHoliday">
-        <div class="form-group">
-            <label for="nameInput">الإسم:</label>
-            <input type="text" id="nameInput" name="Name" class="form-control" required />
-        </div>
-        <div class="form-group">
-            <label for="dateInput">التاريخ:</label>
-            <input type="date" id="dateInput" name="Date" class="form-control" required />
-        </div>
-        <button type="submit" class="btn btn-primary">إضافة</button>
-    </form>
+
+<div class="d-flex justify-content-start m-3 mb-4">
+    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة أجازة</a>
 </div>
 
-<table class="table table-bordered mt-2">
-    <thead>
-        <tr>
-            <th>الأسم</th>
-            <th>التاريخ</th>
-            <th>العمليات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var holiday in Model)
-        {
-            <tr id="id-@holiday.Id">
-                <td>@holiday.Name</td>
-                <td>@holiday.Date.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("ar"))</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
-                    <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+
+    <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
+        <h2 class="text-uppercase text-center">الأجازات الرسمية</h2>
+    </div>
+    @if (Model.Count() != 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered ">
+                <thead class="fs-5">
+                    <tr>
+                        <th>الأســم</th>
+                        <th>التاريخ</th>
+                        <th>العمليات</th>
+                    </tr>
+                </thead>
+                <tbody class="fs-6">
+                    @foreach (var holiday in Model)
+                    {
+                        <tr id="id-@holiday.Id">
+                            <td>@holiday.Name</td>
+                            <td>@holiday.Date.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
+                                <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <img class="no-data" src="~/images/No data.gif" alt="لا توجد أجازات" title="لا توجد أجازات">
+        </div>
+    }
+</div>
 
 @section Scripts{
     <script>
@@ -72,22 +65,49 @@
         }
 
         function Deleteholiday(id) {
-            $.ajax({
-                url: '/OfficialHoliday/delete/',
-                method: 'GET',
-                data: {
-                    Id: id
-                },
-                success: function (response) {
-                    let row = document.querySelector('#id-' + id);
-                    let body = document.querySelector('tbody');
-                    body.removeChild(row);
-                    console.log('Request succeeded:', response);
-                },
-                error: function (xhr, status, error) {
-                    console.log('Request failed:', xhr.responseText);
+            Swal.fire({
+                title: 'هل أنت متأكد من الحذف؟',
+                text: "لن تستطيع استعادته!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/OfficialHoliday/delete/',
+                        method: 'GET',
+                        data: {
+                            Id: id
+                        },
+                        success: function (response) {
+                            let row = document.querySelector('#id-' + id);
+                            let body = document.querySelector('tbody');
+                            body.removeChild(row);
+                            console.log('Request succeeded:', response);
+                            Swal.fire({
+                                title: 'تم الحذف',
+                                text: `تم حذف أجازة ${response.name}`,
+                                icon: 'success',
+                                confirmButtonText: 'حسناً'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if (body.innerText == "") {
+                                        location.reload();
+                                    }
+                                }
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Request failed:', xhr.responseText);
+                        }
+                    });
                 }
-            });
+            })
+
+
         }
     </script>
 }

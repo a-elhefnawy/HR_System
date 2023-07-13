@@ -22,9 +22,38 @@ namespace HR_System.PAL.Controllers
             return View(officialHolidays);
         }
 
+        //[HttpPost]
+        //[Authorize(Permissions.Holidays.Create)]
+        //public async Task<IActionResult> Index(OfficialHoliday officialHoliday)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        OfficialHoliday newHoliday = new OfficialHoliday()
+        //        {
+        //            Name = officialHoliday.Name,
+        //            Date = officialHoliday.Date
+        //        };
+
+        //        int result = await holidayRepo.Add(newHoliday);
+
+        //        if (result > 0)
+        //        {
+        //            var holidayss = await holidayRepo.GetAll();
+        //            return View(holidayss);
+        //        }
+        //    }
+        //    var holidays = await holidayRepo.GetAll();
+        //    return View(holidays);
+        //}
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Authorize(Permissions.Holidays.Create)]
-        public async Task<IActionResult> Index(OfficialHoliday officialHoliday)
+        public async Task<IActionResult> Add(OfficialHoliday officialHoliday)
         {
             if (ModelState.IsValid)
             {
@@ -34,16 +63,10 @@ namespace HR_System.PAL.Controllers
                     Date = officialHoliday.Date
                 };
 
-                int result = await holidayRepo.Add(newHoliday);
-
-                if (result > 0)
-                {
-                    var holidayss = await holidayRepo.GetAll();
-                    return View(holidayss);
-                }
+                await holidayRepo.Add(newHoliday);
+                return RedirectToAction("Index");
             }
-            var holidays = await holidayRepo.GetAll();
-            return View(holidays);
+            return View(officialHoliday);
         }
 
         [HttpGet]
@@ -68,13 +91,14 @@ namespace HR_System.PAL.Controllers
             }
             return View(officialHoliday);
         }
+
         [Authorize(Permissions.Holidays.Delete)]
         public async Task<IActionResult> Delete(int Id)
         {
             var officialHoliday = await holidayRepo.Get(Id);
             if (officialHoliday == null) return BadRequest();
             holidayRepo.Delete(officialHoliday);
-            return RedirectToAction("Index");
+            return Json(officialHoliday);
         }
     }
 }

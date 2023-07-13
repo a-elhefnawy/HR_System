@@ -8,95 +8,134 @@
 
     SelectList deptItems = new SelectList(ViewBag.Departments ?? new List<Department>(), "Id", "Name");
     SelectList empsItems = new SelectList(ViewBag.Employees ?? new List<Employee>(), "Id", "Name");
-
-   
-
-
 }
 
-<h4 class="text-center">تعديل حضور الموظفين</h4>
-<hr />
-<div class="d-flex justify-content-center">
 
-    <div class="col-md-4">
-        <form asp-action="Edit" class="my-form">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<style>
+    .parent {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-            <div class="form-group mb-2">
-                <label asp-for="DepartmentId" class="control-label">القسم</label>
-                <select asp-for="DepartmentId" asp-items="deptItems" class="form-control">
-                </select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+    /* Center the form horizontally */
+    from, .panel, .panel-heading {
+        min-width: 300px;
+        width: 600px;
+        max-width: 500px;
+    }
+
+    form {
+        background-color: #fff;
+        min-height: 300px
+    }
+
+        /* Set a white background and rounded borders */
+        form.row {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Add some margin and padding to the form elements */
+        form .form-group {
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* Style the input fields */
+        form input[type="text"],
+        form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Style the submit button */
+        form input[type="submit"] {
+            /*background-color: #28a745;*/
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Add some margin to the submit button */
+        form .form-group:last-child {
+            margin-bottom: 0;
+        }
+</style>
+
+
+<div class="parent">
+    <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+        <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
+            <h2 class="text-uppercase">حضور وانصراف</h2>
+        </div>
+        <form asp-action="Edit" class="row p-3 mt-3">
+            <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                    <label asp-for="DepartmentId" class="control-label">القسم</label>
+                    <select asp-for="DepartmentId" asp-items="deptItems" class="form-control w-75">
+                    </select>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
             </div>
-
-            <div class="form-group mb-2">
-                <label asp-for="EmployeeId" class="control-label">اسم الموظف</label>
-                <select asp-for="EmployeeId" asp-items="empsItems" name="EmployeeId" id="EmployeeId" class="form-control">
-                </select>
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-2">
-                <label asp-for="AttendenceTime" class="control-label">موعد الحضور</label>
-                <input asp-for="AttendenceTime" class="form-control" type="time" />
-                <span asp-validation-for="AttendenceTime" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-2">
-                <label asp-for="LeavingTime" class="control-label">موعد الإنصراف</label>
-                <input asp-for="LeavingTime" class="form-control" type="time" />
-                <span asp-validation-for="LeavingTime" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-2">
-                <label asp-for="DayDate" class="control-label">تاريخ اليوم</label>
-                <input asp-for="DayDate" class="form-control" type="date" />
-                <span asp-validation-for="DayDate" class="text-danger"></span>
+            <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                    <label asp-for="EmployeeId" class="control-label">اسم الموظف</label>
+                    <select asp-for="EmployeeId" asp-items="empsItems" name="EmployeeId" id="EmployeeId" class="form-control w-75">
+                    </select>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="تعديل الحضور" class="btn btn-outline-success" />
-                <a asp-action="Index" class="btn btn-outline-info">قائمة حضور الموظفين</a>
+                <div class="d-flex align-items-center justify-content-between">
+                    <label asp-for="AttendenceTime" class="control-label ">موعد الحضور</label>
+                    <input asp-for="AttendenceTime" class="form-control w-75" type="time" />
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span asp-validation-for="AttendenceTime" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                    <label asp-for="LeavingTime" class="control-label">موعد الإنصراف</label>
+                    <input asp-for="LeavingTime" class="form-control w-75" type="time" />
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span asp-validation-for="LeavingTime" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                    <label asp-for="DayDate" class="control-label ">تاريخ اليوم</label>
+                    <input asp-for="DayDate" class="form-control w-75" type="date" />
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span asp-validation-for="DayDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group mt-4 d-flex justify-content-center">
+                <input type="submit" value="تعديل" class="btn btn-success align-self-start fs-5 w-50" />
             </div>
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-
-
-@*<script>
-    function GetEmployees() {
-        var deptId = document.getElementById("DepartmentId").value;
-        console.log(deptId);
-        $.ajax({
-            url: "/Attendence/GetEmployeesByDeptId?id=" + deptId,
-            success: function (result) {
-                console.log(result);
-                document.getElementById("EmployeeId").innerHTML = "";
-                for (let i of result) {
-                    document.getElementById("EmployeeId").innerHTML +=
-                        "<option value='" + i.id + "'>" + i.name + "</option>"
-                }
-            }
-        });
-
-    }
-</script>*@
-
-<style>
-    .my-form {
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f8f8f8;
-        margin-top: 10px;
-    }
-
-</style>

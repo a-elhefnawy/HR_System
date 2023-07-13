@@ -31,10 +31,8 @@ namespace HR_System.PAL.Controllers
         [Authorize(Permissions.Attendance.View)]
         public async Task<IActionResult> Index()
         {
-            var date = DateTime.Now;
-            var startDate = new DateTime(2023, 5, 1);
-            var endDate = new DateTime(2023, 7, 10);
-            var attendence = await attendenceRepo.GetAllAttendnce(startDate, endDate);
+            
+            var attendence = await attendenceRepo.GetAllAttendnce(DateTime.Now.Year, DateTime.Now.Month);
 
             List<EmployeeAttendenceDataVM> employeesAttendence = new List<EmployeeAttendenceDataVM>();
             foreach (var item in attendence)

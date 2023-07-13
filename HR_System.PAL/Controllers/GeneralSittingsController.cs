@@ -42,6 +42,12 @@ namespace HR_System.PAL.Controllers
                     week_end_Day2=newSittings.week_end_Day2,
                     date=newSittings.date,
                 };
+                if(newSittings.week_end_Day1==newSittings
+                    .week_end_Day2)
+                {
+                    ModelState.AddModelError("", "يجب اختيار يومين اجازة مختلفين");
+                    return View(newSittings);
+                }
                 int result= await gsRepo.AddNewSittings(generalSittings);
                 if(result>0) 
                 {
