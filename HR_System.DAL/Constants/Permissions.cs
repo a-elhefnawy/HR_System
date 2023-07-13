@@ -82,9 +82,9 @@
         public static class Department
         {
             public const string View = "Permissions.Department.View";
-            public const string Create = "Permisions.Department.Create";
-            public const string Edit = "Permisions.Department.Edit";
-            public const string Delete = "Permisions.Department.Delete";
+            public const string Create = "Permissions.Department.Create";
+            public const string Edit = "Permissions.Department.Edit";
+            public const string Delete = "Permissions.Department.Delete";
 
         }
 
