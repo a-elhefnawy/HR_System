@@ -32,6 +32,13 @@
             /*font-family: 'Amiri', serif;*/
             font-family: 'Readex Pro', sans-serif;
         }
+        aside{
+            width: 100%;
+            transition: 0.3s ease-in-out;
+        }
+        aside.active{
+            width: 0
+        }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -46,7 +53,7 @@
 <body>
     <!-- Left column -->
     <div class="templatemo-flex-row">
-        <div class="templatemo-sidebar">
+        <aside class="templatemo-sidebar">
             <header class="templatemo-site-header">
                 <div class="square"></div>
                 <h1>Visual Admin</h1>
@@ -57,18 +64,18 @@
             </div>
             <nav class="templatemo-left-nav">
                 <ul>
-                    <li><a href="#" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
-                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
-                    <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
-                    <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
-                    <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
-                    <li><a asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
-                    <li><a asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
-                    <li><a asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
-                    <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
+                    <li><a  href="#" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+                    <li><a  asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
+                    <li><a  asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
+                    <li><a  asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
+                    <li><a  asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
+                    <li><a  asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
+                    <li><a  asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
+                    <li><a  asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
+                    <li><a  asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
                 </ul>
             </nav>
-        </div>
+        </aside>
         <!-- Main content -->
         <div class="templatemo-content col-2 light-gray-bg">
             <div class="templatemo-top-nav-container">
@@ -78,6 +85,7 @@
                             @if (User.Identity.IsAuthenticated == true)
                             {
                                 <li class="nav-item d-flex justify-content-between">
+                                    <i class="fa-solid fa-bars fs-5" style="cursor:pointer;" onclick="togleSidebar()"></i>
                                     <span>مرحباً @User.Identity.Name</span>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج</a>
                                 </li>
@@ -96,11 +104,21 @@
 
         </div> <!-- Second row ends -->
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container text-center">
+    <footer style="margin-top: -2px" class="border-top footer text-light">
+        <div class="container text-center ">
             &copy; 2023 - HR System Built For (ITI / Pioneer Solutions)
         </div>
     </footer>
+    <script>
+        function togleSidebar(){
+            var side = document.querySelector('aside')
+            if(side.classList.contains('active')){
+                side.classList.remove('active')
+            }else{
+                side.classList.add('active')
+            }
+        }
+    </script>
     <script type="text/javascript" src="~/css/templatemo-script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
