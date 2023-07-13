@@ -1,43 +1,62 @@
 ﻿@model IEnumerable<Department>
 @{
     ViewData["Title"] = "الأقسام";
+    int i = 1;
 }
 
-<div class="container">
-    <div class="row mt-2">
-        <div class="col-12">
-            <h1 class="text-center mb-2">بيانات الأقســام</h1>
-            <a class="btn btn-success mb-2" asp-action="Add">إضافة قســم</a>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-center">م</th>
-                            <th class="text-center">اسم القسم</th>
-                            <th class="text-center">العمليات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int i = 1;}
-                        @foreach (var dept in Model)
-                        {
-                            <tr id="id-@dept.Id">
-                                <td class="text-center">@(i++)</td>
-                                <td class="text-center">@dept.Name</td>
-                                <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@dept.Id" class="bi bi-pencil-square text-warning"></a>
-                                    <i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger"></i>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<style>
+    .no-data {
+        max-width: 400px
+    }
+</style>
 
 
-            </div>
-        </div>
-    </div>
+
+<div class="d-flex justify-content-start m-3 mb-4">
+    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة قسم</a>
 </div>
+
+<div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+
+    <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
+        <h2 class="text-uppercase text-center">الأقســام</h2>
+    </div>
+    @if (Model.Count() != 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered ">
+                <thead class="">
+                    <tr>
+                        <th class="text-center">م</th>
+                        <th class="text-center">اسم القسم</th>
+                        <th class="text-center">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    @foreach (var dept in Model)
+                    {
+                        <tr id="id-@dept.Id">
+                            <td class="text-center">@(i++)</td>
+                            <td class="text-center">@dept.Name</td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@dept.Id" class="bi bi-pencil-square text-warning fs-5"></a>
+                                <i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <img class="no-data" src="~/images/No data.gif" alt="لا توجد أجازات" title="لا توجد أجازات">
+        </div>
+    }
+</div>
+
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

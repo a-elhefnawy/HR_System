@@ -37,7 +37,7 @@ namespace HR_System.PAL.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "كلمة السر خاطئة");
+                        ModelState.AddModelError("", "كلمة المرور خاطئة");
                     }
 
                 }

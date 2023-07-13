@@ -1,13 +1,87 @@
 ﻿@using HR_System.ViewModel;
 @model RoleFormVM
-<form method="post" asp-action="Add">
-    <div class="input-group mb-3">
-        <input asp-for="Name" class="form-control" placeholder="اسم المجموعة ...."/>
-        <div class="input-group-append">
-            <button class="btn btn-success" type="submit">
-                إضافة مجموعة جديدة
-            </button>
-        </div>
+
+<style>
+    .parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Center the form horizontally */
+    from {
+        min-width: 300px;
+        width: 600px;
+        max-width: 600px;
+    }
+
+    form {
+        background-color: #fff;
+        /*border: 1px solid #ccc*/
+        /*height: 300px*/
+    }
+
+        /* Set a white background and rounded borders */
+        form.row {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Add some margin and padding to the form elements */
+        form .form-group {
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* Style the input fields */
+        form input[type="text"],
+        form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Style the submit button */
+        form input[type="submit"] {
+            /*background-color: #28a745;*/
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Add some margin to the submit button */
+        form .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .no-data {
+            max-width: 300px
+        }
+</style>
+
+<div class="parent row">
+    <div class="col-12 col-md-6">
+        <form asp-action="Add" class="row p-3 rounded-2 mt-3">
+            <div class="">
+                <div class="form-group mt-3">
+                    <input asp-for="Name" class="form-control" placeholder="اسـم المجموعة" />
+                    <div class="d-flex justify-content-end">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-3 d-flex justify-content-center">
+                <input type="submit" value="إضافـة" class="btn btn-success align-self-start w-50 mt-3" />
+            </div>
+        </form>
     </div>
-    <span asp-validation-for="Name" class="text-danger"></span>
-</form>
+    <div class="col-12 col-md-6">
+        <img class="no-data" src="~/images/Add Group.gif" alt="إضافة مجموعة" title="إضافة مجموعة">
+    </div>
+</div>

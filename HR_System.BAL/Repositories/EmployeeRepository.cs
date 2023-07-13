@@ -24,34 +24,13 @@ namespace HR_System.BAL.Repositories
         public async Task SoftDelete(Employee employee)
         {
             employee.IsDelete = true;
-           await UpdateEmployee(employee);
-
-            
+            await UpdateEmployee(employee);
         }
 
         public async Task UpdateEmployee(Employee employee)
         {
-            var EmployeeFromDB = await _dbContext.Employees.FirstOrDefaultAsync(x => x.NationalID == employee.NationalID);
-
-            if (EmployeeFromDB != null)
-            {
-                EmployeeFromDB.NationalID = employee.NationalID;
-                EmployeeFromDB.Id = employee.Id;
-
-                EmployeeFromDB.Name = employee.Name;
-                EmployeeFromDB.Address = employee.Address;
-                EmployeeFromDB.AttendanceTime = employee.AttendanceTime;
-                EmployeeFromDB.Birthdate = employee.Birthdate;
-                EmployeeFromDB.PhoneNumber = employee.PhoneNumber;
-                EmployeeFromDB.Gender = employee.Gender;
-                EmployeeFromDB.Nationality = employee.Nationality;
-                EmployeeFromDB.DateOfContract = employee.DateOfContract;
-                EmployeeFromDB.Salary = employee.Salary;
-                EmployeeFromDB.DepartureTime = employee.DepartureTime;
-                EmployeeFromDB.DepartmentId = employee.DepartmentId;
-
-                await _dbContext.SaveChangesAsync();
-            }
+            _dbContext.Employees.Update(employee);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

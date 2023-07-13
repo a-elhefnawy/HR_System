@@ -2,9 +2,75 @@
 @model PermissionFormVM
 @{
     ViewData["Title"] = "ManagePermissions";
+    Dictionary<string, string> pageName = new Dictionary<string, string>();
+    pageName["Attendance"] = "حضور الموظفين";
+    pageName["Employee"] = "الموظفين";
+    pageName["GeneralSettings"] = "الإعدادات العامة";
+    pageName["Holidays"] = "الأجازات الرسمية";
+    pageName["Roles"] = "المجموعات";
+    pageName["SalaryReport"] = "رواتب الموظفين";
+    pageName["Users"] = "المستخدمين";
+    pageName["Department"] = "الأقسام";
 }
+<style>
+    .parent {
+        min-height: 100vh;
 
-<h1 class="text-center">إدارة الصلاحيات</h1>
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .panel{
+        width: 100%
+    }
+</style>
+<div class="parent mt-5">
+    <div id="holidays-table " class="table-content panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+
+        <div class="panel-heading templatemo-position-relative " style="background-color:#0d6efd">
+            <h2 class="text-uppercase text-center">إدارة صلاحيات @Model.RoleName</h2>
+        </div>
+        <form method="post" asp-action="ManagePermissions">
+            <div class="table-responsive">
+                <input type="hidden" asp-for="RoleId" />
+                <table class="table table-striped table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="text-center">الصفحة</th>
+                            <th class="text-center">عرض</th>
+                            <th class="text-center">إضافة</th>
+                            <th class="text-center">تعديل</th>
+                            <th class="text-center">حذف</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @for (int i = 0; i < Model.RoleClaims.Count; i += 4)
+                        {
+                            <tr>
+                                <td class="text-center">@pageName[Model.RoleClaims[i].DisplayValue.Split(".")[1]]</td>
+                                @*<td>@Model.RoleClaims[i].DisplayValue.Split(".")[2]</td>*@
+                                @for (int j = i; j < i + 4; j++)
+                                {
+                                    <td class="text-center">
+                                        @*<input asp-for="@Model.RoleClaims[j].DisplayValue" />*@
+                                        <input type="checkbox" asp-for="@Model.RoleClaims[j].IsSelected" class="form-check-input" />
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group mt-4 d-flex justify-content-start mx-3 my-3">
+                <input type="submit" value="حفظ" class="btn btn-success px-5" />
+            </div>
+        </form>
+    </div>
+</div>
+@*<h1 class="text-center">إدارة الصلاحيات</h1>
 
 <form method="post" asp-action="ManagePermissions">
     <div class="card mt-4">
@@ -16,25 +82,28 @@
             <table class="table table-striped ">
                 <thead>
                     <tr>
-                        <th>الصفحة</th>
-                        <th>العملية</th>
+                        <th class="text-center">الصفحة</th>
+                        <th class="text-center">عرض</th>
+                        <th class="text-center">إضافة</th>
+                        <th class="text-center">تعديل</th>
+                        <th class="text-center">حذف</th>
                     </tr>
                 </thead>
 
 
                 <tbody>
-                    @for (int i = 0; i < Model.RoleClaims.Count; i++)
+                    @for (int i = 0; i < Model.RoleClaims.Count; i += 4)
                     {
                         <tr>
-                            <td>@Model.RoleClaims[i].DisplayValue.Split(".")[1]</td>
+                            <td class="text-center">@pageName[Model.RoleClaims[i].DisplayValue.Split(".")[1]]</td>
                             <td>@Model.RoleClaims[i].DisplayValue.Split(".")[2]</td>
-                      
-                            <td colspan="2">
-                                <div class="form-check m-1">
-                                    <input type="hidden" asp-for="@Model.RoleClaims[i].DisplayValue" />
-                                    <input asp-for="@Model.RoleClaims[i].IsSelected" class="form-check-input" />
-                                </div>
-                            </td>
+                            @for (int j = i; j < i + 4; j++)
+                            {
+                                <td class="text-center">
+                                    <input asp-for="@Model.RoleClaims[j].DisplayValue" />
+                                    <input type="checkbox" asp-for="@Model.RoleClaims[j].IsSelected" class="form-check-input" />
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
@@ -47,5 +116,4 @@
             <a asp-action="Index" class="btn btn-warning">رجوع</a>
         </div>
     </div>
-</form>
-
+</form>*@

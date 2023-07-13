@@ -20,7 +20,7 @@ namespace HR_System.DAL.Validations
             Employee EmployeeFromRequest = validationContext.ObjectInstance as Employee;
 
 
-            Employee? employeeFromDB = db.Employees.FirstOrDefault(e => e.NationalID == nationalId  && e.Id != EmployeeFromRequest.Id);
+            Employee? employeeFromDB = db.Employees.FirstOrDefault(e => e.NationalID == nationalId  && e.Id != EmployeeFromRequest.Id && e.IsDelete == false);
 
             if (employeeFromDB is not null)
             {
