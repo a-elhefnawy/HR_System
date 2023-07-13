@@ -57,8 +57,15 @@
     <div class="templatemo-flex-row">
         <aside class="templatemo-sidebar">
             <header class="templatemo-site-header">
-                <div class="square"></div>
-                <h1>Visual Admin</h1>
+               <div>
+                    <div class="square"></div>
+                    <h1>Visual Admin</h1>
+                    @if (User.Identity.IsAuthenticated == true)
+                    {
+                        <span class="text-white">مرحباً @User.Identity.Name</span>
+
+                    }
+               </div>
             </header>
 
             <div class="mobile-menu-icon">
@@ -66,7 +73,7 @@
             </div>
             <nav class="templatemo-left-nav">
                 <ul>
-                    <li><a href="#" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
                     <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
                     <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
                     <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
@@ -88,7 +95,6 @@
                             {
                                 <li class="nav-item d-flex justify-content-between">
                                     <i class="fa-solid fa-bars fs-5" style="cursor:pointer;" onclick="togleSidebar()"></i>
-                                    <span>مرحباً @User.Identity.Name</span>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج</a>
                                 </li>
                             }
@@ -106,7 +112,7 @@
 
         </div> <!-- Second row ends -->
     </div>
-    <footer style="margin-top: -2px" class="border-top footer text-light">
+    <footer style="margin-top: -2px; padding-top:55px;" class="border-top footer text-light">
         <div class="container text-center ">
             &copy; 2023 - HR System Built For (ITI / Pioneer Solutions)
         </div>
