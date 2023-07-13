@@ -1,4 +1,7 @@
-﻿@using HR_System.ViewModel;
+﻿@inject IAuthorizationService AuthorizationService
+
+@using HR_System.ViewModel;
+@using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Identity;
 @model IEnumerable<IdentityRole>
 @{
@@ -16,6 +19,11 @@
     <div class="templatemo-content-widget white-bg">
         <h2 class="margin-bottom-10">إدارة المجموعــات</h2>
         <p>المجموعـات من <a href="#groups" target="_parent">هنا</a></p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Roles.Create");
+            if (canAccess.Succeeded)
+            {
         <div class="panel panel-default no-border mb-5">
             <div class="panel-heading border-radius-10" style="background-color: var(--main-color)">
                 <h2>إضافــة مجموعة</h2>
@@ -24,7 +32,19 @@
                 <partial name="_RoleForm" model="new RoleFormVM()" />
             </div>
         </div>
-        <div class="panel panel-default no-border">
+
+            }
+        }
+
+@*        <div class="panel panel-default no-border mb-5">
+            <div class="panel-heading border-radius-10" style="background-color: var(--main-color)">
+                <h2>إضافــة مجموعة</h2>
+            </div>
+            <div class="panel-body ">
+                <partial name="_RoleForm" model="new RoleFormVM()" />
+            </div>
+        </div>
+*@        <div class="panel panel-default no-border">
             <div id="groups" class="panel-heading border-radius-10" style="background-color: var(--main-color)">
                 <h2>المجموعات</h2>
             </div>

@@ -1,4 +1,7 @@
-﻿@model IEnumerable<OfficialHoliday>
+﻿@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+
+@model IEnumerable<OfficialHoliday>
 @using System.Globalization
 
 @{
@@ -11,12 +14,22 @@
     }
 </style>
 
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Create");
+            if (canAccess.Succeeded)
+            {
+                <div class="d-flex justify-content-start m-3 mb-4">
+                    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة أجازة</a>
+                </div>
 
+            }
+        }
 
-<div class="d-flex justify-content-start m-3 mb-4">
+@*<div class="d-flex justify-content-start m-3 mb-4">
     <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة أجازة</a>
 </div>
-
+*@
 <div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
 
     <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
@@ -40,9 +53,31 @@
                             <td>@holiday.Name</td>
                             <td>@holiday.Date.ToString("dd/MM/yyyy")</td>
                             <td>
+                                @if (User.Identity.IsAuthenticated)
+                                   {
+                                    var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Edit");
+                                    if (canAccess.Succeeded)
+                                    {
                                 <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
-                                <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
-                            </td>
+
+                                    }
+                                    }
+
+@*                                <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
+
+*@  
+                                @if (User.Identity.IsAuthenticated)
+                                   {
+                                    var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Delete");
+                                    if (canAccess.Succeeded)
+                                    {
+                                        <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
+
+                                    }
+                                    }
+
+@*<i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
+*@                            </td>
                         </tr>
                     }
                 </tbody>

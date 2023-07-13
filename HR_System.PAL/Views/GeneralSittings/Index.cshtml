@@ -1,4 +1,7 @@
-﻿@model GeneralSittings;
+﻿@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+
+@model GeneralSittings;
 @{
     ViewData["Title"] = "الإعدادات العامة";
 
@@ -38,11 +41,22 @@
         max-width: 400px
     }
 </style>
-
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Create");
+            if (canAccess.Succeeded)
+            {
 <div class="d-flex justify-content-start m-3 mb-4">
     <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> إضافة اعدادات عامة جديدة</a>
 </div>
 
+            }
+        }
+
+@*<div class="d-flex justify-content-start m-3 mb-4">
+    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> إضافة اعدادات عامة جديدة</a>
+</div>
+*@
 
 <div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
 

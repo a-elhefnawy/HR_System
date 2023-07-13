@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Department>
+﻿@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+
+
+@model IEnumerable<Department>
 @{
     ViewData["Title"] = "الأقسام";
     int i = 1;
@@ -10,12 +14,22 @@
     }
 </style>
 
-
-
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.Create");
+            if (canAccess.Succeeded)
+            {
 <div class="d-flex justify-content-start m-3 mb-4">
     <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة قسم</a>
 </div>
+            }
+        }
 
+
+@*<div class="d-flex justify-content-start m-3 mb-4">
+    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة قسم</a>
+</div>
+*@
 <div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
 
     <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
@@ -39,9 +53,28 @@
                             <td class="text-center">@(i++)</td>
                             <td class="text-center">@dept.Name</td>
                             <td class="text-center">
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.Edit");
+            if (canAccess.Succeeded)
+            {
                                 <a asp-action="Edit" asp-route-id="@dept.Id" class="bi bi-pencil-square text-warning fs-5"></a>
-                                <i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
-                            </td>
+            }
+        }
+
+@*                                <a asp-action="Edit" asp-route-id="@dept.Id" class="bi bi-pencil-square text-warning fs-5"></a>
+*@
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.Delete");
+            if (canAccess.Succeeded)
+            {
+<i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
+            }
+        }
+
+@*<i style="cursor:pointer" onclick="DeleteDepartment(@dept.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
+*@                            </td>
                         </tr>
                     }
                 </tbody>

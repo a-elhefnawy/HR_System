@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Employee>
+﻿@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+
+@model IEnumerable<Employee>
 
 @{
     ViewData["Title"] = "الموظفين";
@@ -10,12 +13,22 @@
     }
 </style>
 
-
-
+@if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Employee.Create");
+            if (canAccess.Succeeded)
+            {
 <div class="d-flex justify-content-start m-3 mb-4">
     <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة موظف جديد</a>
 </div>
+            }
+        }
 
+
+@*<div class="d-flex justify-content-start m-3 mb-4">
+    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة موظف جديد</a>
+</div>
+*@
 <div id="holidays-table" class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
 
     <div class="panel-heading templatemo-position-relative" style="background-color: var(--main-color)">
@@ -51,9 +64,28 @@
                             <td class="text-center">@emp.AttendanceTime.ToString("HH:mm")</td>
                             <td class="text-center">@emp.DepartureTime.ToString("HH:mm")</td>
                             <td class="text-center">
+                                @if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Employee.Edit");
+            if (canAccess.Succeeded)
+            {
                                 <a asp-action="Edit" asp-route-id="@emp.Id" class="bi bi-pencil-square text-warning fs-5"></a>
-                                <i style="cursor:pointer" onclick="DeleteEmployee('@emp.Id')" class="bi bi-trash3-fill text-danger fs-5"></i>
-                            </td>
+            }
+        }
+
+@*                                <a asp-action="Edit" asp-route-id="@emp.Id" class="bi bi-pencil-square text-warning fs-5"></a>
+*@
+                                                    @if (User.Identity.IsAuthenticated)
+        {
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Employee.Delete");
+            if (canAccess.Succeeded)
+            {
+<i style="cursor:pointer" onclick="DeleteEmployee('@emp.Id')" class="bi bi-trash3-fill text-danger fs-5"></i>
+            }
+        }
+
+@*<i style="cursor:pointer" onclick="DeleteEmployee('@emp.Id')" class="bi bi-trash3-fill text-danger fs-5"></i>
+*@                            </td>
                         </tr>
                     }
                 </tbody>
