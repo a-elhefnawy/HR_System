@@ -1,8 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .parent {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Center the content horizontally */
+    .content {
+        min-width: 300px;
+        width: 800px; /* Increased width */
+        max-width: 90%; /* Adjusted maximum width */
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 40px; /* Increased padding */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    }
+
+        /* Style the text and image */
+        .content h1 {
+            text-align: center;
+            color: #0d6efd;; /* Changed color to blue */
+            font-size: 30px; /* Increased font size */
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            text-align: center;
+            font-size: 18px; /* Increased font size */
+        }
+
+        .content img {
+            display: block;
+            margin: 0 auto;
+            width: 400px; /* Increased width */
+            height: auto;
+            margin-bottom: 20px;
+        }
+</style>
+
+<div class="parent">
+    <div class="content">
+        <h1>مرحبًا في نظام إدارة الموارد البشرية</h1>
+        <img src="/images/Pitch meeting-bro.png" class="card-img-top aspect-ratio-content" alt="Home page" title="Home page">
+    </div>
 </div>

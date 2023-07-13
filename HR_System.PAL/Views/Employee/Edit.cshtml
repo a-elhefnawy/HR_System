@@ -1,7 +1,7 @@
 ﻿@model Employee
 
 @{
-    ViewData["Title"] = $"Edit {Model.Name}";
+    ViewData["Title"] = $"تعديل بيانات {Model.Name}";
 }
 
 <style>
@@ -65,7 +65,7 @@
 <div class="parent mt-5">
     <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
         <div class="panel-heading templatemo-position-relative" style="background-color:#0d6efd">
-            <h2 class="text-uppercase">تعديل موظف</h2>
+            <h2 class="text-uppercase">تعديل بيانات @Model.Name</h2>
         </div>
         <form asp-action="Edit" class="row p-3 mt-3">
             <div class="col-md-5 col-sm-12">

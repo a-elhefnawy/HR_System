@@ -2,17 +2,50 @@
     ViewData["Title"] = "Not Found";
 }
 
+<style>
+    .parent {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<div class="container p-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3 mt-5">
-            <div class="card p-4">
-                <div class="card-body">
-                    <h1 class="card-title text-center text-danger">Page Not Found</h1>
-                    <p class="card-text text-center">We're sorry, but the page you are looking for cannot be found.</p>
-                </div>
-            </div>
-        </div>
+    /* Center the content horizontally */
+    .content {
+        min-width: 300px;
+        width: 600px;
+        max-width: 500px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+        /* Style the text and image */
+        .content h1 {
+            text-align: center;
+            color: #dc3545;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .content img {
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+</style>
+
+<div class="parent">
+    <div class="content">
+        <img src="/images/Oops! 404 Error.png" alt="Error Not Found" title="Error Not Found">
+        <h1>Page Not Found</h1>
+        <p>We're sorry, but the page you are looking for cannot be found.</p>
     </div>
 </div>
-

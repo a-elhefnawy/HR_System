@@ -36,13 +36,22 @@
             /*font-family: 'Amiri', serif;*/
             font-family: 'Readex Pro', sans-serif;
         }
+
+        aside {
+            width: 100%;
+            transition: 0.3s ease-in-out;
+        }
+
+            aside.active {
+                width: 0
+            }
     </style>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    
+
     <link href="~/css/styletemp.css" rel="stylesheet">
 
 </head>
@@ -50,10 +59,17 @@
 <body>
     <!-- Left column -->
     <div class="templatemo-flex-row">
-        <div class="templatemo-sidebar">
+        <aside class="templatemo-sidebar">
             <header class="templatemo-site-header">
-                <div class="square"></div>
-                <h1>Visual Admin</h1>
+               <div>
+                    <div class="square"></div>
+                    <h1>Visual Admin</h1>
+                    @if (User.Identity.IsAuthenticated == true)
+                    {
+                        <span class="text-white">مرحباً @User.Identity.Name</span>
+
+                    }
+               </div>
             </header>
 
             <div class="mobile-menu-icon">
@@ -67,6 +83,7 @@
         var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Users.View");
         if (canAccess.Succeeded)
             {
+                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
                     <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
 
             }
@@ -153,7 +170,7 @@
                     <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
 *@                </ul>
             </nav>
-        </div>
+        </aside>
         <!-- Main content -->
         <div class="templatemo-content col-2 light-gray-bg">
             <div class="templatemo-top-nav-container">
@@ -163,7 +180,7 @@
                             @if (User.Identity.IsAuthenticated == true)
                             {
                                 <li class="nav-item d-flex justify-content-between">
-                                    <span>مرحباً @User.Identity.Name</span>
+                                    <i class="fa-solid fa-bars fs-5" style="cursor:pointer;" onclick="togleSidebar()"></i>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج</a>
                                 </li>
                             }
@@ -181,11 +198,21 @@
 
         </div> <!-- Second row ends -->
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container text-center">
+    <footer style="margin-top: -2px; padding-top:55px;" class="border-top footer text-light">
+        <div class="container text-center ">
             &copy; 2023 - HR System Built For (ITI / Pioneer Solutions)
         </div>
     </footer>
+    <script>
+        function togleSidebar() {
+            var side = document.querySelector('aside')
+            if (side.classList.contains('active')) {
+                side.classList.remove('active')
+            } else {
+                side.classList.add('active')
+            }
+        }
+    </script>
     <script type="text/javascript" src="~/css/templatemo-script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
