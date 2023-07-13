@@ -41,7 +41,7 @@
 </div>
 @if (User.Identity.IsAuthenticated)
         {
-            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendence.Create");
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendance.Create");
             if (canAccess.Succeeded)
             {
 <div class="d-flex justify-content-start me-3 mb-4">

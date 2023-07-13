@@ -83,8 +83,8 @@
         var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Users.View");
         if (canAccess.Succeeded)
             {
-                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
-                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
+@*                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+*@                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
 
             }
     }

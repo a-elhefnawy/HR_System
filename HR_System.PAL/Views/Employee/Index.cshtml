@@ -106,22 +106,70 @@
 
     <script>
         function DeleteEmployee(id) {
-            $.ajax({
-                url: '/Employee/Delete/',
-                method: 'GET',
-                data: {
-                    Id: id
-                },
-                success: function (response) {
-                    let row = document.querySelector('#id-' + id)
-                    let body = document.querySelector('tbody')
-                    body.removeChild(row);
-                    console.log('Request succeeded:', response);
-                },
-                error: function (xhr, status, error) {
-                    console.log('Request failed:', xhr.responseText);
+            Swal.fire({
+                title: 'هل أنت متأكد من الحذف؟',
+                text: "لن تستطيع استعادته!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Employee/Delete/',
+                        method: 'GET',
+                        data: {
+                            Id: id
+                        },
+                        success: function (response) {
+                            let row = document.querySelector('#id-' + id)
+                            let body = document.querySelector('tbody')
+                            body.removeChild(row);
+                            Swal.fire({
+                                title:'تم الحذف',
+                                text:`تم حذف الموظف`,
+                                icon:'success',
+                                confirmButtonText: 'حسناً'
+                            })
+                            console.log('Request succeeded:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Request failed:', xhr.responseText);
+                        }
+                    });
+                    //$.ajax({
+                    //    url: `/Department/delete/${id}`,
+                    //    method: 'GET',
+                    //    success: function (response) {
+                    //        let row = document.querySelector('#id-' + id)
+                    //        let body = document.querySelector('tbody')
+                    //        body.removeChild(row);
+                    //        Swal.fire({
+                    //            title:'تم الحذف',
+                    //            text:`تم حذف قسم ${response.name}`,
+                    //            icon:'success',
+                    //            confirmButtonText: 'حسناً'
+                    //        })
+                    //        console.log('Request succeeded:', response);
+                    //    },
+                    //    error: function (xhr, status, error) {
+                    //        console.log(xhr.status, status,error)
+                    //        if(xhr.status == 400){
+                    //            Swal.fire({
+                    //                icon: 'error',
+                    //                title: 'عذراً لم يتم الحذف!!!',
+                    //                text: 'هذا القسم يحتوي على موظفين',
+                    //                confirmButtonText: 'حسناً'
+                    //            })
+                    //        }
+                    //        console.log('Request failed:', xhr.responseText);
+                    //    }
+                    //});
                 }
-            });
+            })
+            
         }
     </script>
 

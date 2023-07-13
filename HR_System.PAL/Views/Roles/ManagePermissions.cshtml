@@ -55,7 +55,7 @@
                                 @for (int j = i; j < i + 4; j++)
                                 {
                                     <td class="text-center">
-                                        @*<input asp-for="@Model.RoleClaims[j].DisplayValue" />*@
+                                        <input style="display:none;" asp-for="@Model.RoleClaims[j].DisplayValue" />
                                         <input type="checkbox" asp-for="@Model.RoleClaims[j].IsSelected" class="form-check-input" />
                                     </td>
                                 }
