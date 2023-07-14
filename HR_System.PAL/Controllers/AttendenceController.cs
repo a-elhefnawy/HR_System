@@ -76,7 +76,7 @@ namespace HR_System.PAL.Controllers
                     Day = newAttendence.DayDate,
                     EmoloyeeId = newAttendence.EmployeeId,
                 };
-                await attendenceRepo.Add(attendence);
+                int r =await attendenceRepo.Add(attendence);
                 return RedirectToAction("Index");
 
             }

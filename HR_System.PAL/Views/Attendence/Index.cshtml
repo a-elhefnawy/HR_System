@@ -34,7 +34,7 @@
             <input id="to" type="date" class="form-control datepicker" />
             <span class="to text-danger"></span>
 
-            <button class="btn btn-success" onclick="searchByDate()">بحث</button>
+            <button style="background-color: var(--main-color)" class="btn" onclick="searchByDate()">بحث</button>
         </div>
 
     </div>
@@ -45,7 +45,7 @@
             if (canAccess.Succeeded)
             {
 <div class="d-flex justify-content-start me-3 mb-4">
-    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> إضافة حضور وانصراف</a>
+    <a style="background-color: var(--main-color)" class="btn" asp-action="Add"><i class="fa-solid fa-plus"></i> إضافة حضور وانصراف</a>
 </div>
             }
         }
@@ -88,7 +88,7 @@
                             <td class="text-center">
                                 @if (User.Identity.IsAuthenticated)
         {
-            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendence.Edit");
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendance.Edit");
             if (canAccess.Succeeded)
             {
                                 <a asp-action="Edit" asp-route-id="@attend.Id" class="bi bi-pencil-square text-warning fs-5"></a>
@@ -99,7 +99,7 @@
 *@  
                                 @if (User.Identity.IsAuthenticated)
         {
-            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendence.Delete");
+            var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendance.Delete");
             if (canAccess.Succeeded)
             {
 <i style="cursor:pointer" onclick="DeleteAttendance(@attend.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>

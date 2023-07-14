@@ -20,9 +20,8 @@
             if (canAccess.Succeeded)
             {
                 <div class="d-flex justify-content-start m-3 mb-4">
-                    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة أجازة</a>
+                    <a asp-action="Add" style="background-color: var(--main-color)" class="btn"> <i class="fa-solid fa-plus"></i> إضافة أجازة</a>
                 </div>
-
             }
         }
 
@@ -39,17 +38,17 @@
     {
         <div class="table-responsive">
             <table class="table table-striped table-bordered ">
-                <thead class="fs-5">
-                    <tr>
-                        <th>الأســم</th>
+                <thead>
+                    <tr class="text-center fs-6">
+                        <th>الاســم</th>
                         <th>التاريخ</th>
                         <th>العمليات</th>
                     </tr>
                 </thead>
-                <tbody class="fs-6">
+                <tbody >
                     @foreach (var holiday in Model)
                     {
-                        <tr id="id-@holiday.Id">
+                        <tr id="id-@holiday.Id" class="text-center"> 
                             <td>@holiday.Name</td>
                             <td>@holiday.Date.ToString("dd/MM/yyyy")</td>
                             <td>
@@ -58,7 +57,7 @@
                                     var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Edit");
                                     if (canAccess.Succeeded)
                                     {
-                                <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning"></a>
+                                                <a asp-action="Edit" asp-route-id="@holiday.Id" class="bi bi-pencil-square text-warning fs-5"></a>
 
                                     }
                                     }
@@ -71,7 +70,7 @@
                                     var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.Delete");
                                     if (canAccess.Succeeded)
                                     {
-                                        <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger"></i>
+                                        <i style="cursor:pointer" onclick="Deleteholiday(@holiday.Id)" class="bi bi-trash3-fill text-danger fs-5"></i>
 
                                     }
                                     }

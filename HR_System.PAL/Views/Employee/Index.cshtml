@@ -19,7 +19,7 @@
             if (canAccess.Succeeded)
             {
 <div class="d-flex justify-content-start m-3 mb-4">
-    <a asp-action="Add" class="btn btn-success"> <i class="fa-solid fa-plus"></i> إضافة موظف جديد</a>
+    <a asp-action="Add" style="background-color: var(--main-color)" class="btn"> <i class="fa-solid fa-plus"></i> إضافة موظف جديد</a>
 </div>
             }
         }
@@ -139,34 +139,6 @@
                             console.log('Request failed:', xhr.responseText);
                         }
                     });
-                    //$.ajax({
-                    //    url: `/Department/delete/${id}`,
-                    //    method: 'GET',
-                    //    success: function (response) {
-                    //        let row = document.querySelector('#id-' + id)
-                    //        let body = document.querySelector('tbody')
-                    //        body.removeChild(row);
-                    //        Swal.fire({
-                    //            title:'تم الحذف',
-                    //            text:`تم حذف قسم ${response.name}`,
-                    //            icon:'success',
-                    //            confirmButtonText: 'حسناً'
-                    //        })
-                    //        console.log('Request succeeded:', response);
-                    //    },
-                    //    error: function (xhr, status, error) {
-                    //        console.log(xhr.status, status,error)
-                    //        if(xhr.status == 400){
-                    //            Swal.fire({
-                    //                icon: 'error',
-                    //                title: 'عذراً لم يتم الحذف!!!',
-                    //                text: 'هذا القسم يحتوي على موظفين',
-                    //                confirmButtonText: 'حسناً'
-                    //            })
-                    //        }
-                    //        console.log('Request failed:', xhr.responseText);
-                    //    }
-                    //});
                 }
             })
             

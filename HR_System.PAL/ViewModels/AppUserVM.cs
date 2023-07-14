@@ -13,6 +13,7 @@ namespace HR_System.PAL.ViewModels
         public string userName { get; set; }
 
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [DataType(DataType.Password)]
         //[RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$", ErrorMessage = "كلمة المرور يجب أن تكون على الاقل مكونة من 8 خانات وان تحتوي على الاقل على حرف كبير و حرف صغير و رقم")]
         public string password { get; set; }
 

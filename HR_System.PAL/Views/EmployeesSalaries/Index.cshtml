@@ -9,7 +9,7 @@
         <span class="text-danger error-msg"></span>
         <div class="d-flex align-items-center gap-3 my-3">
             <span>شهر</span>
-            <select class="form-select" id="month" value="@DateTime.Now.Month @Model[0].Month" >
+            <select class="form-select" id="month" value="@DateTime.Now.Month" >
                 @if (Model.Count() != 0 && Model[0].Month == 1)
                 {
                     <option value="1" selected>يناير</option>
@@ -126,7 +126,7 @@
                     <option value="@i">@i</option>
                 }
             </select>
-            <button class="btn btn-success" onclick="searchByDate()">بحث</button>
+            <button style="background-color: var(--main-color)" class="btn" onclick="searchByDate()">بحث</button>
         </div>
         
     </div>

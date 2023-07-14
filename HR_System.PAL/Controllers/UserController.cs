@@ -46,7 +46,7 @@ namespace HR_System.PAL.Controllers
         [Authorize(Permissions.Users.Create)]
         public async Task<IActionResult> Add() 
         {
-            var roles = await roleManager.Roles.ToListAsync();
+            List<IdentityRole>? roles = await roleManager.Roles.ToListAsync();
             var viewModel = new AppUserVM
             {
                 Roles = roles.Select(p => new CheckboxVM
