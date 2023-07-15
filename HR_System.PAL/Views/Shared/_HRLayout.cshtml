@@ -35,10 +35,9 @@
         * {
             /*font-family: 'Amiri', serif;*/
             font-family: 'Readex Pro', sans-serif;
-
         }
 
-        .btn{
+        .btn {
             color: #fff
         }
 
@@ -66,11 +65,11 @@
     <div class="templatemo-flex-row">
         <aside class="templatemo-sidebar">
             <header class="templatemo-site-header">
-               <div>
-                   <div class="d-flex align-items-center">
-                    <i class="bi bi-boxes fs-3" style="color:var(--main-color)"></i>
-                    <h1>HR System</h1>
-                   </div>
+                <div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-boxes fs-3" style="color:var(--main-color)"></i>
+                        <h1>HR System</h1>
+                    </div>
                     @if (User.Identity.IsAuthenticated == true)
                     {
                         <div class="d-flex align-items-center mt-3">
@@ -80,7 +79,7 @@
                         </div>
 
                     }
-               </div>
+                </div>
             </header>
 
             <div class="mobile-menu-icon">
@@ -89,97 +88,82 @@
             <nav class="templatemo-left-nav">
                 <ul>
                     <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Users.View");
-        if (canAccess.Succeeded)
-            {
-@*                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
-*@                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Users.View");
+                        if (canAccess.Succeeded)
+                        {
+                            @*                    <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+                    *@
+                            <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
 
-            }
-    }
+                        }
+                    }
 
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Roles.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Roles.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.GeneralSettings.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.GeneralSettings.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Employee.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Employee.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendance.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Attendance.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
 
-            }
-    }
-@if (User.Identity.IsAuthenticated)
-    {
-        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.SalaryReport.View");
-        if (canAccess.Succeeded)
-            {
-                    <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.SalaryReport.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
 
-            }
-    }
-
-@*                    <li><a asp-controller="user" asp-action="index"><i class="fa-solid fa-user-group"></i> المستخدمين</a></li>
-                    
-                    <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
-                    
-                    <li><a asp-controller="OfficialHoliday" asp-action="index"><i class="fa-solid fa-gifts"></i> الأجازات الرسمية</a></li>
-                    
-                    <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
-                    
-                    <li><a asp-controller="Department" asp-action="index"><i class="fa-solid fa-building"></i> الأقسام</a></li>
-                    
-                    <li><a asp-controller="Employee" asp-action="index"><i class="fa-solid fa-person-digging"></i> الموظفين</a></li>
-                    
-                    <li><a asp-controller="Attendence" asp-action="index"><i class="fa-solid fa-clipboard-user"></i> حضور الموظفين</a></li>
-                    
-                    <li><a asp-controller="EmployeesSalaries" asp-action="index"><i class="fa-solid fa-sack-dollar"></i> رواتب الموظفين</a></li>
-*@                </ul>
+                        }
+                    }
+                </ul>
             </nav>
         </aside>
         <!-- Main content -->
@@ -190,9 +174,12 @@
                         <ul class="navbar-nav">
                             @if (User.Identity.IsAuthenticated == true)
                             {
-                                <li class="nav-item d-flex justify-content-between">
+                                <li class="nav-item d-flex justify-content-between align-items-center">
                                     <i class="fa-solid fa-bars fs-5" style="cursor:pointer;" onclick="togleSidebar()"></i>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج </a>
+                                    <div class="d-flex align-items-center gap-2" style="cursor:pointer;">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="logout">تسجيل الخروج </a>
+                                        <i asp-controller="account" asp-action="logout" style="color:var(--main-color)" class="bi fs-4 bi-door-open-fill"></i>
+                                    </div>
                                 </li>
                             }
                             else
