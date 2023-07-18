@@ -170,17 +170,17 @@
                     @foreach (var emp in Model)
                     {
                         <tr id="id-@emp.EmployeeId">
-                            <td class="text-center">@emp.EmployeeName</td>
-                            <td class="text-center">@emp.DepartmentName</td>
-                            <td class="text-center">@Convert.ToInt32(emp.MainSalary)</td>
-                            <td class="text-center">@emp.AttendanceDays</td>
-                            <td class="text-center">@emp.AbsenceDays</td>
-                            <td class="text-center">@emp.OvertimePerHours</td>
-                            <td class="text-center">@emp.DeductionPerHours</td>
-                            <td class="text-center">@Convert.ToInt32(emp.SalaryOverTime)</td>
-                            <td class="text-center">@Convert.ToInt32(emp.SalaryDeduction)</td>
-                            <td class="text-center">@Convert.ToInt32(emp.SalaryOfMonth)</td>
-                            <td class="text-center">
+                            <td class="fw-lighter fw-lighter  text-center">@emp.EmployeeName</td>
+                            <td class="fw-lighter fw-lighter text-center">@emp.DepartmentName</td>
+                            <td class="fw-lighter text-center">@Convert.ToInt32(emp.MainSalary)</td>
+                            <td class="fw-lighter text-center">@emp.AttendanceDays</td>
+                            <td class="fw-lighter text-center">@emp.AbsenceDays</td>
+                            <td class="fw-lighter text-center">@emp.OvertimePerHours</td>
+                            <td class="fw-lighter text-center">@emp.DeductionPerHours</td>
+                            <td class="fw-lighter text-center">@Convert.ToInt32(emp.SalaryOverTime)</td>
+                            <td class="fw-lighter text-center">@Convert.ToInt32(emp.SalaryDeduction)</td>
+                            <td class="fw-lighter text-center">@Convert.ToInt32(emp.SalaryOfMonth)</td>
+                            <td class="fw-lighter text-center">
                                 <a style="cursor:pointer" onclick="printPageArea('id-@emp.EmployeeId')" class="bi bi-printer-fill text-success"></a>
                             </td>
                         </tr>

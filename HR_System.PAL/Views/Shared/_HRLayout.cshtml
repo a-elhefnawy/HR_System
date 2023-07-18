@@ -15,7 +15,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>إدارة الموارد البشرية</title>
+    @*<title>إدارة الموارد البشرية</title>*@
+    <title>@ViewData["Title"]</title>
+
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -88,6 +90,18 @@
             <nav class="templatemo-left-nav">
                 <ul>
                     <li><a asp-controller="home" asp-action="index" class="active"><i class="fa-solid fa-house"></i> القائمة الرئيسية</a></li>
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Roles.View");
+                        if (canAccess.Succeeded)
+                        {
+                            <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
+
+                        }
+                    }
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Users.View");
@@ -102,13 +116,14 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Roles.View");
+                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.GeneralSettings.View");
                         if (canAccess.Succeeded)
                         {
-                            <li><a asp-controller="roles" asp-action="index"><i class="fa-solid fa-users"></i> المجموعات</a></li>
+                            <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
 
                         }
                     }
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Holidays.View");
@@ -118,15 +133,7 @@
 
                         }
                     }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.GeneralSettings.View");
-                        if (canAccess.Succeeded)
-                        {
-                            <li><a asp-controller="GeneralSittings" asp-action="index"><i class="fa-solid fa-sliders"></i> الإعدادات العامة</a></li>
-
-                        }
-                    }
+                   
                     @if (User.Identity.IsAuthenticated)
                     {
                         var canAccess = await AuthorizationService.AuthorizeAsync(User, "Permissions.Department.View");
@@ -169,7 +176,7 @@
         <!-- Main content -->
         <div class="templatemo-content col-2 light-gray-bg">
             <div class="templatemo-top-nav-container">
-                <div class="row"> 
+                <div class="row">
                     <nav class="templatemo-top-nav col-lg-12 col-md-12">
                         <ul class="navbar-nav">
                             @if (User.Identity.IsAuthenticated == true)

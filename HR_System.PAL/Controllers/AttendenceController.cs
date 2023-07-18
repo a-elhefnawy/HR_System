@@ -49,6 +49,7 @@ namespace HR_System.PAL.Controllers
                 };
                 employeesAttendence.Add(attendenceVM);
             }
+            employeesAttendence = employeesAttendence.OrderBy(x => x.EmployeeName).ThenBy(x=>x.DayDate).ToList();
             return View(employeesAttendence);
         }
 

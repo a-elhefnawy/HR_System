@@ -2,23 +2,29 @@
 {
     public class AttendencePagination<T>
     {
-        public List<T> Items { get; }
-        public int TotalItems { get; }
-        public int PageNumber { get; }
-        public int PageSize { get; }
-        public int TotalPages { get; }
+        public int PageIndex { get; private set; }
+        public int TotalPages { get; private set; }
+        public int PageSize { get; private set; }
+        public int TotalCount { get; private set; }
+        public bool HasPreviousPage => PageIndex > 1;
+        public bool HasNextPage => PageIndex < TotalPages;
+        public List<T> Items { get; private set; }
 
-        public AttendencePagination(IEnumerable<T> items, int totalItems, int pageNumber, int pageSize, int totalPages)
+        public AttendencePagination(List<T> items, int count, int pageIndex, int pageSize)
         {
-            Items = items.ToList();
-            TotalItems = totalItems;
-            PageNumber = pageNumber;
+            PageIndex = pageIndex;
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             PageSize = pageSize;
-            TotalPages = totalPages;
+            TotalCount = count;
+            Items = items;
         }
 
-        public bool HasPreviousPage => PageNumber > 1;
-        public bool HasNextPage => PageNumber < TotalPages;
+        public static AttendencePagination<T> Create(List<T> source, int pageIndex, int pageSize)
+        {
+            var count = source.Count;
+            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            return new AttendencePagination<T>(items, count, pageIndex, pageSize);
+        }
     }
 }
 

@@ -19,7 +19,7 @@ namespace HR_System.PAL.Controllers
         public async Task<IActionResult> Index()
         {
             var officialHolidays = await holidayRepo.GetAll();
-            return View(officialHolidays);
+            return View(officialHolidays.OrderBy(x=>x.Date).ToList());
         }
 
         //[HttpPost]
